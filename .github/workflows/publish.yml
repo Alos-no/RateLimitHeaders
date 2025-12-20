@@ -17,7 +17,7 @@
 #    - Go to https://www.nuget.org/account/trustedpublishing
 #    - Add a new trusted publisher policy
 #    - Repository owner: <your-github-username-or-org>
-#    - Repository name: Polly.Contrib.RateLimitHeaders
+#    - Repository name: RateLimitHeaders
 #    - Workflow file: .github/workflows/publish.yml
 #    - Select packages this policy applies to
 #
