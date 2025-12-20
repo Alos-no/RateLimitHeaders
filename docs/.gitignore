@@ -1,0 +1,13 @@
+# DocFX build output
+_site/
+
+# Generated API documentation (regenerated on build)
+api/*.yml
+api/.manifest
+!api/index.md
+
+# DocFX log files
+log.txt
+
+# Temporary files
+*.tmp

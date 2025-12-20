@@ -1,0 +1,103 @@
+{
+  "$schema": "https://raw.githubusercontent.com/dotnet/docfx/main/schemas/docfx.schema.json",
+
+  "metadata": [
+    {
+      "src": [
+        {
+          "files": [
+            "src/RateLimitHeaders/RateLimitHeaders.csproj",
+            "src/RateLimitHeaders.Polly/RateLimitHeaders.Polly.csproj"
+          ],
+          "src": ".."
+        }
+      ],
+      "dest": "api",
+      "includePrivateMembers": false,
+      "disableGitFeatures": false,
+      "disableDefaultFilter": false,
+      "properties": {
+        "TargetFramework": "net10.0"
+      }
+    }
+  ],
+
+  "build": {
+    "content": [
+      {
+        "files": [
+          "api/**.yml"
+        ]
+      },
+      {
+        "files": [
+          "articles/**.md",
+          "articles/**/toc.yml",
+          "toc.yml",
+          "*.md"
+        ]
+      }
+    ],
+
+    "resource": [
+      {
+        "files": [
+          "images/**",
+          "CNAME"
+        ]
+      }
+    ],
+
+    "template": [
+      "default",
+      "modern",
+      "template"
+    ],
+
+    "globalMetadata": {
+      "_appTitle": "RateLimitHeaders",
+      "_appName": "RateLimitHeaders",
+      "_appLogoPath": "images/logo.svg",
+      "_appFaviconPath": "images/favicon.svg",
+      "_enableSearch": true,
+      "_enableNewTab": true,
+      "_disableContribution": false,
+      "_gitContribute": {
+        "repo": "https://github.com/Alos-no/RateLimitHeaders",
+        "branch": "main",
+        "apiSpecFolder": "docs/api"
+      },
+      "_gitUrlPattern": "github",
+      "_appFooter": "Built and maintained by <a href=\"https://alos.no\" target=\"_blank\" rel=\"noopener\">Alos Engineering</a> · Licensed under <a href=\"https://github.com/Alos-no/RateLimitHeaders/blob/main/LICENSE\" target=\"_blank\" rel=\"noopener\">MIT</a>",
+      "_googleAnalyticsTagId": "G-J3X1J125E2",
+
+      "_description": "RateLimitHeaders - A .NET library for parsing IETF RateLimit headers and enabling proactive rate limit awareness in HTTP clients. Works with Polly v8 and IHttpClientFactory.",
+      "_keywords": "RateLimitHeaders, .NET rate limiting, IETF RateLimit headers, Polly, proactive throttling, HttpClient, DelegatingHandler"
+    },
+
+    "fileMetadata": {
+      "_description": {
+        "articles/getting-started.md": "Get started with RateLimitHeaders. Learn how to install, configure, and use proactive rate limiting in your .NET HTTP clients.",
+        "articles/configuration.md": "Configure RateLimitHeaders options including throttling algorithms, callbacks, and state tracking for your .NET application."
+      }
+    },
+
+    "sitemap": {
+      "baseUrl": "https://alos.no/ratelimitheaders",
+      "priority": 0.5,
+      "changefreq": "weekly"
+    },
+
+    "markdownEngineProperties": {
+      "markdigExtensions": [
+        "attributes",
+        "customcontainers"
+      ]
+    },
+
+    "xref": [],
+
+    "dest": "_site",
+    "xrefService": [ "https://xref.docs.microsoft.com/query?uid={uid}" ]
+  }
+}

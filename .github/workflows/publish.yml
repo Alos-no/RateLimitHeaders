@@ -1,0 +1,185 @@
+# GitHub Actions workflow for publishing NuGet packages using Trusted Publishing.
+#
+# This workflow automates the publishing process for RateLimitHeaders packages:
+# 1. Triggers only after CI workflow passes on main branch
+# 2. Uses the reusable build workflow to compile in Release configuration
+# 3. Authenticates via OIDC (Trusted Publishing) - no long-lived API keys needed
+# 4. Pushes packages to NuGet.org (skipping already-published versions)
+# 5. Creates Git tags for each published package (RateLimitHeaders-v1.0.0)
+#
+# Triggers:
+# - Automatically after CI workflow succeeds on main branch
+# - When a GitHub Release is published
+# - Manual workflow dispatch (for testing or re-publishing)
+#
+# Prerequisites:
+# 1. Configure Trusted Publishing on NuGet.org:
+#    - Go to https://www.nuget.org/account/trustedpublishing
+#    - Add a new trusted publisher policy
+#    - Repository owner: <your-github-username-or-org>
+#    - Repository name: Polly.Contrib.RateLimitHeaders
+#    - Workflow file: .github/workflows/publish.yml
+#    - Select packages this policy applies to
+#
+# 2. Configure repository secret:
+#    - NUGET_USER: Your NuGet.org username
+#
+# Published packages:
+# - RateLimitHeaders (core library)
+# - RateLimitHeaders.Polly (Polly v8 resilience strategy)
+
+name: Publish NuGet Packages
+
+on:
+  # Trigger after CI workflow completes on main branch
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+    branches: [main]
+
+  release:
+    types: [published]
+
+  # Allow manual trigger for testing or re-publishing
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (build and pack only, no push)'
+        required: false
+        default: false
+        type: boolean
+
+# Restrict default permissions for security
+permissions:
+  contents: write  # Required for creating Git tags
+  id-token: write  # Required for OIDC Trusted Publishing
+
+# Allow only one concurrent publish to prevent race conditions
+concurrency:
+  group: "nuget-publish"
+  cancel-in-progress: false
+
+jobs:
+  # Build the solution in Release configuration
+  build:
+    # Only run if CI succeeded (for workflow_run trigger) or for other triggers
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
+    uses: ./.github/workflows/build.yml
+    with:
+      configuration: Release
+      upload_artifacts: true
+
+  # Pack and publish
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    permissions:
+      contents: write  # Required for creating Git tags
+      id-token: write  # Required for OIDC Trusted Publishing
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output-Release
+
+      - name: Restore dependencies
+        run: dotnet restore RateLimitHeaders.sln
+
+      - name: Create NuGet packages
+        # Pack all projects that produce NuGet packages
+        # The version is determined by the <Version> property in each .csproj file
+        run: dotnet pack RateLimitHeaders.sln --configuration Release --no-build --output ./artifacts
+
+      - name: List generated packages
+        # Display the packages that were created for verification
+        run: |
+          echo "Generated packages:"
+          ls -la ./artifacts/*.nupkg
+
+      - name: NuGet Trusted Publishing Login
+        # Exchange GitHub OIDC token for a short-lived NuGet API key
+        # This eliminates the need for long-lived API key secrets
+        # Reference: https://github.com/NuGet/login
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        id: nuget-login
+        uses: nuget/login@v1
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
+      - name: Push packages to NuGet.org
+        # Push all packages to NuGet.org
+        # --skip-duplicate ensures idempotency - already published versions are skipped
+        # The API key is obtained from the login step's output (valid for ~1 hour)
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: |
+          for package in ./artifacts/*.nupkg; do
+            echo "Pushing: $package"
+            dotnet nuget push "$package" \
+              --api-key "${{ steps.nuget-login.outputs.NUGET_API_KEY }}" \
+              --source https://api.nuget.org/v3/index.json \
+              --skip-duplicate
+          done
+
+      - name: Create Git tags for published packages
+        # Create and push Git tags for each successfully published package
+        # Tag format: RateLimitHeaders-v1.0.0, RateLimitHeaders.Polly-v1.0.0
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: |
+          # Configure Git for tagging
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Process each package and create corresponding tags
+          for package in ./artifacts/*.nupkg; do
+            # Extract filename without path (e.g., "RateLimitHeaders.1.0.0.nupkg")
+            filename=$(basename "$package")
+
+            # Remove .nupkg extension
+            name_version="${filename%.nupkg}"
+
+            # Extract package name and version
+            # Handle both RateLimitHeaders.Polly and RateLimitHeaders packages
+            if [[ "$name_version" == RateLimitHeaders.Polly.* ]]; then
+              package_name="RateLimitHeaders.Polly"
+              version="${name_version#RateLimitHeaders.Polly.}"
+              tag="${package_name}-v${version}"
+            elif [[ "$name_version" == RateLimitHeaders.* ]]; then
+              package_name="RateLimitHeaders"
+              version="${name_version#RateLimitHeaders.}"
+              tag="${package_name}-v${version}"
+            else
+              echo "Skipping unknown package: $filename"
+              continue
+            fi
+
+            # Check if tag already exists (locally or remotely)
+            if git rev-parse "refs/tags/$tag" >/dev/null 2>&1; then
+              echo "Tag $tag already exists locally, skipping"
+            elif git ls-remote --tags origin "refs/tags/$tag" | grep -q "$tag"; then
+              echo "Tag $tag already exists on remote, skipping"
+            else
+              echo "Creating tag: $tag"
+              git tag -a "$tag" -m "Release $tag"
+              git push origin "$tag"
+              echo "Successfully created and pushed tag: $tag"
+            fi
+          done
+
+      - name: Upload packages as artifacts
+        # Upload packages as workflow artifacts for inspection or manual deployment
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget-packages
+          path: ./artifacts/*.nupkg
+          retention-days: 30

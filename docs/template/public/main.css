@@ -1,0 +1,115 @@
+/* Custom link colors - green theme */
+:root {
+  --bs-link-color: #1aae71;
+  --bs-link-hover-color: #15895a;
+}
+
+/* Links in content */
+.content a,
+article a {
+  color: var(--bs-link-color);
+}
+
+.content a:hover,
+article a:hover {
+  color: var(--bs-link-hover-color);
+}
+
+/* Sidebar/TOC active link */
+.flex-fill > .nav > li.active > a,
+.flex-fill > .nav > li > a.active {
+  color: var(--bs-link-color) !important;
+}
+
+/* Breadcrumb links */
+.breadcrumb a {
+  color: var(--bs-link-color);
+}
+
+.breadcrumb a:hover {
+  color: var(--bs-link-hover-color);
+}
+
+/* Header spacing - more breathing room (docs pages only) */
+article h1 {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+article h2 {
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+article h3 {
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+article h4 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Space after paragraphs and lists */
+article p,
+article ul,
+article ol {
+  margin-bottom: 1rem;
+}
+
+/* Space between list items (exclude nav tabs) */
+article ul:not(.nav):not(.nav-tabs) > li,
+article ol > li {
+  margin-bottom: 0.5rem;
+}
+
+article ul:not(.nav):not(.nav-tabs) > li:last-child,
+article ol > li:last-child {
+  margin-bottom: 0;
+}
+
+/* Space around code blocks */
+article pre {
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Space around tables */
+article table {
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Space around blockquotes/alerts */
+article blockquote,
+article .alert {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Reset spacing for landing page elements */
+.landing-container h1,
+.landing-container h2,
+.landing-container h3,
+.landing-container h4,
+.landing-container p,
+.landing-container ul,
+.landing-container ol,
+.landing-container li,
+.landing-container pre,
+.landing-container table,
+.landing-container blockquote {
+  margin-top: revert;
+  margin-bottom: revert;
+}
+
+/* Navigation expand indicator spacing */
+.flex-fill .expand-stub {
+  margin-right: 0.5rem;
+}
+
+/* Navbar logo spacing */
+.navbar-brand img {
+  margin-right: 0.5rem;
+}

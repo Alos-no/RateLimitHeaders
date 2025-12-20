@@ -1,0 +1,86 @@
+<Project>
+
+  <PropertyGroup>
+    <!-- Multi-targeting: .NET 8 (LTS), .NET 9, .NET 10 -->
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+
+    <!-- Language & Nullability -->
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+
+    <!-- Build Quality -->
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <Deterministic>true</Deterministic>
+    <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
+
+    <!-- Strong Naming - All assemblies are signed with the same key for identity. -->
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)RateLimitHeaders.snk</AssemblyOriginatorKeyFile>
+
+    <!--
+      Documentation - Generate XML docs but don't fail on missing comments.
+      This allows IntelliSense to work for documented members while not blocking the build.
+      CS1591: Missing XML comment for publicly visible type or member
+    -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+
+    <!--
+      Trim/AOT Analysis - Disabled.
+
+      This library does not use reflection-based serialization, but enabling these analyzers
+      would require additional testing and annotation work.
+
+      To enable in the future:
+      1. Add appropriate trimming annotations
+      2. Set EnableTrimAnalyzer, IsTrimmable, and IsAotCompatible to true
+    -->
+    <EnableTrimAnalyzer>false</EnableTrimAnalyzer>
+    <IsTrimmable>false</IsTrimmable>
+    <IsAotCompatible>false</IsAotCompatible>
+  </PropertyGroup>
+
+  <!-- SourceLink -->
+  <PropertyGroup>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <!--
+    Centralized NuGet Package Metadata
+    These properties are shared across all packages in this solution.
+    Individual projects override PackageId, Version, Description, and PackageTags as needed.
+  -->
+  <PropertyGroup>
+    <Authors>Alos Engineering</Authors>
+    <Company>Alos Engineering</Company>
+    <Copyright>Copyright (c) $([System.DateTime]::Now.Year) Alos Engineering</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/Alos-no/RateLimitHeaders</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Alos-no/RateLimitHeaders</RepositoryUrl>
+    <PackageTags>Resilience;Resiliency;Polly;Rate-limiting;RateLimit;HTTP;HttpClient;Throttling</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+
+    <!-- Package generation settings -->
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IsPackable>true</IsPackable>
+
+    <!--
+      Package Validation - Ensures API compatibility and package correctness.
+      Validates that the package doesn't break consumers on updates.
+    -->
+    <EnablePackageValidation>true</EnablePackageValidation>
+  </PropertyGroup>
+
+  <!-- SourceLink Package -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+  </ItemGroup>
+
+</Project>

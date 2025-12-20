@@ -1,0 +1,76 @@
+# GitHub Actions workflow for building and deploying DocFX documentation.
+#
+# This workflow:
+# 1. Uses the reusable build workflow to compile and generate XML documentation
+# 2. Runs DocFX to generate static HTML documentation
+# 3. Deploys to the gh-pages branch
+#
+# Prerequisites:
+# - Enable GitHub Pages in repository settings (Settings > Pages)
+# - Set source to "Deploy from a branch" and select "gh-pages" / "/ (root)"
+#
+# Custom domain setup:
+# - The CNAME file is included in docs/ and copied to gh-pages automatically
+# - Configure DNS: CNAME record pointing ratelimitheaders.alos.no to alos-no.github.io
+
+name: Documentation
+
+on:
+  push:
+    branches: ["main"]
+
+  # Allow manual trigger
+  workflow_dispatch:
+
+# Allow only one concurrent deployment
+concurrency:
+  group: "docs"
+  cancel-in-progress: true
+
+jobs:
+  # First, build the solution using the reusable workflow
+  build:
+    uses: ./.github/workflows/build.yml
+    with:
+      configuration: Release
+      upload_artifacts: true
+
+  # Then, generate and deploy documentation using the pre-built artifacts
+  deploy-docs:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output-Release
+
+      - name: Install DocFX
+        run: dotnet tool update -g docfx --version 2.78.4
+
+      - name: Build documentation
+        run: docfx docs/docfx.json
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/_site
+          publish_branch: gh-pages
+          force_orphan: true
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: 'docs: update documentation'

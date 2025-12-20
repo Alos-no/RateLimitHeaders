@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main", "develop" ]
+
+# Cancel in-progress runs when a new run is triggered for the same branch/PR.
+# This prevents resource conflicts during integration tests and saves CI minutes.
+# Reference: https://docs.github.com/en/actions/using-jobs/using-concurrency
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# Restrict default permissions for security
+permissions:
+  contents: read
+
+jobs:
+  # First, build the solution using the reusable workflow.
+  # Skip for PRs from develop→main since the code was already tested on push to develop.
+  # Reference: https://docs.github.com/en/actions/learn-github-actions/contexts#github-context
+  build:
+    if: ${{ !(github.event_name == 'pull_request' && github.head_ref == 'develop' && github.base_ref == 'main') }}
+    uses: ./.github/workflows/build.yml
+    with:
+      configuration: Debug
+      upload_artifacts: true
+
+  # Then, run tests using the pre-built artifacts
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output-Debug
+
+      - name: Restore dependencies
+        # Restore is required even with --no-build so the test runner can locate packages
+        run: dotnet restore RateLimitHeaders.sln
+
+      - name: Run tests
+        run: dotnet test RateLimitHeaders.sln --no-build --verbosity normal --logger trx --results-directory ./test-results
+        env:
+          # The double underscore `__` is the standard convention for mapping
+          # environment variables to nested JSON configuration keys.
+          Cloudflare__ApiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+      - name: Upload test results
+        # Upload test results even if tests fail for debugging purposes
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results
+          path: ./test-results
+          retention-days: 7

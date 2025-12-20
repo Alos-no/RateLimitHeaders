@@ -1,0 +1,15 @@
+# Documentation table of contents
+
+- name: Get Started
+- name: Getting Started
+  href: getting-started.md
+- name: Configuration
+  href: configuration.md
+
+- name: Guides
+- name: Proactive Throttling
+  href: proactive-throttling.md
+- name: Polly Integration
+  href: polly-integration.md
+- name: Custom Throttling Algorithms
+  href: custom-algorithms.md

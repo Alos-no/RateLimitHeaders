@@ -1,0 +1,87 @@
+# Reusable workflow for building the RateLimitHeaders solution.
+#
+# This workflow is designed to be called by other workflows to avoid
+# redundant compilation. It builds the solution and uploads the build
+# artifacts for downstream jobs to consume.
+#
+# Usage in other workflows:
+#   jobs:
+#     build:
+#       uses: ./.github/workflows/build.yml
+#       with:
+#         configuration: Release
+#
+#     dependent-job:
+#       needs: build
+#       steps:
+#         - uses: actions/download-artifact@v4
+#           with:
+#             name: build-output
+
+name: Build
+
+on:
+  # Allow this workflow to be called by other workflows
+  workflow_call:
+    inputs:
+      configuration:
+        description: 'Build configuration (Debug or Release)'
+        required: false
+        default: 'Debug'
+        type: string
+      upload_artifacts:
+        description: 'Whether to upload build artifacts'
+        required: false
+        default: true
+        type: boolean
+
+  # Also allow standalone execution for testing
+  workflow_dispatch:
+    inputs:
+      configuration:
+        description: 'Build configuration'
+        required: false
+        default: 'Debug'
+        type: choice
+        options:
+          - Debug
+          - Release
+
+# Restrict default permissions for security
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore RateLimitHeaders.sln
+
+      - name: Build solution
+        # Build the entire solution with the specified configuration
+        run: dotnet build RateLimitHeaders.sln --configuration ${{ inputs.configuration }} --no-restore
+
+      - name: Upload build artifacts
+        # Upload the build output for downstream jobs to consume
+        # This avoids the need to rebuild in dependent workflows
+        if: ${{ inputs.upload_artifacts }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output-${{ inputs.configuration }}
+          path: |
+            src/**/bin/${{ inputs.configuration }}
+            src/**/obj/${{ inputs.configuration }}
+            tests/**/bin/${{ inputs.configuration }}
+            tests/**/obj/${{ inputs.configuration }}
+          retention-days: 1
