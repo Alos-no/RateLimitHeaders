@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Struct RateLimitInfo | RateLimitHeaders </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Struct RateLimitInfo | RateLimitHeaders ">
+      <meta name="description" content="RateLimitHeaders - A .NET library for parsing IETF RateLimit headers and enabling proactive rate limit awareness in HTTP clients. Works with Polly v8 and IHttpClientFactory.">
+      <meta name="description" content="Represents parsed IETF RateLimit header information.">
+      <link rel="icon" href="../images/favicon.svg">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/Alos-no/RateLimitHeaders/new/main/docs/api/new?filename=RateLimitHeaders_Parsing_RateLimitInfo.md&amp;value=---%0Auid%3A%20RateLimitHeaders.Parsing.RateLimitInfo%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-J3X1J125E2"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-J3X1J125E2');
+      </script>
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.svg" alt="RateLimitHeaders">
+            RateLimitHeaders
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="RateLimitHeaders.Parsing.RateLimitInfo">
+
+
+
+  <h1 id="RateLimitHeaders_Parsing_RateLimitInfo" data-uid="RateLimitHeaders.Parsing.RateLimitInfo" class="text-break">
+Struct RateLimitInfo  <a class="header-action link-secondary" title="View source" href="https://github.com/Alos-no/RateLimitHeaders/blob/main/src/RateLimitHeaders/Parsing/RateLimitInfo.cs/#L38"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="RateLimitHeaders.html">RateLimitHeaders</a>.<a class="xref" href="RateLimitHeaders.Parsing.html">Parsing</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>RateLimitHeaders.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Represents parsed IETF RateLimit header information.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly record struct RateLimitInfo : IEquatable&lt;RateLimitInfo&gt;</code></pre>
+  </div>
+
+
+
+
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a class="xref" href="RateLimitHeaders.Parsing.RateLimitInfo.html">RateLimitInfo</a>&gt;</div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetype.equals">ValueType.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode">ValueType.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+  </dd></dl>
+
+
+
+  <h2 id="RateLimitHeaders_Parsing_RateLimitInfo_examples">Examples</h2>
+  <p>Accessing rate limit info from a response context:</p>
+<pre><code class="lang-csharp">var context = ResilienceContextPool.Shared.Get();
+try
+{
+    var response = await pipeline.ExecuteAsync(
+        async (ctx) =&gt; await httpClient.GetAsync("https://api.example.com/v1/data"),
+        context);
+
+    if (context.Properties.TryGetValue(RateLimitContextProperties.RateLimitInfoKey, out RateLimitInfo info))
+    {
+        Console.WriteLine($"Rate limit: {info.Remaining}/{info.Quota}");
+        Console.WriteLine($"Resets in: {info.ResetSeconds} seconds");
+
+        if (info.IsQuotaLow(0.2))
+        {
+            Console.WriteLine("Warning: Quota is below 20%!");
+        }
+    }
+}
+finally
+{
+    ResilienceContextPool.Shared.Return(context);
+}</code></pre>
+
+
+  <h2 id="RateLimitHeaders_Parsing_RateLimitInfo_remarks">Remarks</h2>
+  <div class="markdown level0 remarks"><p>This is a readonly record struct that is safe to use with default initialization.
+When default-initialized, <a class="xref" href="RateLimitHeaders.Parsing.RateLimitInfo.html#RateLimitHeaders_Parsing_RateLimitInfo_IsValid">IsValid</a> will be <code>false</code> and
+<a class="xref" href="RateLimitHeaders.Parsing.RateLimitInfo.html#RateLimitHeaders_Parsing_RateLimitInfo_PolicyName">PolicyName</a> will be an empty string.</p>
+</div>
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="RateLimitHeaders_Parsing_RateLimitInfo_IsValid_" data-uid="RateLimitHeaders.Parsing.RateLimitInfo.IsValid*"></a>
+
+  <h3 id="RateLimitHeaders_Parsing_RateLimitInfo_IsValid" data-uid="RateLimitHeaders.Parsing.RateLimitInfo.IsValid">
+  IsValid
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Alos-no/RateLimitHeaders/blob/main/src/RateLimitHeaders/Parsing/RateLimitInfo.cs/#L86"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Whether at least one header was successfully parsed.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsValid { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="RateLimitHeaders_Parsing_RateLimitInfo_PartitionKey_" data-uid="RateLimitHeaders.Parsing.RateLimitInfo.PartitionKey*"></a>
+
+  <h3 id="RateLimitHeaders_Parsing_RateLimitInfo_PartitionKey" data-uid="RateLimitHeaders.Parsing.RateLimitInfo.PartitionKey">
+  PartitionKey
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Alos-no/RateLimitHeaders/blob/main/src/RateLimitHeaders/Parsing/RateLimitInfo.cs/#L69"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The partition key identifying which partition this rate limit applies to.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string? PartitionKey { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section" id="RateLimitHeaders_Parsing_RateLimitInfo_PartitionKey_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Optional IETF parameter (pk). Used when rate limits are partitioned by different keys
+such as tenant ID, API key, or user ID. May be null if not provided by the server.</p>
+</div>
+
+
+
+
+  <a id="RateLimitHeaders_Parsing_RateLimitInfo_PolicyName_" data-uid="RateLimitHeaders.Parsing.RateLimitInfo.PolicyName*"></a>
+
+  <h3 id="RateLimitHeaders_Parsing_RateLimitInfo_PolicyName" data-uid="RateLimitHeaders.Parsing.RateLimitInfo.PolicyName">
+  PolicyName
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Alos-no/RateLimitHeaders/blob/main/src/RateLimitHeaders/Parsing/RateLimitInfo.cs/#L44"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The rate limit policy name (e.g., &quot;default&quot;, &quot;api-v2&quot;).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string PolicyName { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section" id="RateLimitHeaders_Parsing_RateLimitInfo_PolicyName_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Returns an empty string if no policy name was parsed.</p>
+</div>
+
+
+
+
+  <a id="RateLimitHeaders_Parsing_RateLimitInfo_Quota_" data-uid="RateLimitHeaders.Parsing.RateLimitInfo.Quota*"></a>
+
+  <h3 id="RateLimitHeaders_Parsing_RateLimitInfo_Quota" data-uid="RateLimitHeaders.Parsing.RateLimitInfo.Quota">
+  Quota
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Alos-no/RateLimitHeaders/blob/main/src/RateLimitHeaders/Parsing/RateLimitInfo.cs/#L57"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Maximum requests allowed per window (quota).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Quota { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="RateLimitHeaders_Parsing_RateLimitInfo_QuotaUnit_" data-uid="RateLimitHeaders.Parsing.RateLimitInfo.QuotaUnit*"></a>
+
+  <h3 id="RateLimitHeaders_Parsing_RateLimitInfo_QuotaUnit" data-uid="RateLimitHeaders.Parsing.RateLimitInfo.QuotaUnit">
+  QuotaUnit
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Alos-no/RateLimitHeaders/blob/main/src/RateLimitHeaders/Parsing/RateLimitInfo.cs/#L83"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The unit of measurement for the quota (e.g., &quot;requests&quot;, &quot;content-bytes&quot;).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string? QuotaUnit { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section" id="RateLimitHeaders_Parsing_RateLimitInfo_QuotaUnit_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Optional IETF parameter (qu). Default is &quot;requests&quot; when not specified.
+Common values include:</p>
+<ul><li><span class="term">requests</span>Number of API requests</li><li><span class="term">content-bytes</span>Total bytes in request/response body</li><li><span class="term">tokens</span>Token count (for AI/ML APIs)</li></ul>
+</div>
+
+
+
+
+  <a id="RateLimitHeaders_Parsing_RateLimitInfo_Remaining_" data-uid="RateLimitHeaders.Parsing.RateLimitInfo.Remaining*"></a>
+
+  <h3 id="RateLimitHeaders_Parsing_RateLimitInfo_Remaining" data-uid="RateLimitHeaders.Parsing.RateLimitInfo.Remaining">
+  Remaining
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Alos-no/RateLimitHeaders/blob/main/src/RateLimitHeaders/Parsing/RateLimitInfo.cs/#L51"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Remaining requests allowed in the current window.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Remaining { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="RateLimitHeaders_Parsing_RateLimitInfo_ResetSeconds_" data-uid="RateLimitHeaders.Parsing.RateLimitInfo.ResetSeconds*"></a>
+
+  <h3 id="RateLimitHeaders_Parsing_RateLimitInfo_ResetSeconds" data-uid="RateLimitHeaders.Parsing.RateLimitInfo.ResetSeconds">
+  ResetSeconds
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Alos-no/RateLimitHeaders/blob/main/src/RateLimitHeaders/Parsing/RateLimitInfo.cs/#L54"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Seconds until the current window resets.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int ResetSeconds { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="RateLimitHeaders_Parsing_RateLimitInfo_WindowSeconds_" data-uid="RateLimitHeaders.Parsing.RateLimitInfo.WindowSeconds*"></a>
+
+  <h3 id="RateLimitHeaders_Parsing_RateLimitInfo_WindowSeconds" data-uid="RateLimitHeaders.Parsing.RateLimitInfo.WindowSeconds">
+  WindowSeconds
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Alos-no/RateLimitHeaders/blob/main/src/RateLimitHeaders/Parsing/RateLimitInfo.cs/#L60"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Duration of the rate limit window in seconds.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int WindowSeconds { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="RateLimitHeaders_Parsing_RateLimitInfo_CreateFromRetryAfter_" data-uid="RateLimitHeaders.Parsing.RateLimitInfo.CreateFromRetryAfter*"></a>
+
+  <h3 id="RateLimitHeaders_Parsing_RateLimitInfo_CreateFromRetryAfter_System_Int32_" data-uid="RateLimitHeaders.Parsing.RateLimitInfo.CreateFromRetryAfter(System.Int32)">
+  CreateFromRetryAfter(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Alos-no/RateLimitHeaders/blob/main/src/RateLimitHeaders/Parsing/RateLimitInfo.cs/#L100"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a minimal <a class="xref" href="RateLimitHeaders.Parsing.RateLimitInfo.html">RateLimitInfo</a> from a Retry-After header value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static RateLimitInfo CreateFromRetryAfter(int retryAfterSeconds)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>retryAfterSeconds</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The number of seconds from the Retry-After header.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="RateLimitHeaders.Parsing.RateLimitInfo.html">RateLimitInfo</a></dt>
+    <dd><p>A valid <a class="xref" href="RateLimitHeaders.Parsing.RateLimitInfo.html">RateLimitInfo</a> with zero remaining quota.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="RateLimitHeaders_Parsing_RateLimitInfo_CreateFromRetryAfter_System_Int32__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>This is used when a 429/503 response includes a Retry-After header but no RateLimit headers.
+The resulting info indicates the client should wait before retrying.</p>
+</div>
+
+
+
+
+  <a id="RateLimitHeaders_Parsing_RateLimitInfo_GetRemainingPercentage_" data-uid="RateLimitHeaders.Parsing.RateLimitInfo.GetRemainingPercentage*"></a>
+
+  <h3 id="RateLimitHeaders_Parsing_RateLimitInfo_GetRemainingPercentage" data-uid="RateLimitHeaders.Parsing.RateLimitInfo.GetRemainingPercentage">
+  GetRemainingPercentage()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Alos-no/RateLimitHeaders/blob/main/src/RateLimitHeaders/Parsing/RateLimitInfo.cs/#L89"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the remaining quota as a percentage (0.0 to 1.0).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double GetRemainingPercentage()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="RateLimitHeaders_Parsing_RateLimitInfo_IsQuotaLow_" data-uid="RateLimitHeaders.Parsing.RateLimitInfo.IsQuotaLow*"></a>
+
+  <h3 id="RateLimitHeaders_Parsing_RateLimitInfo_IsQuotaLow_System_Double_" data-uid="RateLimitHeaders.Parsing.RateLimitInfo.IsQuotaLow(System.Double)">
+  IsQuotaLow(double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Alos-no/RateLimitHeaders/blob/main/src/RateLimitHeaders/Parsing/RateLimitInfo.cs/#L127"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Checks if remaining quota is at or below the specified threshold.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsQuotaLow(double threshold = 0.1)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>threshold</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The threshold percentage (0.0 to 1.0). Default is 0.1 (10%).</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>True if quota is low; false otherwise.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="RateLimitHeaders_Parsing_RateLimitInfo_ToString_" data-uid="RateLimitHeaders.Parsing.RateLimitInfo.ToString*"></a>
+
+  <h3 id="RateLimitHeaders_Parsing_RateLimitInfo_ToString" data-uid="RateLimitHeaders.Parsing.RateLimitInfo.ToString">
+  ToString()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Alos-no/RateLimitHeaders/blob/main/src/RateLimitHeaders/Parsing/RateLimitInfo.cs/#L130"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns the fully qualified type name of this instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string ToString()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The fully qualified type name.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="RateLimitHeaders_Parsing_RateLimitInfo_WithRetryAfterOverride_" data-uid="RateLimitHeaders.Parsing.RateLimitInfo.WithRetryAfterOverride*"></a>
+
+  <h3 id="RateLimitHeaders_Parsing_RateLimitInfo_WithRetryAfterOverride_System_Int32_" data-uid="RateLimitHeaders.Parsing.RateLimitInfo.WithRetryAfterOverride(System.Int32)">
+  WithRetryAfterOverride(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Alos-no/RateLimitHeaders/blob/main/src/RateLimitHeaders/Parsing/RateLimitInfo.cs/#L118"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a new <a class="xref" href="RateLimitHeaders.Parsing.RateLimitInfo.html">RateLimitInfo</a> with the Retry-After override applied.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public RateLimitInfo WithRetryAfterOverride(int retryAfterSeconds)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>retryAfterSeconds</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The Retry-After seconds that override the reset time.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="RateLimitHeaders.Parsing.RateLimitInfo.html">RateLimitInfo</a></dt>
+    <dd><p>A new instance with Remaining set to 0 and ResetSeconds updated.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="RateLimitHeaders_Parsing_RateLimitInfo_WithRetryAfterOverride_System_Int32__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Per IETF spec, Retry-After takes precedence over RateLimit headers when present.
+This typically occurs on 429/503 responses where the server explicitly tells
+the client how long to wait.</p>
+</div>
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/Alos-no/RateLimitHeaders/blob/main/src/RateLimitHeaders/Parsing/RateLimitInfo.cs/#L38" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Built and maintained by <a href="https://alos.no" target="_blank" rel="noopener">Alos Engineering</a> · Licensed under <a href="https://github.com/Alos-no/RateLimitHeaders/blob/main/LICENSE" target="_blank" rel="noopener">MIT</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

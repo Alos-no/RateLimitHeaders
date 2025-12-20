@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Custom Throttling Algorithms | RateLimitHeaders </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Custom Throttling Algorithms | RateLimitHeaders ">
+      <meta name="description" content="RateLimitHeaders - A .NET library for parsing IETF RateLimit headers and enabling proactive rate limit awareness in HTTP clients. Works with Polly v8 and IHttpClientFactory.">
+      
+      <link rel="icon" href="../images/favicon.svg">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/Alos-no/RateLimitHeaders/blob/main/docs/articles/custom-algorithms.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-J3X1J125E2"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-J3X1J125E2');
+      </script>
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.svg" alt="RateLimitHeaders">
+            RateLimitHeaders
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="custom-throttling-algorithms">Custom Throttling Algorithms</h1>
+
+<p>RateLimitHeaders allows you to implement custom throttling algorithms for specialized rate limiting strategies.</p>
+<h2 id="the-ithrottlingalgorithm-interface">The IThrottlingAlgorithm Interface</h2>
+<pre><code class="lang-csharp">public interface IThrottlingAlgorithm
+{
+    // Simple evaluation based on current endpoint's rate limit info
+    ThrottlingResult Evaluate(RateLimitInfo rateLimitInfo);
+
+    // Advanced evaluation with access to all tracked endpoints (has default implementation)
+    ThrottlingResult Evaluate(RateLimitInfo rateLimitInfo, IRateLimitStateProvider? stateProvider)
+        =&gt; Evaluate(rateLimitInfo);
+}
+
+public interface IRateLimitStateProvider
+{
+    RateLimitInfo GetRateLimitInfo(string endpointKey);
+    IEnumerable&lt;string&gt; TrackedEndpoints { get; }
+    IEnumerable&lt;RateLimitInfo&gt; GetAllStates();
+}
+
+public readonly struct ThrottlingResult
+{
+    public bool ShouldThrottle { get; }
+    public TimeSpan Delay { get; }
+    public string? Reason { get; }
+
+    public static ThrottlingResult NoThrottle { get; }
+    public static ThrottlingResult Throttle(TimeSpan delay, string? reason = null);
+}
+</code></pre>
+<p>Most custom algorithms only need to implement the simple <code>Evaluate(RateLimitInfo)</code> method. The overload with <code>IRateLimitStateProvider</code> is for advanced scenarios where you need cross-endpoint visibility (e.g., global throttling across multiple API endpoints).</p>
+<h2 id="implementing-a-custom-algorithm">Implementing a Custom Algorithm</h2>
+<h3 id="fixed-threshold-algorithm">Fixed Threshold Algorithm</h3>
+<p>Throttle when remaining requests fall below a fixed number:</p>
+<pre><code class="lang-csharp">public class FixedThresholdAlgorithm : IThrottlingAlgorithm
+{
+    private readonly int _minRemaining;
+    private readonly TimeSpan _delay;
+
+    public FixedThresholdAlgorithm(int minRemaining = 5, TimeSpan? delay = null)
+    {
+        _minRemaining = minRemaining;
+        _delay = delay ?? TimeSpan.FromSeconds(1);
+    }
+
+    public ThrottlingResult Evaluate(RateLimitInfo info)
+    {
+        if (!info.IsValid || info.Remaining &gt; _minRemaining)
+            return ThrottlingResult.NoThrottle;
+
+        return ThrottlingResult.Throttle(
+            _delay,
+            $&quot;Only {info.Remaining} requests remaining&quot;);
+    }
+}
+</code></pre>
+<h3 id="adaptive-delay-algorithm">Adaptive Delay Algorithm</h3>
+<p>Scale delay based on how close you are to exhausting quota:</p>
+<pre><code class="lang-csharp">public class AdaptiveDelayAlgorithm : IThrottlingAlgorithm
+{
+    private readonly double _threshold;
+    private readonly TimeSpan _minDelay;
+    private readonly TimeSpan _maxDelay;
+
+    public AdaptiveDelayAlgorithm(
+        double threshold = 0.2,
+        TimeSpan? minDelay = null,
+        TimeSpan? maxDelay = null)
+    {
+        _threshold = threshold;
+        _minDelay = minDelay ?? TimeSpan.FromMilliseconds(100);
+        _maxDelay = maxDelay ?? TimeSpan.FromSeconds(10);
+    }
+
+    public ThrottlingResult Evaluate(RateLimitInfo info)
+    {
+        if (!info.IsValid || info.Quota &lt;= 0)
+            return ThrottlingResult.NoThrottle;
+
+        var remainingPct = (double)info.Remaining / info.Quota;
+        if (remainingPct &gt; _threshold)
+            return ThrottlingResult.NoThrottle;
+
+        // Scale delay: lower remaining = longer delay
+        var severity = 1.0 - (remainingPct / _threshold);
+        var delayRange = _maxDelay - _minDelay;
+        var delay = _minDelay + TimeSpan.FromTicks((long)(delayRange.Ticks * severity));
+
+        return ThrottlingResult.Throttle(
+            delay,
+            $&quot;Quota at {remainingPct:P0}, delaying {delay.TotalMilliseconds:F0}ms&quot;);
+    }
+}
+</code></pre>
+<h3 id="token-bucket-algorithm">Token Bucket Algorithm</h3>
+<p>Spread remaining requests evenly across the time window:</p>
+<pre><code class="lang-csharp">public class TokenBucketAlgorithm : IThrottlingAlgorithm
+{
+    private readonly int _reserveTokens;
+
+    public TokenBucketAlgorithm(int reserveTokens = 2)
+    {
+        _reserveTokens = reserveTokens;
+    }
+
+    public ThrottlingResult Evaluate(RateLimitInfo info)
+    {
+        if (!info.IsValid || info.Remaining &lt;= _reserveTokens)
+        {
+            if (info.ResetSeconds &gt; 0)
+            {
+                return ThrottlingResult.Throttle(
+                    TimeSpan.FromSeconds(info.ResetSeconds),
+                    $&quot;Quota exhausted, waiting for reset&quot;);
+            }
+            return ThrottlingResult.NoThrottle;
+        }
+
+        // Calculate ideal spacing between requests
+        var availableTokens = info.Remaining - _reserveTokens;
+        if (availableTokens &lt;= 0 || info.ResetSeconds &lt;= 0)
+            return ThrottlingResult.NoThrottle;
+
+        var spacing = TimeSpan.FromSeconds(info.ResetSeconds / (double)availableTokens);
+
+        // Only throttle if spacing is significant
+        if (spacing.TotalMilliseconds &lt; 50)
+            return ThrottlingResult.NoThrottle;
+
+        return ThrottlingResult.Throttle(
+            spacing,
+            $&quot;Pacing requests: {availableTokens} requests over {info.ResetSeconds}s&quot;);
+    }
+}
+</code></pre>
+<h2 id="using-custom-algorithms">Using Custom Algorithms</h2>
+<h3 id="with-ihttpclientfactory">With IHttpClientFactory</h3>
+<pre><code class="lang-csharp">services.AddHttpClient(&quot;MyApi&quot;)
+    .AddRateLimitAwareHandler(options =&gt;
+    {
+        options.EnableProactiveThrottling = true;
+        options.ThrottlingAlgorithm = new AdaptiveDelayAlgorithm(
+            threshold: 0.3,
+            maxDelay: TimeSpan.FromSeconds(5));
+    });
+</code></pre>
+<h3 id="with-polly">With Polly</h3>
+<pre><code class="lang-csharp">var pipeline = new ResiliencePipelineBuilder&lt;HttpResponseMessage&gt;()
+    .AddRateLimitHeaders(options =&gt;
+    {
+        options.EnableProactiveThrottling = true;
+        options.ThrottlingAlgorithm = new TokenBucketAlgorithm(reserveTokens: 5);
+    })
+    .Build();
+</code></pre>
+<h2 id="combining-algorithms">Combining Algorithms</h2>
+<p>Create a composite algorithm that uses different strategies:</p>
+<pre><code class="lang-csharp">public class CompositeThrottlingAlgorithm : IThrottlingAlgorithm
+{
+    private readonly IThrottlingAlgorithm _primary;
+    private readonly IThrottlingAlgorithm _fallback;
+
+    public CompositeThrottlingAlgorithm(
+        IThrottlingAlgorithm primary,
+        IThrottlingAlgorithm fallback)
+    {
+        _primary = primary;
+        _fallback = fallback;
+    }
+
+    public ThrottlingResult Evaluate(RateLimitInfo info)
+    {
+        var result = _primary.Evaluate(info);
+        if (result.ShouldThrottle)
+            return result;
+
+        return _fallback.Evaluate(info);
+    }
+}
+</code></pre>
+<h2 id="global-throttling-with-iratelimitstateprovider">Global Throttling with IRateLimitStateProvider</h2>
+<p>For scenarios where you need to make throttling decisions based on multiple endpoints (e.g., shared API quotas), override the <code>Evaluate</code> method that receives <code>IRateLimitStateProvider</code>:</p>
+<pre><code class="lang-csharp">public class GlobalThrottlingAlgorithm : IThrottlingAlgorithm
+{
+    private readonly double _globalThreshold;
+
+    public GlobalThrottlingAlgorithm(double globalThreshold = 0.15)
+    {
+        _globalThreshold = globalThreshold;
+    }
+
+    public ThrottlingResult Evaluate(RateLimitInfo rateLimitInfo)
+    {
+        // Fallback when no state provider is available
+        return EvaluateSingle(rateLimitInfo);
+    }
+
+    public ThrottlingResult Evaluate(RateLimitInfo rateLimitInfo, IRateLimitStateProvider? stateProvider)
+    {
+        if (stateProvider == null)
+            return EvaluateSingle(rateLimitInfo);
+
+        // Consider the lowest quota across all tracked endpoints
+        var allStates = stateProvider.GetAllStates().Where(s =&gt; s.IsValid).ToList();
+        if (allStates.Count == 0)
+            return ThrottlingResult.NoThrottle;
+
+        var lowestRemaining = allStates.Min(s =&gt; s.GetRemainingPercentage());
+        if (lowestRemaining &gt; _globalThreshold)
+            return ThrottlingResult.NoThrottle;
+
+        var maxReset = allStates.Max(s =&gt; s.ResetSeconds);
+        var delay = TimeSpan.FromSeconds(maxReset * (1 - lowestRemaining / _globalThreshold));
+
+        return ThrottlingResult.Throttle(
+            delay,
+            $&quot;Global quota at {lowestRemaining:P0} across {allStates.Count} endpoints&quot;);
+    }
+
+    private ThrottlingResult EvaluateSingle(RateLimitInfo info)
+    {
+        if (!info.IsValid || info.GetRemainingPercentage() &gt; _globalThreshold)
+            return ThrottlingResult.NoThrottle;
+
+        return ThrottlingResult.Throttle(
+            TimeSpan.FromSeconds(info.ResetSeconds * 0.5),
+            $&quot;Single endpoint at {info.GetRemainingPercentage():P0}&quot;);
+    }
+}
+</code></pre>
+<h2 id="algorithm-selection-guidelines">Algorithm Selection Guidelines</h2>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Recommended Algorithm</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>General purpose</td>
+<td><code>PercentageThrottlingAlgorithm</code> (default)</td>
+</tr>
+<tr>
+<td>Bursty traffic with quiet periods</td>
+<td><code>FixedThresholdAlgorithm</code></td>
+</tr>
+<tr>
+<td>Steady request stream</td>
+<td><code>TokenBucketAlgorithm</code></td>
+</tr>
+<tr>
+<td>Unpredictable load patterns</td>
+<td><code>AdaptiveDelayAlgorithm</code></td>
+</tr>
+<tr>
+<td>Mission-critical APIs</td>
+<td>Composite with conservative fallback</td>
+</tr>
+<tr>
+<td>Shared quotas across endpoints</td>
+<td>Custom with <code>IRateLimitStateProvider</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="testing-custom-algorithms">Testing Custom Algorithms</h2>
+<pre><code class="lang-csharp">[Fact]
+public void AdaptiveDelay_WhenQuotaLow_ReturnsScaledDelay()
+{
+    var algorithm = new AdaptiveDelayAlgorithm(threshold: 0.2);
+
+    var info = new RateLimitInfo
+    {
+        IsValid = true,
+        Remaining = 5,
+        Quota = 100,
+        ResetSeconds = 60
+    };
+
+    var result = algorithm.Evaluate(info);
+
+    Assert.True(result.ShouldThrottle);
+    Assert.True(result.Delay &gt; TimeSpan.Zero);
+}
+</code></pre>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/Alos-no/RateLimitHeaders/blob/main/docs/articles/custom-algorithms.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Built and maintained by <a href="https://alos.no" target="_blank" rel="noopener">Alos Engineering</a> · Licensed under <a href="https://github.com/Alos-no/RateLimitHeaders/blob/main/LICENSE" target="_blank" rel="noopener">MIT</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

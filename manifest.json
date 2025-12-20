@@ -1,0 +1,503 @@
+{
+  "sitemap": {
+    "baseUrl": "https://alos.no/ratelimitheaders/",
+    "changefreq": "weekly",
+    "priority": 0.5
+  },
+  "source_base_path": "/home/runner/work/RateLimitHeaders/RateLimitHeaders/docs",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      }
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "CNAME",
+      "output": {
+        "resource": {
+          "relative_path": "CNAME"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/RateLimitHeaders.Events.QuotaLowEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/RateLimitHeaders.Events.QuotaLowEventArgs.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "RateLimitHeaders.Events.QuotaLowEventArgs",
+      "Summary": "<p sourcefile=\"api/RateLimitHeaders.Events.QuotaLowEventArgs.yml\" sourcestartlinenumber=\"1\">Provides data for quota low warning events from the HTTP handler.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/RateLimitHeaders.Events.RateLimitEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/RateLimitHeaders.Events.RateLimitEventArgs.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "RateLimitHeaders.Events.RateLimitEventArgs",
+      "Summary": "<p sourcefile=\"api/RateLimitHeaders.Events.RateLimitEventArgs.yml\" sourcestartlinenumber=\"1\">Provides data for rate limit info events from the HTTP handler.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/RateLimitHeaders.Events.ThrottlingEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/RateLimitHeaders.Events.ThrottlingEventArgs.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "RateLimitHeaders.Events.ThrottlingEventArgs",
+      "Summary": "<p sourcefile=\"api/RateLimitHeaders.Events.ThrottlingEventArgs.yml\" sourcestartlinenumber=\"1\">Provides data for throttling events from the HTTP handler.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/RateLimitHeaders.Events.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/RateLimitHeaders.Events.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "RateLimitHeaders.Events",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/RateLimitHeaders.Http.HttpResponseMessageExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/RateLimitHeaders.Http.HttpResponseMessageExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "RateLimitHeaders.Http.HttpResponseMessageExtensions",
+      "Summary": "<p sourcefile=\"api/RateLimitHeaders.Http.HttpResponseMessageExtensions.yml\" sourcestartlinenumber=\"1\">Extension methods for accessing rate limit information from HTTP responses.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/RateLimitHeaders.Http.RateLimitAwareHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/RateLimitHeaders.Http.RateLimitAwareHandler.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "RateLimitHeaders.Http.RateLimitAwareHandler",
+      "Summary": "<p sourcefile=\"api/RateLimitHeaders.Http.RateLimitAwareHandler.yml\" sourcestartlinenumber=\"1\">A delegating handler that parses IETF RateLimit headers from HTTP responses\nand can proactively throttle requests to avoid hitting rate limits.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/RateLimitHeaders.Http.RateLimitAwareOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/RateLimitHeaders.Http.RateLimitAwareOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "RateLimitHeaders.Http.RateLimitAwareOptions",
+      "Summary": "<p sourcefile=\"api/RateLimitHeaders.Http.RateLimitAwareOptions.yml\" sourcestartlinenumber=\"1\">Configuration options for the rate limit aware HTTP handler.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/RateLimitHeaders.Http.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/RateLimitHeaders.Http.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "RateLimitHeaders.Http",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/RateLimitHeaders.Parsing.RateLimitHeaderParser.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/RateLimitHeaders.Parsing.RateLimitHeaderParser.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "RateLimitHeaders.Parsing.RateLimitHeaderParser",
+      "Summary": "<p sourcefile=\"api/RateLimitHeaders.Parsing.RateLimitHeaderParser.yml\" sourcestartlinenumber=\"1\">Parses IETF RateLimit headers (draft-ietf-httpapi-ratelimit-headers-10) from HTTP responses.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/RateLimitHeaders.Parsing.RateLimitInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/RateLimitHeaders.Parsing.RateLimitInfo.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "RateLimitHeaders.Parsing.RateLimitInfo",
+      "Summary": "<p sourcefile=\"api/RateLimitHeaders.Parsing.RateLimitInfo.yml\" sourcestartlinenumber=\"1\">Represents parsed IETF RateLimit header information.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/RateLimitHeaders.Parsing.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/RateLimitHeaders.Parsing.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "RateLimitHeaders.Parsing",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/RateLimitHeaders.Polly.OnQuotaLowArguments.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/RateLimitHeaders.Polly.OnQuotaLowArguments.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "RateLimitHeaders.Polly.OnQuotaLowArguments",
+      "Summary": "<p sourcefile=\"api/RateLimitHeaders.Polly.OnQuotaLowArguments.yml\" sourcestartlinenumber=\"1\">Arguments for the <xref href=\"RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.OnQuotaLow\" data-throw-if-not-resolved=\"false\"></xref> event.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/RateLimitHeaders.Polly.OnRateLimitInfoArguments.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/RateLimitHeaders.Polly.OnRateLimitInfoArguments.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "RateLimitHeaders.Polly.OnRateLimitInfoArguments",
+      "Summary": "<p sourcefile=\"api/RateLimitHeaders.Polly.OnRateLimitInfoArguments.yml\" sourcestartlinenumber=\"1\">Arguments for the <xref href=\"RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.OnRateLimitInfo\" data-throw-if-not-resolved=\"false\"></xref> event.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/RateLimitHeaders.Polly.OnThrottlingArguments.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/RateLimitHeaders.Polly.OnThrottlingArguments.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "RateLimitHeaders.Polly.OnThrottlingArguments",
+      "Summary": "<p sourcefile=\"api/RateLimitHeaders.Polly.OnThrottlingArguments.yml\" sourcestartlinenumber=\"1\">Arguments for the <xref href=\"RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.OnThrottling\" data-throw-if-not-resolved=\"false\"></xref> event.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/RateLimitHeaders.Polly.RateLimitContextProperties.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/RateLimitHeaders.Polly.RateLimitContextProperties.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "RateLimitHeaders.Polly.RateLimitContextProperties",
+      "Summary": "<p sourcefile=\"api/RateLimitHeaders.Polly.RateLimitContextProperties.yml\" sourcestartlinenumber=\"1\">Contains ResilienceContext property keys for rate limit information.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions",
+      "Summary": "<p sourcefile=\"api/RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.yml\" sourcestartlinenumber=\"1\">Options for configuring the rate limit headers resilience strategy.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions",
+      "Summary": "<p sourcefile=\"api/RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.yml\" sourcestartlinenumber=\"1\">Extension methods for adding rate limit header parsing to resilience pipelines.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/RateLimitHeaders.Polly.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/RateLimitHeaders.Polly.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "RateLimitHeaders.Polly",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/RateLimitHeaders.ServiceCollectionExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/RateLimitHeaders.ServiceCollectionExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "RateLimitHeaders.ServiceCollectionExtensions",
+      "Summary": "<p sourcefile=\"api/RateLimitHeaders.ServiceCollectionExtensions.yml\" sourcestartlinenumber=\"1\">Extension methods for adding rate limit aware handlers to an IHttpClientBuilder.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/RateLimitHeaders.Throttling.IRateLimitStateProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/RateLimitHeaders.Throttling.IRateLimitStateProvider.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "RateLimitHeaders.Throttling.IRateLimitStateProvider",
+      "Summary": "<p sourcefile=\"api/RateLimitHeaders.Throttling.IRateLimitStateProvider.yml\" sourcestartlinenumber=\"1\">Provides read-only access to rate limit state information across all tracked endpoints.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/RateLimitHeaders.Throttling.IThrottlingAlgorithm.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/RateLimitHeaders.Throttling.IThrottlingAlgorithm.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "RateLimitHeaders.Throttling.IThrottlingAlgorithm",
+      "Summary": "<p sourcefile=\"api/RateLimitHeaders.Throttling.IThrottlingAlgorithm.yml\" sourcestartlinenumber=\"1\">Defines a throttling algorithm that determines whether and how long to delay requests\nbased on rate limit information.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm",
+      "Summary": "<p sourcefile=\"api/RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.yml\" sourcestartlinenumber=\"1\">A simple percentage-based throttling algorithm that begins throttling when\nthe remaining quota falls below a configurable threshold.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/RateLimitHeaders.Throttling.ThrottlingResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/RateLimitHeaders.Throttling.ThrottlingResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "RateLimitHeaders.Throttling.ThrottlingResult",
+      "Summary": "<p sourcefile=\"api/RateLimitHeaders.Throttling.ThrottlingResult.yml\" sourcestartlinenumber=\"1\">Represents the result of a throttling algorithm evaluation.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/RateLimitHeaders.Throttling.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/RateLimitHeaders.Throttling.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "RateLimitHeaders.Throttling",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/RateLimitHeaders.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/RateLimitHeaders.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "RateLimitHeaders",
+      "Summary": null
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html"
+        },
+        ".json": {
+          "relative_path": "api/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/configuration.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/configuration.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/custom-algorithms.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/custom-algorithms.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/getting-started.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/getting-started.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/polly-integration.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/polly-integration.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/proactive-throttling.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/proactive-throttling.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/favicon.svg",
+      "output": {
+        "resource": {
+          "relative_path": "images/favicon.svg"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/logo.svg",
+      "output": {
+        "resource": {
+          "relative_path": "images/logo.svg"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html"
+        },
+        ".json": {
+          "relative_path": "toc.json"
+        }
+      },
+      "version": ""
+    }
+  ],
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Configuration | RateLimitHeaders </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Configuration | RateLimitHeaders ">
+      <meta name="description" content="Configure RateLimitHeaders options including throttling algorithms, callbacks, and state tracking for your .NET application.">
+      
+      <link rel="icon" href="../images/favicon.svg">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/Alos-no/RateLimitHeaders/blob/main/docs/articles/configuration.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-J3X1J125E2"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-J3X1J125E2');
+      </script>
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.svg" alt="RateLimitHeaders">
+            RateLimitHeaders
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="configuration">Configuration</h1>
+
+<p>This guide covers all configuration options available in RateLimitHeaders.</p>
+<h2 id="handler-options">Handler Options</h2>
+<p>The <code>RateLimitHandlerOptions</code> class configures the DelegatingHandler:</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EnableProactiveThrottling</code></td>
+<td><code>bool</code></td>
+<td><code>false</code></td>
+<td>Enable automatic request delays when quota is low</td>
+</tr>
+<tr>
+<td><code>QuotaLowThreshold</code></td>
+<td><code>double</code></td>
+<td><code>0.1</code></td>
+<td>Threshold (0-1) for triggering quota low warnings</td>
+</tr>
+<tr>
+<td><code>ThrottlingAlgorithm</code></td>
+<td><code>IThrottlingAlgorithm</code></td>
+<td><code>PercentageThrottlingAlgorithm</code></td>
+<td>Algorithm for calculating throttle delays</td>
+</tr>
+<tr>
+<td><code>StateKeyExtractor</code></td>
+<td><code>Func&lt;HttpRequestMessage, string&gt;</code></td>
+<td>Hostname</td>
+<td>Function to extract state tracking key from requests</td>
+</tr>
+<tr>
+<td><code>OnRateLimitInfo</code></td>
+<td><code>Func&lt;RateLimitInfoEventArgs, ValueTask&gt;?</code></td>
+<td><code>null</code></td>
+<td>Callback when rate limit headers are parsed</td>
+</tr>
+<tr>
+<td><code>OnQuotaLow</code></td>
+<td><code>Func&lt;QuotaLowEventArgs, ValueTask&gt;?</code></td>
+<td><code>null</code></td>
+<td>Callback when quota falls below threshold</td>
+</tr>
+<tr>
+<td><code>OnThrottling</code></td>
+<td><code>Func&lt;ThrottlingEventArgs, ValueTask&gt;?</code></td>
+<td><code>null</code></td>
+<td>Callback before a request is throttled</td>
+</tr>
+</tbody>
+</table>
+<h2 id="proactive-throttling">Proactive Throttling</h2>
+<p>When <code>EnableProactiveThrottling</code> is <code>true</code>, the handler automatically delays requests when quota is low:</p>
+<pre><code class="lang-csharp">options.EnableProactiveThrottling = true;
+options.ThrottlingAlgorithm = new PercentageThrottlingAlgorithm(
+    threshold: 0.1,    // Start throttling at 10% remaining
+    factor: 1.0,       // Delay multiplier
+    maxDelay: TimeSpan.FromSeconds(5));
+</code></pre>
+<h3 id="percentagethrottlingalgorithm">PercentageThrottlingAlgorithm</h3>
+<p>The default algorithm calculates delays as:</p>
+<pre><code>Delay = (threshold - remainingPercentage) * resetSeconds * factor
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>threshold</code></td>
+<td><code>0.1</code></td>
+<td>Start throttling when remaining quota falls below this percentage</td>
+</tr>
+<tr>
+<td><code>factor</code></td>
+<td><code>1.0</code></td>
+<td>Multiplier for calculated delay</td>
+</tr>
+<tr>
+<td><code>maxDelay</code></td>
+<td><code>5 seconds</code></td>
+<td>Maximum delay to apply</td>
+</tr>
+</tbody>
+</table>
+<h2 id="state-key-extraction">State Key Extraction</h2>
+<p>By default, rate limit state is tracked per hostname:</p>
+<pre><code class="lang-csharp">// Default: hostname only
+// api.example.com/v1/users -&gt; &quot;api.example.com&quot;
+// api.example.com/v1/orders -&gt; &quot;api.example.com&quot;
+</code></pre>
+<p>Customize state key extraction for more granular tracking:</p>
+<pre><code class="lang-csharp">// Track per path segment
+options.StateKeyExtractor = request =&gt;
+{
+    var uri = request.RequestUri;
+    if (uri is null) return &quot;default&quot;;
+    var segments = uri.AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
+    return segments.Length &gt; 0 ? $&quot;{uri.Host}/{segments[0]}&quot; : uri.Host;
+};
+
+// Track per API key
+options.StateKeyExtractor = request =&gt;
+{
+    var apiKey = request.Headers.TryGetValues(&quot;X-API-Key&quot;, out var values)
+        ? values.FirstOrDefault()
+        : null;
+    var host = request.RequestUri?.Host ?? &quot;default&quot;;
+    return apiKey is not null ? $&quot;{host}:{apiKey}&quot; : host;
+};
+</code></pre>
+<h3 id="partition-key-considerations">Partition Key Considerations</h3>
+<p>Some APIs partition rate limits by tenant, user, or API key (indicated by the <code>pk</code> parameter in response headers). The library parses this value into <code>RateLimitInfo.PartitionKey</code>, but proactive throttling does not automatically use it because:</p>
+<ol>
+<li>The state key must be computed <em>before</em> sending the request</li>
+<li>The partition key is only known <em>after</em> receiving the response</li>
+</ol>
+<p>Use <code>StateKeyExtractor</code> to include the partition identifier from your request if your API uses partition-based rate limiting.</p>
+<h2 id="event-callbacks">Event Callbacks</h2>
+<h3 id="onratelimitinfo">OnRateLimitInfo</h3>
+<p>Called whenever rate limit headers are successfully parsed:</p>
+<pre><code class="lang-csharp">options.OnRateLimitInfo = args =&gt;
+{
+    metrics.RecordRateLimit(
+        args.RateLimitInfo.PolicyName,
+        args.RateLimitInfo.Remaining,
+        args.RateLimitInfo.Quota);
+    return ValueTask.CompletedTask;
+};
+</code></pre>
+<h3 id="onquotalow">OnQuotaLow</h3>
+<p>Called when remaining quota falls below <code>QuotaLowThreshold</code>:</p>
+<pre><code class="lang-csharp">options.OnQuotaLow = args =&gt;
+{
+    alertService.SendAlert(
+        $&quot;API quota at {args.RemainingPercentage:P0}&quot;,
+        args.RequestUri);
+    return ValueTask.CompletedTask;
+};
+</code></pre>
+<h3 id="onthrottling">OnThrottling</h3>
+<p>Called before a request is throttled (when proactive throttling is enabled):</p>
+<pre><code class="lang-csharp">options.OnThrottling = args =&gt;
+{
+    logger.LogInformation(
+        &quot;Throttling request to {Uri} for {Delay}ms: {Reason}&quot;,
+        args.RequestUri,
+        args.Delay.TotalMilliseconds,
+        args.Reason);
+    return ValueTask.CompletedTask;
+};
+</code></pre>
+<h2 id="ietf-ratelimit-headers">IETF RateLimit Headers</h2>
+<p>The library parses headers according to <a href="https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-headers/">draft-ietf-httpapi-ratelimit-headers-10</a>:</p>
+<pre><code>RateLimit: &quot;default&quot;;r=50;t=30
+RateLimit-Policy: &quot;default&quot;;q=100;w=60
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Header</th>
+<th>Format</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>RateLimit</code></td>
+<td><code>&quot;policy&quot;;r=remaining;t=reset</code></td>
+<td>Current rate limit state</td>
+</tr>
+<tr>
+<td><code>RateLimit-Policy</code></td>
+<td><code>&quot;policy&quot;;q=quota;w=window</code></td>
+<td>Rate limit policy definition</td>
+</tr>
+</tbody>
+</table>
+<h3 id="parsed-values">Parsed Values</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PolicyName</code></td>
+<td>The rate limit policy name (e.g., &quot;default&quot;, &quot;api-v2&quot;)</td>
+</tr>
+<tr>
+<td><code>Remaining</code></td>
+<td>Requests remaining in the current window</td>
+</tr>
+<tr>
+<td><code>ResetSeconds</code></td>
+<td>Seconds until the window resets</td>
+</tr>
+<tr>
+<td><code>Quota</code></td>
+<td>Maximum requests allowed per window</td>
+</tr>
+<tr>
+<td><code>WindowSeconds</code></td>
+<td>Duration of the rate limit window</td>
+</tr>
+<tr>
+<td><code>PartitionKey</code></td>
+<td>Optional partition key from <code>pk</code> parameter</td>
+</tr>
+<tr>
+<td><code>IsValid</code></td>
+<td>Whether at least one header was successfully parsed</td>
+</tr>
+</tbody>
+</table>
+<h2 id="thread-safety">Thread Safety</h2>
+<p>The library is designed to be thread-safe:</p>
+<ul>
+<li><code>RateLimitInfo</code> is a readonly struct (immutable)</li>
+<li>State tracking uses <code>ConcurrentDictionary</code></li>
+<li>Handlers are transient (as required by IHttpClientFactory)</li>
+</ul>
+<h2 id="polly-specific-options">Polly-Specific Options</h2>
+<p>When using with Polly, the same options apply via <code>RateLimitHeadersOptions</code>:</p>
+<pre><code class="lang-csharp">var pipeline = new ResiliencePipelineBuilder&lt;HttpResponseMessage&gt;()
+    .AddRateLimitHeaders(options =&gt;
+    {
+        options.EnableProactiveThrottling = true;
+        options.QuotaLowThreshold = 0.1;
+        options.OnRateLimitInfo = args =&gt; { /* ... */ };
+    })
+    .Build();
+</code></pre>
+<p>Rate limit info is stored in the <code>ResilienceContext</code> and can be accessed via:</p>
+<pre><code class="lang-csharp">context.Properties.TryGetValue(RateLimitContextProperties.RateLimitInfoKey, out var info);
+</code></pre>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/Alos-no/RateLimitHeaders/blob/main/docs/articles/configuration.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Built and maintained by <a href="https://alos.no" target="_blank" rel="noopener">Alos Engineering</a> · Licensed under <a href="https://github.com/Alos-no/RateLimitHeaders/blob/main/LICENSE" target="_blank" rel="noopener">MIT</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

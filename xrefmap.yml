@@ -1,0 +1,1501 @@
+### YamlMime:XRefMap
+sorted: true
+references:
+- uid: RateLimitHeaders
+  name: RateLimitHeaders
+  href: api/RateLimitHeaders.html
+  commentId: N:RateLimitHeaders
+  fullName: RateLimitHeaders
+  nameWithType: RateLimitHeaders
+- uid: RateLimitHeaders.Events
+  name: RateLimitHeaders.Events
+  href: api/RateLimitHeaders.Events.html
+  commentId: N:RateLimitHeaders.Events
+  fullName: RateLimitHeaders.Events
+  nameWithType: RateLimitHeaders.Events
+- uid: RateLimitHeaders.Events.QuotaLowEventArgs
+  name: QuotaLowEventArgs
+  href: api/RateLimitHeaders.Events.QuotaLowEventArgs.html
+  commentId: T:RateLimitHeaders.Events.QuotaLowEventArgs
+  fullName: RateLimitHeaders.Events.QuotaLowEventArgs
+  nameWithType: QuotaLowEventArgs
+- uid: RateLimitHeaders.Events.QuotaLowEventArgs.#ctor(RateLimitHeaders.Parsing.RateLimitInfo,System.Uri,System.Double,System.Double)
+  name: QuotaLowEventArgs(RateLimitInfo, Uri?, double, double)
+  href: api/RateLimitHeaders.Events.QuotaLowEventArgs.html#RateLimitHeaders_Events_QuotaLowEventArgs__ctor_RateLimitHeaders_Parsing_RateLimitInfo_System_Uri_System_Double_System_Double_
+  commentId: M:RateLimitHeaders.Events.QuotaLowEventArgs.#ctor(RateLimitHeaders.Parsing.RateLimitInfo,System.Uri,System.Double,System.Double)
+  name.vb: New(RateLimitInfo, Uri, Double, Double)
+  fullName: RateLimitHeaders.Events.QuotaLowEventArgs.QuotaLowEventArgs(RateLimitHeaders.Parsing.RateLimitInfo, System.Uri?, double, double)
+  fullName.vb: RateLimitHeaders.Events.QuotaLowEventArgs.New(RateLimitHeaders.Parsing.RateLimitInfo, System.Uri, Double, Double)
+  nameWithType: QuotaLowEventArgs.QuotaLowEventArgs(RateLimitInfo, Uri?, double, double)
+  nameWithType.vb: QuotaLowEventArgs.New(RateLimitInfo, Uri, Double, Double)
+- uid: RateLimitHeaders.Events.QuotaLowEventArgs.#ctor*
+  name: QuotaLowEventArgs
+  href: api/RateLimitHeaders.Events.QuotaLowEventArgs.html#RateLimitHeaders_Events_QuotaLowEventArgs__ctor_
+  commentId: Overload:RateLimitHeaders.Events.QuotaLowEventArgs.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: RateLimitHeaders.Events.QuotaLowEventArgs.QuotaLowEventArgs
+  fullName.vb: RateLimitHeaders.Events.QuotaLowEventArgs.New
+  nameWithType: QuotaLowEventArgs.QuotaLowEventArgs
+  nameWithType.vb: QuotaLowEventArgs.New
+- uid: RateLimitHeaders.Events.QuotaLowEventArgs.RateLimitInfo
+  name: RateLimitInfo
+  href: api/RateLimitHeaders.Events.QuotaLowEventArgs.html#RateLimitHeaders_Events_QuotaLowEventArgs_RateLimitInfo
+  commentId: P:RateLimitHeaders.Events.QuotaLowEventArgs.RateLimitInfo
+  fullName: RateLimitHeaders.Events.QuotaLowEventArgs.RateLimitInfo
+  nameWithType: QuotaLowEventArgs.RateLimitInfo
+- uid: RateLimitHeaders.Events.QuotaLowEventArgs.RateLimitInfo*
+  name: RateLimitInfo
+  href: api/RateLimitHeaders.Events.QuotaLowEventArgs.html#RateLimitHeaders_Events_QuotaLowEventArgs_RateLimitInfo_
+  commentId: Overload:RateLimitHeaders.Events.QuotaLowEventArgs.RateLimitInfo
+  isSpec: "True"
+  fullName: RateLimitHeaders.Events.QuotaLowEventArgs.RateLimitInfo
+  nameWithType: QuotaLowEventArgs.RateLimitInfo
+- uid: RateLimitHeaders.Events.QuotaLowEventArgs.RemainingPercentage
+  name: RemainingPercentage
+  href: api/RateLimitHeaders.Events.QuotaLowEventArgs.html#RateLimitHeaders_Events_QuotaLowEventArgs_RemainingPercentage
+  commentId: P:RateLimitHeaders.Events.QuotaLowEventArgs.RemainingPercentage
+  fullName: RateLimitHeaders.Events.QuotaLowEventArgs.RemainingPercentage
+  nameWithType: QuotaLowEventArgs.RemainingPercentage
+- uid: RateLimitHeaders.Events.QuotaLowEventArgs.RemainingPercentage*
+  name: RemainingPercentage
+  href: api/RateLimitHeaders.Events.QuotaLowEventArgs.html#RateLimitHeaders_Events_QuotaLowEventArgs_RemainingPercentage_
+  commentId: Overload:RateLimitHeaders.Events.QuotaLowEventArgs.RemainingPercentage
+  isSpec: "True"
+  fullName: RateLimitHeaders.Events.QuotaLowEventArgs.RemainingPercentage
+  nameWithType: QuotaLowEventArgs.RemainingPercentage
+- uid: RateLimitHeaders.Events.QuotaLowEventArgs.RequestUri
+  name: RequestUri
+  href: api/RateLimitHeaders.Events.QuotaLowEventArgs.html#RateLimitHeaders_Events_QuotaLowEventArgs_RequestUri
+  commentId: P:RateLimitHeaders.Events.QuotaLowEventArgs.RequestUri
+  fullName: RateLimitHeaders.Events.QuotaLowEventArgs.RequestUri
+  nameWithType: QuotaLowEventArgs.RequestUri
+- uid: RateLimitHeaders.Events.QuotaLowEventArgs.RequestUri*
+  name: RequestUri
+  href: api/RateLimitHeaders.Events.QuotaLowEventArgs.html#RateLimitHeaders_Events_QuotaLowEventArgs_RequestUri_
+  commentId: Overload:RateLimitHeaders.Events.QuotaLowEventArgs.RequestUri
+  isSpec: "True"
+  fullName: RateLimitHeaders.Events.QuotaLowEventArgs.RequestUri
+  nameWithType: QuotaLowEventArgs.RequestUri
+- uid: RateLimitHeaders.Events.QuotaLowEventArgs.Threshold
+  name: Threshold
+  href: api/RateLimitHeaders.Events.QuotaLowEventArgs.html#RateLimitHeaders_Events_QuotaLowEventArgs_Threshold
+  commentId: P:RateLimitHeaders.Events.QuotaLowEventArgs.Threshold
+  fullName: RateLimitHeaders.Events.QuotaLowEventArgs.Threshold
+  nameWithType: QuotaLowEventArgs.Threshold
+- uid: RateLimitHeaders.Events.QuotaLowEventArgs.Threshold*
+  name: Threshold
+  href: api/RateLimitHeaders.Events.QuotaLowEventArgs.html#RateLimitHeaders_Events_QuotaLowEventArgs_Threshold_
+  commentId: Overload:RateLimitHeaders.Events.QuotaLowEventArgs.Threshold
+  isSpec: "True"
+  fullName: RateLimitHeaders.Events.QuotaLowEventArgs.Threshold
+  nameWithType: QuotaLowEventArgs.Threshold
+- uid: RateLimitHeaders.Events.RateLimitEventArgs
+  name: RateLimitEventArgs
+  href: api/RateLimitHeaders.Events.RateLimitEventArgs.html
+  commentId: T:RateLimitHeaders.Events.RateLimitEventArgs
+  fullName: RateLimitHeaders.Events.RateLimitEventArgs
+  nameWithType: RateLimitEventArgs
+- uid: RateLimitHeaders.Events.RateLimitEventArgs.#ctor(RateLimitHeaders.Parsing.RateLimitInfo,System.Uri,System.Net.Http.HttpResponseMessage)
+  name: RateLimitEventArgs(RateLimitInfo, Uri?, HttpResponseMessage)
+  href: api/RateLimitHeaders.Events.RateLimitEventArgs.html#RateLimitHeaders_Events_RateLimitEventArgs__ctor_RateLimitHeaders_Parsing_RateLimitInfo_System_Uri_System_Net_Http_HttpResponseMessage_
+  commentId: M:RateLimitHeaders.Events.RateLimitEventArgs.#ctor(RateLimitHeaders.Parsing.RateLimitInfo,System.Uri,System.Net.Http.HttpResponseMessage)
+  name.vb: New(RateLimitInfo, Uri, HttpResponseMessage)
+  fullName: RateLimitHeaders.Events.RateLimitEventArgs.RateLimitEventArgs(RateLimitHeaders.Parsing.RateLimitInfo, System.Uri?, System.Net.Http.HttpResponseMessage)
+  fullName.vb: RateLimitHeaders.Events.RateLimitEventArgs.New(RateLimitHeaders.Parsing.RateLimitInfo, System.Uri, System.Net.Http.HttpResponseMessage)
+  nameWithType: RateLimitEventArgs.RateLimitEventArgs(RateLimitInfo, Uri?, HttpResponseMessage)
+  nameWithType.vb: RateLimitEventArgs.New(RateLimitInfo, Uri, HttpResponseMessage)
+- uid: RateLimitHeaders.Events.RateLimitEventArgs.#ctor*
+  name: RateLimitEventArgs
+  href: api/RateLimitHeaders.Events.RateLimitEventArgs.html#RateLimitHeaders_Events_RateLimitEventArgs__ctor_
+  commentId: Overload:RateLimitHeaders.Events.RateLimitEventArgs.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: RateLimitHeaders.Events.RateLimitEventArgs.RateLimitEventArgs
+  fullName.vb: RateLimitHeaders.Events.RateLimitEventArgs.New
+  nameWithType: RateLimitEventArgs.RateLimitEventArgs
+  nameWithType.vb: RateLimitEventArgs.New
+- uid: RateLimitHeaders.Events.RateLimitEventArgs.RateLimitInfo
+  name: RateLimitInfo
+  href: api/RateLimitHeaders.Events.RateLimitEventArgs.html#RateLimitHeaders_Events_RateLimitEventArgs_RateLimitInfo
+  commentId: P:RateLimitHeaders.Events.RateLimitEventArgs.RateLimitInfo
+  fullName: RateLimitHeaders.Events.RateLimitEventArgs.RateLimitInfo
+  nameWithType: RateLimitEventArgs.RateLimitInfo
+- uid: RateLimitHeaders.Events.RateLimitEventArgs.RateLimitInfo*
+  name: RateLimitInfo
+  href: api/RateLimitHeaders.Events.RateLimitEventArgs.html#RateLimitHeaders_Events_RateLimitEventArgs_RateLimitInfo_
+  commentId: Overload:RateLimitHeaders.Events.RateLimitEventArgs.RateLimitInfo
+  isSpec: "True"
+  fullName: RateLimitHeaders.Events.RateLimitEventArgs.RateLimitInfo
+  nameWithType: RateLimitEventArgs.RateLimitInfo
+- uid: RateLimitHeaders.Events.RateLimitEventArgs.RequestUri
+  name: RequestUri
+  href: api/RateLimitHeaders.Events.RateLimitEventArgs.html#RateLimitHeaders_Events_RateLimitEventArgs_RequestUri
+  commentId: P:RateLimitHeaders.Events.RateLimitEventArgs.RequestUri
+  fullName: RateLimitHeaders.Events.RateLimitEventArgs.RequestUri
+  nameWithType: RateLimitEventArgs.RequestUri
+- uid: RateLimitHeaders.Events.RateLimitEventArgs.RequestUri*
+  name: RequestUri
+  href: api/RateLimitHeaders.Events.RateLimitEventArgs.html#RateLimitHeaders_Events_RateLimitEventArgs_RequestUri_
+  commentId: Overload:RateLimitHeaders.Events.RateLimitEventArgs.RequestUri
+  isSpec: "True"
+  fullName: RateLimitHeaders.Events.RateLimitEventArgs.RequestUri
+  nameWithType: RateLimitEventArgs.RequestUri
+- uid: RateLimitHeaders.Events.RateLimitEventArgs.Response
+  name: Response
+  href: api/RateLimitHeaders.Events.RateLimitEventArgs.html#RateLimitHeaders_Events_RateLimitEventArgs_Response
+  commentId: P:RateLimitHeaders.Events.RateLimitEventArgs.Response
+  fullName: RateLimitHeaders.Events.RateLimitEventArgs.Response
+  nameWithType: RateLimitEventArgs.Response
+- uid: RateLimitHeaders.Events.RateLimitEventArgs.Response*
+  name: Response
+  href: api/RateLimitHeaders.Events.RateLimitEventArgs.html#RateLimitHeaders_Events_RateLimitEventArgs_Response_
+  commentId: Overload:RateLimitHeaders.Events.RateLimitEventArgs.Response
+  isSpec: "True"
+  fullName: RateLimitHeaders.Events.RateLimitEventArgs.Response
+  nameWithType: RateLimitEventArgs.Response
+- uid: RateLimitHeaders.Events.ThrottlingEventArgs
+  name: ThrottlingEventArgs
+  href: api/RateLimitHeaders.Events.ThrottlingEventArgs.html
+  commentId: T:RateLimitHeaders.Events.ThrottlingEventArgs
+  fullName: RateLimitHeaders.Events.ThrottlingEventArgs
+  nameWithType: ThrottlingEventArgs
+- uid: RateLimitHeaders.Events.ThrottlingEventArgs.#ctor(RateLimitHeaders.Parsing.RateLimitInfo,System.Uri,System.TimeSpan,System.String)
+  name: ThrottlingEventArgs(RateLimitInfo, Uri?, TimeSpan, string?)
+  href: api/RateLimitHeaders.Events.ThrottlingEventArgs.html#RateLimitHeaders_Events_ThrottlingEventArgs__ctor_RateLimitHeaders_Parsing_RateLimitInfo_System_Uri_System_TimeSpan_System_String_
+  commentId: M:RateLimitHeaders.Events.ThrottlingEventArgs.#ctor(RateLimitHeaders.Parsing.RateLimitInfo,System.Uri,System.TimeSpan,System.String)
+  name.vb: New(RateLimitInfo, Uri, TimeSpan, String)
+  fullName: RateLimitHeaders.Events.ThrottlingEventArgs.ThrottlingEventArgs(RateLimitHeaders.Parsing.RateLimitInfo, System.Uri?, System.TimeSpan, string?)
+  fullName.vb: RateLimitHeaders.Events.ThrottlingEventArgs.New(RateLimitHeaders.Parsing.RateLimitInfo, System.Uri, System.TimeSpan, String)
+  nameWithType: ThrottlingEventArgs.ThrottlingEventArgs(RateLimitInfo, Uri?, TimeSpan, string?)
+  nameWithType.vb: ThrottlingEventArgs.New(RateLimitInfo, Uri, TimeSpan, String)
+- uid: RateLimitHeaders.Events.ThrottlingEventArgs.#ctor*
+  name: ThrottlingEventArgs
+  href: api/RateLimitHeaders.Events.ThrottlingEventArgs.html#RateLimitHeaders_Events_ThrottlingEventArgs__ctor_
+  commentId: Overload:RateLimitHeaders.Events.ThrottlingEventArgs.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: RateLimitHeaders.Events.ThrottlingEventArgs.ThrottlingEventArgs
+  fullName.vb: RateLimitHeaders.Events.ThrottlingEventArgs.New
+  nameWithType: ThrottlingEventArgs.ThrottlingEventArgs
+  nameWithType.vb: ThrottlingEventArgs.New
+- uid: RateLimitHeaders.Events.ThrottlingEventArgs.Delay
+  name: Delay
+  href: api/RateLimitHeaders.Events.ThrottlingEventArgs.html#RateLimitHeaders_Events_ThrottlingEventArgs_Delay
+  commentId: P:RateLimitHeaders.Events.ThrottlingEventArgs.Delay
+  fullName: RateLimitHeaders.Events.ThrottlingEventArgs.Delay
+  nameWithType: ThrottlingEventArgs.Delay
+- uid: RateLimitHeaders.Events.ThrottlingEventArgs.Delay*
+  name: Delay
+  href: api/RateLimitHeaders.Events.ThrottlingEventArgs.html#RateLimitHeaders_Events_ThrottlingEventArgs_Delay_
+  commentId: Overload:RateLimitHeaders.Events.ThrottlingEventArgs.Delay
+  isSpec: "True"
+  fullName: RateLimitHeaders.Events.ThrottlingEventArgs.Delay
+  nameWithType: ThrottlingEventArgs.Delay
+- uid: RateLimitHeaders.Events.ThrottlingEventArgs.RateLimitInfo
+  name: RateLimitInfo
+  href: api/RateLimitHeaders.Events.ThrottlingEventArgs.html#RateLimitHeaders_Events_ThrottlingEventArgs_RateLimitInfo
+  commentId: P:RateLimitHeaders.Events.ThrottlingEventArgs.RateLimitInfo
+  fullName: RateLimitHeaders.Events.ThrottlingEventArgs.RateLimitInfo
+  nameWithType: ThrottlingEventArgs.RateLimitInfo
+- uid: RateLimitHeaders.Events.ThrottlingEventArgs.RateLimitInfo*
+  name: RateLimitInfo
+  href: api/RateLimitHeaders.Events.ThrottlingEventArgs.html#RateLimitHeaders_Events_ThrottlingEventArgs_RateLimitInfo_
+  commentId: Overload:RateLimitHeaders.Events.ThrottlingEventArgs.RateLimitInfo
+  isSpec: "True"
+  fullName: RateLimitHeaders.Events.ThrottlingEventArgs.RateLimitInfo
+  nameWithType: ThrottlingEventArgs.RateLimitInfo
+- uid: RateLimitHeaders.Events.ThrottlingEventArgs.Reason
+  name: Reason
+  href: api/RateLimitHeaders.Events.ThrottlingEventArgs.html#RateLimitHeaders_Events_ThrottlingEventArgs_Reason
+  commentId: P:RateLimitHeaders.Events.ThrottlingEventArgs.Reason
+  fullName: RateLimitHeaders.Events.ThrottlingEventArgs.Reason
+  nameWithType: ThrottlingEventArgs.Reason
+- uid: RateLimitHeaders.Events.ThrottlingEventArgs.Reason*
+  name: Reason
+  href: api/RateLimitHeaders.Events.ThrottlingEventArgs.html#RateLimitHeaders_Events_ThrottlingEventArgs_Reason_
+  commentId: Overload:RateLimitHeaders.Events.ThrottlingEventArgs.Reason
+  isSpec: "True"
+  fullName: RateLimitHeaders.Events.ThrottlingEventArgs.Reason
+  nameWithType: ThrottlingEventArgs.Reason
+- uid: RateLimitHeaders.Events.ThrottlingEventArgs.RequestUri
+  name: RequestUri
+  href: api/RateLimitHeaders.Events.ThrottlingEventArgs.html#RateLimitHeaders_Events_ThrottlingEventArgs_RequestUri
+  commentId: P:RateLimitHeaders.Events.ThrottlingEventArgs.RequestUri
+  fullName: RateLimitHeaders.Events.ThrottlingEventArgs.RequestUri
+  nameWithType: ThrottlingEventArgs.RequestUri
+- uid: RateLimitHeaders.Events.ThrottlingEventArgs.RequestUri*
+  name: RequestUri
+  href: api/RateLimitHeaders.Events.ThrottlingEventArgs.html#RateLimitHeaders_Events_ThrottlingEventArgs_RequestUri_
+  commentId: Overload:RateLimitHeaders.Events.ThrottlingEventArgs.RequestUri
+  isSpec: "True"
+  fullName: RateLimitHeaders.Events.ThrottlingEventArgs.RequestUri
+  nameWithType: ThrottlingEventArgs.RequestUri
+- uid: RateLimitHeaders.Http
+  name: RateLimitHeaders.Http
+  href: api/RateLimitHeaders.Http.html
+  commentId: N:RateLimitHeaders.Http
+  fullName: RateLimitHeaders.Http
+  nameWithType: RateLimitHeaders.Http
+- uid: RateLimitHeaders.Http.HttpResponseMessageExtensions
+  name: HttpResponseMessageExtensions
+  href: api/RateLimitHeaders.Http.HttpResponseMessageExtensions.html
+  commentId: T:RateLimitHeaders.Http.HttpResponseMessageExtensions
+  fullName: RateLimitHeaders.Http.HttpResponseMessageExtensions
+  nameWithType: HttpResponseMessageExtensions
+- uid: RateLimitHeaders.Http.HttpResponseMessageExtensions.GetRateLimitInfo(System.Net.Http.HttpResponseMessage)
+  name: GetRateLimitInfo(HttpResponseMessage)
+  href: api/RateLimitHeaders.Http.HttpResponseMessageExtensions.html#RateLimitHeaders_Http_HttpResponseMessageExtensions_GetRateLimitInfo_System_Net_Http_HttpResponseMessage_
+  commentId: M:RateLimitHeaders.Http.HttpResponseMessageExtensions.GetRateLimitInfo(System.Net.Http.HttpResponseMessage)
+  fullName: RateLimitHeaders.Http.HttpResponseMessageExtensions.GetRateLimitInfo(System.Net.Http.HttpResponseMessage)
+  nameWithType: HttpResponseMessageExtensions.GetRateLimitInfo(HttpResponseMessage)
+- uid: RateLimitHeaders.Http.HttpResponseMessageExtensions.GetRateLimitInfo*
+  name: GetRateLimitInfo
+  href: api/RateLimitHeaders.Http.HttpResponseMessageExtensions.html#RateLimitHeaders_Http_HttpResponseMessageExtensions_GetRateLimitInfo_
+  commentId: Overload:RateLimitHeaders.Http.HttpResponseMessageExtensions.GetRateLimitInfo
+  isSpec: "True"
+  fullName: RateLimitHeaders.Http.HttpResponseMessageExtensions.GetRateLimitInfo
+  nameWithType: HttpResponseMessageExtensions.GetRateLimitInfo
+- uid: RateLimitHeaders.Http.HttpResponseMessageExtensions.TryGetRateLimitInfo(System.Net.Http.HttpResponseMessage,RateLimitHeaders.Parsing.RateLimitInfo@)
+  name: TryGetRateLimitInfo(HttpResponseMessage, out RateLimitInfo)
+  href: api/RateLimitHeaders.Http.HttpResponseMessageExtensions.html#RateLimitHeaders_Http_HttpResponseMessageExtensions_TryGetRateLimitInfo_System_Net_Http_HttpResponseMessage_RateLimitHeaders_Parsing_RateLimitInfo__
+  commentId: M:RateLimitHeaders.Http.HttpResponseMessageExtensions.TryGetRateLimitInfo(System.Net.Http.HttpResponseMessage,RateLimitHeaders.Parsing.RateLimitInfo@)
+  name.vb: TryGetRateLimitInfo(HttpResponseMessage, RateLimitInfo)
+  fullName: RateLimitHeaders.Http.HttpResponseMessageExtensions.TryGetRateLimitInfo(System.Net.Http.HttpResponseMessage, out RateLimitHeaders.Parsing.RateLimitInfo)
+  fullName.vb: RateLimitHeaders.Http.HttpResponseMessageExtensions.TryGetRateLimitInfo(System.Net.Http.HttpResponseMessage, RateLimitHeaders.Parsing.RateLimitInfo)
+  nameWithType: HttpResponseMessageExtensions.TryGetRateLimitInfo(HttpResponseMessage, out RateLimitInfo)
+  nameWithType.vb: HttpResponseMessageExtensions.TryGetRateLimitInfo(HttpResponseMessage, RateLimitInfo)
+- uid: RateLimitHeaders.Http.HttpResponseMessageExtensions.TryGetRateLimitInfo*
+  name: TryGetRateLimitInfo
+  href: api/RateLimitHeaders.Http.HttpResponseMessageExtensions.html#RateLimitHeaders_Http_HttpResponseMessageExtensions_TryGetRateLimitInfo_
+  commentId: Overload:RateLimitHeaders.Http.HttpResponseMessageExtensions.TryGetRateLimitInfo
+  isSpec: "True"
+  fullName: RateLimitHeaders.Http.HttpResponseMessageExtensions.TryGetRateLimitInfo
+  nameWithType: HttpResponseMessageExtensions.TryGetRateLimitInfo
+- uid: RateLimitHeaders.Http.HttpResponseMessageExtensions.TryGetStoredRateLimitInfo(System.Net.Http.HttpResponseMessage,RateLimitHeaders.Parsing.RateLimitInfo@)
+  name: TryGetStoredRateLimitInfo(HttpResponseMessage, out RateLimitInfo)
+  href: api/RateLimitHeaders.Http.HttpResponseMessageExtensions.html#RateLimitHeaders_Http_HttpResponseMessageExtensions_TryGetStoredRateLimitInfo_System_Net_Http_HttpResponseMessage_RateLimitHeaders_Parsing_RateLimitInfo__
+  commentId: M:RateLimitHeaders.Http.HttpResponseMessageExtensions.TryGetStoredRateLimitInfo(System.Net.Http.HttpResponseMessage,RateLimitHeaders.Parsing.RateLimitInfo@)
+  name.vb: TryGetStoredRateLimitInfo(HttpResponseMessage, RateLimitInfo)
+  fullName: RateLimitHeaders.Http.HttpResponseMessageExtensions.TryGetStoredRateLimitInfo(System.Net.Http.HttpResponseMessage, out RateLimitHeaders.Parsing.RateLimitInfo)
+  fullName.vb: RateLimitHeaders.Http.HttpResponseMessageExtensions.TryGetStoredRateLimitInfo(System.Net.Http.HttpResponseMessage, RateLimitHeaders.Parsing.RateLimitInfo)
+  nameWithType: HttpResponseMessageExtensions.TryGetStoredRateLimitInfo(HttpResponseMessage, out RateLimitInfo)
+  nameWithType.vb: HttpResponseMessageExtensions.TryGetStoredRateLimitInfo(HttpResponseMessage, RateLimitInfo)
+- uid: RateLimitHeaders.Http.HttpResponseMessageExtensions.TryGetStoredRateLimitInfo*
+  name: TryGetStoredRateLimitInfo
+  href: api/RateLimitHeaders.Http.HttpResponseMessageExtensions.html#RateLimitHeaders_Http_HttpResponseMessageExtensions_TryGetStoredRateLimitInfo_
+  commentId: Overload:RateLimitHeaders.Http.HttpResponseMessageExtensions.TryGetStoredRateLimitInfo
+  isSpec: "True"
+  fullName: RateLimitHeaders.Http.HttpResponseMessageExtensions.TryGetStoredRateLimitInfo
+  nameWithType: HttpResponseMessageExtensions.TryGetStoredRateLimitInfo
+- uid: RateLimitHeaders.Http.RateLimitAwareHandler
+  name: RateLimitAwareHandler
+  href: api/RateLimitHeaders.Http.RateLimitAwareHandler.html
+  commentId: T:RateLimitHeaders.Http.RateLimitAwareHandler
+  fullName: RateLimitHeaders.Http.RateLimitAwareHandler
+  nameWithType: RateLimitAwareHandler
+- uid: RateLimitHeaders.Http.RateLimitAwareHandler.#ctor
+  name: RateLimitAwareHandler()
+  href: api/RateLimitHeaders.Http.RateLimitAwareHandler.html#RateLimitHeaders_Http_RateLimitAwareHandler__ctor
+  commentId: M:RateLimitHeaders.Http.RateLimitAwareHandler.#ctor
+  name.vb: New()
+  fullName: RateLimitHeaders.Http.RateLimitAwareHandler.RateLimitAwareHandler()
+  fullName.vb: RateLimitHeaders.Http.RateLimitAwareHandler.New()
+  nameWithType: RateLimitAwareHandler.RateLimitAwareHandler()
+  nameWithType.vb: RateLimitAwareHandler.New()
+- uid: RateLimitHeaders.Http.RateLimitAwareHandler.#ctor(RateLimitHeaders.Http.RateLimitAwareOptions)
+  name: RateLimitAwareHandler(RateLimitAwareOptions)
+  href: api/RateLimitHeaders.Http.RateLimitAwareHandler.html#RateLimitHeaders_Http_RateLimitAwareHandler__ctor_RateLimitHeaders_Http_RateLimitAwareOptions_
+  commentId: M:RateLimitHeaders.Http.RateLimitAwareHandler.#ctor(RateLimitHeaders.Http.RateLimitAwareOptions)
+  name.vb: New(RateLimitAwareOptions)
+  fullName: RateLimitHeaders.Http.RateLimitAwareHandler.RateLimitAwareHandler(RateLimitHeaders.Http.RateLimitAwareOptions)
+  fullName.vb: RateLimitHeaders.Http.RateLimitAwareHandler.New(RateLimitHeaders.Http.RateLimitAwareOptions)
+  nameWithType: RateLimitAwareHandler.RateLimitAwareHandler(RateLimitAwareOptions)
+  nameWithType.vb: RateLimitAwareHandler.New(RateLimitAwareOptions)
+- uid: RateLimitHeaders.Http.RateLimitAwareHandler.#ctor(RateLimitHeaders.Http.RateLimitAwareOptions,Microsoft.Extensions.Logging.ILogger)
+  name: RateLimitAwareHandler(RateLimitAwareOptions, ILogger)
+  href: api/RateLimitHeaders.Http.RateLimitAwareHandler.html#RateLimitHeaders_Http_RateLimitAwareHandler__ctor_RateLimitHeaders_Http_RateLimitAwareOptions_Microsoft_Extensions_Logging_ILogger_
+  commentId: M:RateLimitHeaders.Http.RateLimitAwareHandler.#ctor(RateLimitHeaders.Http.RateLimitAwareOptions,Microsoft.Extensions.Logging.ILogger)
+  name.vb: New(RateLimitAwareOptions, ILogger)
+  fullName: RateLimitHeaders.Http.RateLimitAwareHandler.RateLimitAwareHandler(RateLimitHeaders.Http.RateLimitAwareOptions, Microsoft.Extensions.Logging.ILogger)
+  fullName.vb: RateLimitHeaders.Http.RateLimitAwareHandler.New(RateLimitHeaders.Http.RateLimitAwareOptions, Microsoft.Extensions.Logging.ILogger)
+  nameWithType: RateLimitAwareHandler.RateLimitAwareHandler(RateLimitAwareOptions, ILogger)
+  nameWithType.vb: RateLimitAwareHandler.New(RateLimitAwareOptions, ILogger)
+- uid: RateLimitHeaders.Http.RateLimitAwareHandler.#ctor*
+  name: RateLimitAwareHandler
+  href: api/RateLimitHeaders.Http.RateLimitAwareHandler.html#RateLimitHeaders_Http_RateLimitAwareHandler__ctor_
+  commentId: Overload:RateLimitHeaders.Http.RateLimitAwareHandler.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: RateLimitHeaders.Http.RateLimitAwareHandler.RateLimitAwareHandler
+  fullName.vb: RateLimitHeaders.Http.RateLimitAwareHandler.New
+  nameWithType: RateLimitAwareHandler.RateLimitAwareHandler
+  nameWithType.vb: RateLimitAwareHandler.New
+- uid: RateLimitHeaders.Http.RateLimitAwareHandler.SendAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)
+  name: SendAsync(HttpRequestMessage, CancellationToken)
+  href: api/RateLimitHeaders.Http.RateLimitAwareHandler.html#RateLimitHeaders_Http_RateLimitAwareHandler_SendAsync_System_Net_Http_HttpRequestMessage_System_Threading_CancellationToken_
+  commentId: M:RateLimitHeaders.Http.RateLimitAwareHandler.SendAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)
+  fullName: RateLimitHeaders.Http.RateLimitAwareHandler.SendAsync(System.Net.Http.HttpRequestMessage, System.Threading.CancellationToken)
+  nameWithType: RateLimitAwareHandler.SendAsync(HttpRequestMessage, CancellationToken)
+- uid: RateLimitHeaders.Http.RateLimitAwareHandler.SendAsync*
+  name: SendAsync
+  href: api/RateLimitHeaders.Http.RateLimitAwareHandler.html#RateLimitHeaders_Http_RateLimitAwareHandler_SendAsync_
+  commentId: Overload:RateLimitHeaders.Http.RateLimitAwareHandler.SendAsync
+  isSpec: "True"
+  fullName: RateLimitHeaders.Http.RateLimitAwareHandler.SendAsync
+  nameWithType: RateLimitAwareHandler.SendAsync
+- uid: RateLimitHeaders.Http.RateLimitAwareOptions
+  name: RateLimitAwareOptions
+  href: api/RateLimitHeaders.Http.RateLimitAwareOptions.html
+  commentId: T:RateLimitHeaders.Http.RateLimitAwareOptions
+  fullName: RateLimitHeaders.Http.RateLimitAwareOptions
+  nameWithType: RateLimitAwareOptions
+- uid: RateLimitHeaders.Http.RateLimitAwareOptions.EnableProactiveThrottling
+  name: EnableProactiveThrottling
+  href: api/RateLimitHeaders.Http.RateLimitAwareOptions.html#RateLimitHeaders_Http_RateLimitAwareOptions_EnableProactiveThrottling
+  commentId: P:RateLimitHeaders.Http.RateLimitAwareOptions.EnableProactiveThrottling
+  fullName: RateLimitHeaders.Http.RateLimitAwareOptions.EnableProactiveThrottling
+  nameWithType: RateLimitAwareOptions.EnableProactiveThrottling
+- uid: RateLimitHeaders.Http.RateLimitAwareOptions.EnableProactiveThrottling*
+  name: EnableProactiveThrottling
+  href: api/RateLimitHeaders.Http.RateLimitAwareOptions.html#RateLimitHeaders_Http_RateLimitAwareOptions_EnableProactiveThrottling_
+  commentId: Overload:RateLimitHeaders.Http.RateLimitAwareOptions.EnableProactiveThrottling
+  isSpec: "True"
+  fullName: RateLimitHeaders.Http.RateLimitAwareOptions.EnableProactiveThrottling
+  nameWithType: RateLimitAwareOptions.EnableProactiveThrottling
+- uid: RateLimitHeaders.Http.RateLimitAwareOptions.OnQuotaLow
+  name: OnQuotaLow
+  href: api/RateLimitHeaders.Http.RateLimitAwareOptions.html#RateLimitHeaders_Http_RateLimitAwareOptions_OnQuotaLow
+  commentId: P:RateLimitHeaders.Http.RateLimitAwareOptions.OnQuotaLow
+  fullName: RateLimitHeaders.Http.RateLimitAwareOptions.OnQuotaLow
+  nameWithType: RateLimitAwareOptions.OnQuotaLow
+- uid: RateLimitHeaders.Http.RateLimitAwareOptions.OnQuotaLow*
+  name: OnQuotaLow
+  href: api/RateLimitHeaders.Http.RateLimitAwareOptions.html#RateLimitHeaders_Http_RateLimitAwareOptions_OnQuotaLow_
+  commentId: Overload:RateLimitHeaders.Http.RateLimitAwareOptions.OnQuotaLow
+  isSpec: "True"
+  fullName: RateLimitHeaders.Http.RateLimitAwareOptions.OnQuotaLow
+  nameWithType: RateLimitAwareOptions.OnQuotaLow
+- uid: RateLimitHeaders.Http.RateLimitAwareOptions.OnRateLimitInfo
+  name: OnRateLimitInfo
+  href: api/RateLimitHeaders.Http.RateLimitAwareOptions.html#RateLimitHeaders_Http_RateLimitAwareOptions_OnRateLimitInfo
+  commentId: P:RateLimitHeaders.Http.RateLimitAwareOptions.OnRateLimitInfo
+  fullName: RateLimitHeaders.Http.RateLimitAwareOptions.OnRateLimitInfo
+  nameWithType: RateLimitAwareOptions.OnRateLimitInfo
+- uid: RateLimitHeaders.Http.RateLimitAwareOptions.OnRateLimitInfo*
+  name: OnRateLimitInfo
+  href: api/RateLimitHeaders.Http.RateLimitAwareOptions.html#RateLimitHeaders_Http_RateLimitAwareOptions_OnRateLimitInfo_
+  commentId: Overload:RateLimitHeaders.Http.RateLimitAwareOptions.OnRateLimitInfo
+  isSpec: "True"
+  fullName: RateLimitHeaders.Http.RateLimitAwareOptions.OnRateLimitInfo
+  nameWithType: RateLimitAwareOptions.OnRateLimitInfo
+- uid: RateLimitHeaders.Http.RateLimitAwareOptions.OnThrottling
+  name: OnThrottling
+  href: api/RateLimitHeaders.Http.RateLimitAwareOptions.html#RateLimitHeaders_Http_RateLimitAwareOptions_OnThrottling
+  commentId: P:RateLimitHeaders.Http.RateLimitAwareOptions.OnThrottling
+  fullName: RateLimitHeaders.Http.RateLimitAwareOptions.OnThrottling
+  nameWithType: RateLimitAwareOptions.OnThrottling
+- uid: RateLimitHeaders.Http.RateLimitAwareOptions.OnThrottling*
+  name: OnThrottling
+  href: api/RateLimitHeaders.Http.RateLimitAwareOptions.html#RateLimitHeaders_Http_RateLimitAwareOptions_OnThrottling_
+  commentId: Overload:RateLimitHeaders.Http.RateLimitAwareOptions.OnThrottling
+  isSpec: "True"
+  fullName: RateLimitHeaders.Http.RateLimitAwareOptions.OnThrottling
+  nameWithType: RateLimitAwareOptions.OnThrottling
+- uid: RateLimitHeaders.Http.RateLimitAwareOptions.QuotaLowThreshold
+  name: QuotaLowThreshold
+  href: api/RateLimitHeaders.Http.RateLimitAwareOptions.html#RateLimitHeaders_Http_RateLimitAwareOptions_QuotaLowThreshold
+  commentId: P:RateLimitHeaders.Http.RateLimitAwareOptions.QuotaLowThreshold
+  fullName: RateLimitHeaders.Http.RateLimitAwareOptions.QuotaLowThreshold
+  nameWithType: RateLimitAwareOptions.QuotaLowThreshold
+- uid: RateLimitHeaders.Http.RateLimitAwareOptions.QuotaLowThreshold*
+  name: QuotaLowThreshold
+  href: api/RateLimitHeaders.Http.RateLimitAwareOptions.html#RateLimitHeaders_Http_RateLimitAwareOptions_QuotaLowThreshold_
+  commentId: Overload:RateLimitHeaders.Http.RateLimitAwareOptions.QuotaLowThreshold
+  isSpec: "True"
+  fullName: RateLimitHeaders.Http.RateLimitAwareOptions.QuotaLowThreshold
+  nameWithType: RateLimitAwareOptions.QuotaLowThreshold
+- uid: RateLimitHeaders.Http.RateLimitAwareOptions.StateKeyExtractor
+  name: StateKeyExtractor
+  href: api/RateLimitHeaders.Http.RateLimitAwareOptions.html#RateLimitHeaders_Http_RateLimitAwareOptions_StateKeyExtractor
+  commentId: P:RateLimitHeaders.Http.RateLimitAwareOptions.StateKeyExtractor
+  fullName: RateLimitHeaders.Http.RateLimitAwareOptions.StateKeyExtractor
+  nameWithType: RateLimitAwareOptions.StateKeyExtractor
+- uid: RateLimitHeaders.Http.RateLimitAwareOptions.StateKeyExtractor*
+  name: StateKeyExtractor
+  href: api/RateLimitHeaders.Http.RateLimitAwareOptions.html#RateLimitHeaders_Http_RateLimitAwareOptions_StateKeyExtractor_
+  commentId: Overload:RateLimitHeaders.Http.RateLimitAwareOptions.StateKeyExtractor
+  isSpec: "True"
+  fullName: RateLimitHeaders.Http.RateLimitAwareOptions.StateKeyExtractor
+  nameWithType: RateLimitAwareOptions.StateKeyExtractor
+- uid: RateLimitHeaders.Http.RateLimitAwareOptions.ThrottlingAlgorithm
+  name: ThrottlingAlgorithm
+  href: api/RateLimitHeaders.Http.RateLimitAwareOptions.html#RateLimitHeaders_Http_RateLimitAwareOptions_ThrottlingAlgorithm
+  commentId: P:RateLimitHeaders.Http.RateLimitAwareOptions.ThrottlingAlgorithm
+  fullName: RateLimitHeaders.Http.RateLimitAwareOptions.ThrottlingAlgorithm
+  nameWithType: RateLimitAwareOptions.ThrottlingAlgorithm
+- uid: RateLimitHeaders.Http.RateLimitAwareOptions.ThrottlingAlgorithm*
+  name: ThrottlingAlgorithm
+  href: api/RateLimitHeaders.Http.RateLimitAwareOptions.html#RateLimitHeaders_Http_RateLimitAwareOptions_ThrottlingAlgorithm_
+  commentId: Overload:RateLimitHeaders.Http.RateLimitAwareOptions.ThrottlingAlgorithm
+  isSpec: "True"
+  fullName: RateLimitHeaders.Http.RateLimitAwareOptions.ThrottlingAlgorithm
+  nameWithType: RateLimitAwareOptions.ThrottlingAlgorithm
+- uid: RateLimitHeaders.Http.RateLimitAwareOptions.TrackStatePerEndpoint
+  name: TrackStatePerEndpoint
+  href: api/RateLimitHeaders.Http.RateLimitAwareOptions.html#RateLimitHeaders_Http_RateLimitAwareOptions_TrackStatePerEndpoint
+  commentId: P:RateLimitHeaders.Http.RateLimitAwareOptions.TrackStatePerEndpoint
+  fullName: RateLimitHeaders.Http.RateLimitAwareOptions.TrackStatePerEndpoint
+  nameWithType: RateLimitAwareOptions.TrackStatePerEndpoint
+- uid: RateLimitHeaders.Http.RateLimitAwareOptions.TrackStatePerEndpoint*
+  name: TrackStatePerEndpoint
+  href: api/RateLimitHeaders.Http.RateLimitAwareOptions.html#RateLimitHeaders_Http_RateLimitAwareOptions_TrackStatePerEndpoint_
+  commentId: Overload:RateLimitHeaders.Http.RateLimitAwareOptions.TrackStatePerEndpoint
+  isSpec: "True"
+  fullName: RateLimitHeaders.Http.RateLimitAwareOptions.TrackStatePerEndpoint
+  nameWithType: RateLimitAwareOptions.TrackStatePerEndpoint
+- uid: RateLimitHeaders.Parsing
+  name: RateLimitHeaders.Parsing
+  href: api/RateLimitHeaders.Parsing.html
+  commentId: N:RateLimitHeaders.Parsing
+  fullName: RateLimitHeaders.Parsing
+  nameWithType: RateLimitHeaders.Parsing
+- uid: RateLimitHeaders.Parsing.RateLimitHeaderParser
+  name: RateLimitHeaderParser
+  href: api/RateLimitHeaders.Parsing.RateLimitHeaderParser.html
+  commentId: T:RateLimitHeaders.Parsing.RateLimitHeaderParser
+  fullName: RateLimitHeaders.Parsing.RateLimitHeaderParser
+  nameWithType: RateLimitHeaderParser
+- uid: RateLimitHeaders.Parsing.RateLimitHeaderParser.Parse(System.Net.Http.Headers.HttpResponseHeaders)
+  name: Parse(HttpResponseHeaders)
+  href: api/RateLimitHeaders.Parsing.RateLimitHeaderParser.html#RateLimitHeaders_Parsing_RateLimitHeaderParser_Parse_System_Net_Http_Headers_HttpResponseHeaders_
+  commentId: M:RateLimitHeaders.Parsing.RateLimitHeaderParser.Parse(System.Net.Http.Headers.HttpResponseHeaders)
+  fullName: RateLimitHeaders.Parsing.RateLimitHeaderParser.Parse(System.Net.Http.Headers.HttpResponseHeaders)
+  nameWithType: RateLimitHeaderParser.Parse(HttpResponseHeaders)
+- uid: RateLimitHeaders.Parsing.RateLimitHeaderParser.Parse(System.Net.Http.HttpResponseMessage)
+  name: Parse(HttpResponseMessage)
+  href: api/RateLimitHeaders.Parsing.RateLimitHeaderParser.html#RateLimitHeaders_Parsing_RateLimitHeaderParser_Parse_System_Net_Http_HttpResponseMessage_
+  commentId: M:RateLimitHeaders.Parsing.RateLimitHeaderParser.Parse(System.Net.Http.HttpResponseMessage)
+  fullName: RateLimitHeaders.Parsing.RateLimitHeaderParser.Parse(System.Net.Http.HttpResponseMessage)
+  nameWithType: RateLimitHeaderParser.Parse(HttpResponseMessage)
+- uid: RateLimitHeaders.Parsing.RateLimitHeaderParser.Parse(System.String,System.String)
+  name: Parse(string?, string?)
+  href: api/RateLimitHeaders.Parsing.RateLimitHeaderParser.html#RateLimitHeaders_Parsing_RateLimitHeaderParser_Parse_System_String_System_String_
+  commentId: M:RateLimitHeaders.Parsing.RateLimitHeaderParser.Parse(System.String,System.String)
+  name.vb: Parse(String, String)
+  fullName: RateLimitHeaders.Parsing.RateLimitHeaderParser.Parse(string?, string?)
+  fullName.vb: RateLimitHeaders.Parsing.RateLimitHeaderParser.Parse(String, String)
+  nameWithType: RateLimitHeaderParser.Parse(string?, string?)
+  nameWithType.vb: RateLimitHeaderParser.Parse(String, String)
+- uid: RateLimitHeaders.Parsing.RateLimitHeaderParser.Parse*
+  name: Parse
+  href: api/RateLimitHeaders.Parsing.RateLimitHeaderParser.html#RateLimitHeaders_Parsing_RateLimitHeaderParser_Parse_
+  commentId: Overload:RateLimitHeaders.Parsing.RateLimitHeaderParser.Parse
+  isSpec: "True"
+  fullName: RateLimitHeaders.Parsing.RateLimitHeaderParser.Parse
+  nameWithType: RateLimitHeaderParser.Parse
+- uid: RateLimitHeaders.Parsing.RateLimitHeaderParser.RateLimitHeaderName
+  name: RateLimitHeaderName
+  href: api/RateLimitHeaders.Parsing.RateLimitHeaderParser.html#RateLimitHeaders_Parsing_RateLimitHeaderParser_RateLimitHeaderName
+  commentId: F:RateLimitHeaders.Parsing.RateLimitHeaderParser.RateLimitHeaderName
+  fullName: RateLimitHeaders.Parsing.RateLimitHeaderParser.RateLimitHeaderName
+  nameWithType: RateLimitHeaderParser.RateLimitHeaderName
+- uid: RateLimitHeaders.Parsing.RateLimitHeaderParser.RateLimitPolicyHeaderName
+  name: RateLimitPolicyHeaderName
+  href: api/RateLimitHeaders.Parsing.RateLimitHeaderParser.html#RateLimitHeaders_Parsing_RateLimitHeaderParser_RateLimitPolicyHeaderName
+  commentId: F:RateLimitHeaders.Parsing.RateLimitHeaderParser.RateLimitPolicyHeaderName
+  fullName: RateLimitHeaders.Parsing.RateLimitHeaderParser.RateLimitPolicyHeaderName
+  nameWithType: RateLimitHeaderParser.RateLimitPolicyHeaderName
+- uid: RateLimitHeaders.Parsing.RateLimitHeaderParser.TryParse(System.Net.Http.Headers.HttpResponseHeaders,RateLimitHeaders.Parsing.RateLimitInfo@)
+  name: TryParse(HttpResponseHeaders, out RateLimitInfo)
+  href: api/RateLimitHeaders.Parsing.RateLimitHeaderParser.html#RateLimitHeaders_Parsing_RateLimitHeaderParser_TryParse_System_Net_Http_Headers_HttpResponseHeaders_RateLimitHeaders_Parsing_RateLimitInfo__
+  commentId: M:RateLimitHeaders.Parsing.RateLimitHeaderParser.TryParse(System.Net.Http.Headers.HttpResponseHeaders,RateLimitHeaders.Parsing.RateLimitInfo@)
+  name.vb: TryParse(HttpResponseHeaders, RateLimitInfo)
+  fullName: RateLimitHeaders.Parsing.RateLimitHeaderParser.TryParse(System.Net.Http.Headers.HttpResponseHeaders, out RateLimitHeaders.Parsing.RateLimitInfo)
+  fullName.vb: RateLimitHeaders.Parsing.RateLimitHeaderParser.TryParse(System.Net.Http.Headers.HttpResponseHeaders, RateLimitHeaders.Parsing.RateLimitInfo)
+  nameWithType: RateLimitHeaderParser.TryParse(HttpResponseHeaders, out RateLimitInfo)
+  nameWithType.vb: RateLimitHeaderParser.TryParse(HttpResponseHeaders, RateLimitInfo)
+- uid: RateLimitHeaders.Parsing.RateLimitHeaderParser.TryParse(System.Net.Http.HttpResponseMessage,RateLimitHeaders.Parsing.RateLimitInfo@)
+  name: TryParse(HttpResponseMessage, out RateLimitInfo)
+  href: api/RateLimitHeaders.Parsing.RateLimitHeaderParser.html#RateLimitHeaders_Parsing_RateLimitHeaderParser_TryParse_System_Net_Http_HttpResponseMessage_RateLimitHeaders_Parsing_RateLimitInfo__
+  commentId: M:RateLimitHeaders.Parsing.RateLimitHeaderParser.TryParse(System.Net.Http.HttpResponseMessage,RateLimitHeaders.Parsing.RateLimitInfo@)
+  name.vb: TryParse(HttpResponseMessage, RateLimitInfo)
+  fullName: RateLimitHeaders.Parsing.RateLimitHeaderParser.TryParse(System.Net.Http.HttpResponseMessage, out RateLimitHeaders.Parsing.RateLimitInfo)
+  fullName.vb: RateLimitHeaders.Parsing.RateLimitHeaderParser.TryParse(System.Net.Http.HttpResponseMessage, RateLimitHeaders.Parsing.RateLimitInfo)
+  nameWithType: RateLimitHeaderParser.TryParse(HttpResponseMessage, out RateLimitInfo)
+  nameWithType.vb: RateLimitHeaderParser.TryParse(HttpResponseMessage, RateLimitInfo)
+- uid: RateLimitHeaders.Parsing.RateLimitHeaderParser.TryParse*
+  name: TryParse
+  href: api/RateLimitHeaders.Parsing.RateLimitHeaderParser.html#RateLimitHeaders_Parsing_RateLimitHeaderParser_TryParse_
+  commentId: Overload:RateLimitHeaders.Parsing.RateLimitHeaderParser.TryParse
+  isSpec: "True"
+  fullName: RateLimitHeaders.Parsing.RateLimitHeaderParser.TryParse
+  nameWithType: RateLimitHeaderParser.TryParse
+- uid: RateLimitHeaders.Parsing.RateLimitInfo
+  name: RateLimitInfo
+  href: api/RateLimitHeaders.Parsing.RateLimitInfo.html
+  commentId: T:RateLimitHeaders.Parsing.RateLimitInfo
+  fullName: RateLimitHeaders.Parsing.RateLimitInfo
+  nameWithType: RateLimitInfo
+- uid: RateLimitHeaders.Parsing.RateLimitInfo.CreateFromRetryAfter(System.Int32)
+  name: CreateFromRetryAfter(int)
+  href: api/RateLimitHeaders.Parsing.RateLimitInfo.html#RateLimitHeaders_Parsing_RateLimitInfo_CreateFromRetryAfter_System_Int32_
+  commentId: M:RateLimitHeaders.Parsing.RateLimitInfo.CreateFromRetryAfter(System.Int32)
+  name.vb: CreateFromRetryAfter(Integer)
+  fullName: RateLimitHeaders.Parsing.RateLimitInfo.CreateFromRetryAfter(int)
+  fullName.vb: RateLimitHeaders.Parsing.RateLimitInfo.CreateFromRetryAfter(Integer)
+  nameWithType: RateLimitInfo.CreateFromRetryAfter(int)
+  nameWithType.vb: RateLimitInfo.CreateFromRetryAfter(Integer)
+- uid: RateLimitHeaders.Parsing.RateLimitInfo.CreateFromRetryAfter*
+  name: CreateFromRetryAfter
+  href: api/RateLimitHeaders.Parsing.RateLimitInfo.html#RateLimitHeaders_Parsing_RateLimitInfo_CreateFromRetryAfter_
+  commentId: Overload:RateLimitHeaders.Parsing.RateLimitInfo.CreateFromRetryAfter
+  isSpec: "True"
+  fullName: RateLimitHeaders.Parsing.RateLimitInfo.CreateFromRetryAfter
+  nameWithType: RateLimitInfo.CreateFromRetryAfter
+- uid: RateLimitHeaders.Parsing.RateLimitInfo.GetRemainingPercentage
+  name: GetRemainingPercentage()
+  href: api/RateLimitHeaders.Parsing.RateLimitInfo.html#RateLimitHeaders_Parsing_RateLimitInfo_GetRemainingPercentage
+  commentId: M:RateLimitHeaders.Parsing.RateLimitInfo.GetRemainingPercentage
+  fullName: RateLimitHeaders.Parsing.RateLimitInfo.GetRemainingPercentage()
+  nameWithType: RateLimitInfo.GetRemainingPercentage()
+- uid: RateLimitHeaders.Parsing.RateLimitInfo.GetRemainingPercentage*
+  name: GetRemainingPercentage
+  href: api/RateLimitHeaders.Parsing.RateLimitInfo.html#RateLimitHeaders_Parsing_RateLimitInfo_GetRemainingPercentage_
+  commentId: Overload:RateLimitHeaders.Parsing.RateLimitInfo.GetRemainingPercentage
+  isSpec: "True"
+  fullName: RateLimitHeaders.Parsing.RateLimitInfo.GetRemainingPercentage
+  nameWithType: RateLimitInfo.GetRemainingPercentage
+- uid: RateLimitHeaders.Parsing.RateLimitInfo.IsQuotaLow(System.Double)
+  name: IsQuotaLow(double)
+  href: api/RateLimitHeaders.Parsing.RateLimitInfo.html#RateLimitHeaders_Parsing_RateLimitInfo_IsQuotaLow_System_Double_
+  commentId: M:RateLimitHeaders.Parsing.RateLimitInfo.IsQuotaLow(System.Double)
+  name.vb: IsQuotaLow(Double)
+  fullName: RateLimitHeaders.Parsing.RateLimitInfo.IsQuotaLow(double)
+  fullName.vb: RateLimitHeaders.Parsing.RateLimitInfo.IsQuotaLow(Double)
+  nameWithType: RateLimitInfo.IsQuotaLow(double)
+  nameWithType.vb: RateLimitInfo.IsQuotaLow(Double)
+- uid: RateLimitHeaders.Parsing.RateLimitInfo.IsQuotaLow*
+  name: IsQuotaLow
+  href: api/RateLimitHeaders.Parsing.RateLimitInfo.html#RateLimitHeaders_Parsing_RateLimitInfo_IsQuotaLow_
+  commentId: Overload:RateLimitHeaders.Parsing.RateLimitInfo.IsQuotaLow
+  isSpec: "True"
+  fullName: RateLimitHeaders.Parsing.RateLimitInfo.IsQuotaLow
+  nameWithType: RateLimitInfo.IsQuotaLow
+- uid: RateLimitHeaders.Parsing.RateLimitInfo.IsValid
+  name: IsValid
+  href: api/RateLimitHeaders.Parsing.RateLimitInfo.html#RateLimitHeaders_Parsing_RateLimitInfo_IsValid
+  commentId: P:RateLimitHeaders.Parsing.RateLimitInfo.IsValid
+  fullName: RateLimitHeaders.Parsing.RateLimitInfo.IsValid
+  nameWithType: RateLimitInfo.IsValid
+- uid: RateLimitHeaders.Parsing.RateLimitInfo.IsValid*
+  name: IsValid
+  href: api/RateLimitHeaders.Parsing.RateLimitInfo.html#RateLimitHeaders_Parsing_RateLimitInfo_IsValid_
+  commentId: Overload:RateLimitHeaders.Parsing.RateLimitInfo.IsValid
+  isSpec: "True"
+  fullName: RateLimitHeaders.Parsing.RateLimitInfo.IsValid
+  nameWithType: RateLimitInfo.IsValid
+- uid: RateLimitHeaders.Parsing.RateLimitInfo.PartitionKey
+  name: PartitionKey
+  href: api/RateLimitHeaders.Parsing.RateLimitInfo.html#RateLimitHeaders_Parsing_RateLimitInfo_PartitionKey
+  commentId: P:RateLimitHeaders.Parsing.RateLimitInfo.PartitionKey
+  fullName: RateLimitHeaders.Parsing.RateLimitInfo.PartitionKey
+  nameWithType: RateLimitInfo.PartitionKey
+- uid: RateLimitHeaders.Parsing.RateLimitInfo.PartitionKey*
+  name: PartitionKey
+  href: api/RateLimitHeaders.Parsing.RateLimitInfo.html#RateLimitHeaders_Parsing_RateLimitInfo_PartitionKey_
+  commentId: Overload:RateLimitHeaders.Parsing.RateLimitInfo.PartitionKey
+  isSpec: "True"
+  fullName: RateLimitHeaders.Parsing.RateLimitInfo.PartitionKey
+  nameWithType: RateLimitInfo.PartitionKey
+- uid: RateLimitHeaders.Parsing.RateLimitInfo.PolicyName
+  name: PolicyName
+  href: api/RateLimitHeaders.Parsing.RateLimitInfo.html#RateLimitHeaders_Parsing_RateLimitInfo_PolicyName
+  commentId: P:RateLimitHeaders.Parsing.RateLimitInfo.PolicyName
+  fullName: RateLimitHeaders.Parsing.RateLimitInfo.PolicyName
+  nameWithType: RateLimitInfo.PolicyName
+- uid: RateLimitHeaders.Parsing.RateLimitInfo.PolicyName*
+  name: PolicyName
+  href: api/RateLimitHeaders.Parsing.RateLimitInfo.html#RateLimitHeaders_Parsing_RateLimitInfo_PolicyName_
+  commentId: Overload:RateLimitHeaders.Parsing.RateLimitInfo.PolicyName
+  isSpec: "True"
+  fullName: RateLimitHeaders.Parsing.RateLimitInfo.PolicyName
+  nameWithType: RateLimitInfo.PolicyName
+- uid: RateLimitHeaders.Parsing.RateLimitInfo.Quota
+  name: Quota
+  href: api/RateLimitHeaders.Parsing.RateLimitInfo.html#RateLimitHeaders_Parsing_RateLimitInfo_Quota
+  commentId: P:RateLimitHeaders.Parsing.RateLimitInfo.Quota
+  fullName: RateLimitHeaders.Parsing.RateLimitInfo.Quota
+  nameWithType: RateLimitInfo.Quota
+- uid: RateLimitHeaders.Parsing.RateLimitInfo.Quota*
+  name: Quota
+  href: api/RateLimitHeaders.Parsing.RateLimitInfo.html#RateLimitHeaders_Parsing_RateLimitInfo_Quota_
+  commentId: Overload:RateLimitHeaders.Parsing.RateLimitInfo.Quota
+  isSpec: "True"
+  fullName: RateLimitHeaders.Parsing.RateLimitInfo.Quota
+  nameWithType: RateLimitInfo.Quota
+- uid: RateLimitHeaders.Parsing.RateLimitInfo.QuotaUnit
+  name: QuotaUnit
+  href: api/RateLimitHeaders.Parsing.RateLimitInfo.html#RateLimitHeaders_Parsing_RateLimitInfo_QuotaUnit
+  commentId: P:RateLimitHeaders.Parsing.RateLimitInfo.QuotaUnit
+  fullName: RateLimitHeaders.Parsing.RateLimitInfo.QuotaUnit
+  nameWithType: RateLimitInfo.QuotaUnit
+- uid: RateLimitHeaders.Parsing.RateLimitInfo.QuotaUnit*
+  name: QuotaUnit
+  href: api/RateLimitHeaders.Parsing.RateLimitInfo.html#RateLimitHeaders_Parsing_RateLimitInfo_QuotaUnit_
+  commentId: Overload:RateLimitHeaders.Parsing.RateLimitInfo.QuotaUnit
+  isSpec: "True"
+  fullName: RateLimitHeaders.Parsing.RateLimitInfo.QuotaUnit
+  nameWithType: RateLimitInfo.QuotaUnit
+- uid: RateLimitHeaders.Parsing.RateLimitInfo.Remaining
+  name: Remaining
+  href: api/RateLimitHeaders.Parsing.RateLimitInfo.html#RateLimitHeaders_Parsing_RateLimitInfo_Remaining
+  commentId: P:RateLimitHeaders.Parsing.RateLimitInfo.Remaining
+  fullName: RateLimitHeaders.Parsing.RateLimitInfo.Remaining
+  nameWithType: RateLimitInfo.Remaining
+- uid: RateLimitHeaders.Parsing.RateLimitInfo.Remaining*
+  name: Remaining
+  href: api/RateLimitHeaders.Parsing.RateLimitInfo.html#RateLimitHeaders_Parsing_RateLimitInfo_Remaining_
+  commentId: Overload:RateLimitHeaders.Parsing.RateLimitInfo.Remaining
+  isSpec: "True"
+  fullName: RateLimitHeaders.Parsing.RateLimitInfo.Remaining
+  nameWithType: RateLimitInfo.Remaining
+- uid: RateLimitHeaders.Parsing.RateLimitInfo.ResetSeconds
+  name: ResetSeconds
+  href: api/RateLimitHeaders.Parsing.RateLimitInfo.html#RateLimitHeaders_Parsing_RateLimitInfo_ResetSeconds
+  commentId: P:RateLimitHeaders.Parsing.RateLimitInfo.ResetSeconds
+  fullName: RateLimitHeaders.Parsing.RateLimitInfo.ResetSeconds
+  nameWithType: RateLimitInfo.ResetSeconds
+- uid: RateLimitHeaders.Parsing.RateLimitInfo.ResetSeconds*
+  name: ResetSeconds
+  href: api/RateLimitHeaders.Parsing.RateLimitInfo.html#RateLimitHeaders_Parsing_RateLimitInfo_ResetSeconds_
+  commentId: Overload:RateLimitHeaders.Parsing.RateLimitInfo.ResetSeconds
+  isSpec: "True"
+  fullName: RateLimitHeaders.Parsing.RateLimitInfo.ResetSeconds
+  nameWithType: RateLimitInfo.ResetSeconds
+- uid: RateLimitHeaders.Parsing.RateLimitInfo.ToString
+  name: ToString()
+  href: api/RateLimitHeaders.Parsing.RateLimitInfo.html#RateLimitHeaders_Parsing_RateLimitInfo_ToString
+  commentId: M:RateLimitHeaders.Parsing.RateLimitInfo.ToString
+  fullName: RateLimitHeaders.Parsing.RateLimitInfo.ToString()
+  nameWithType: RateLimitInfo.ToString()
+- uid: RateLimitHeaders.Parsing.RateLimitInfo.ToString*
+  name: ToString
+  href: api/RateLimitHeaders.Parsing.RateLimitInfo.html#RateLimitHeaders_Parsing_RateLimitInfo_ToString_
+  commentId: Overload:RateLimitHeaders.Parsing.RateLimitInfo.ToString
+  isSpec: "True"
+  fullName: RateLimitHeaders.Parsing.RateLimitInfo.ToString
+  nameWithType: RateLimitInfo.ToString
+- uid: RateLimitHeaders.Parsing.RateLimitInfo.WindowSeconds
+  name: WindowSeconds
+  href: api/RateLimitHeaders.Parsing.RateLimitInfo.html#RateLimitHeaders_Parsing_RateLimitInfo_WindowSeconds
+  commentId: P:RateLimitHeaders.Parsing.RateLimitInfo.WindowSeconds
+  fullName: RateLimitHeaders.Parsing.RateLimitInfo.WindowSeconds
+  nameWithType: RateLimitInfo.WindowSeconds
+- uid: RateLimitHeaders.Parsing.RateLimitInfo.WindowSeconds*
+  name: WindowSeconds
+  href: api/RateLimitHeaders.Parsing.RateLimitInfo.html#RateLimitHeaders_Parsing_RateLimitInfo_WindowSeconds_
+  commentId: Overload:RateLimitHeaders.Parsing.RateLimitInfo.WindowSeconds
+  isSpec: "True"
+  fullName: RateLimitHeaders.Parsing.RateLimitInfo.WindowSeconds
+  nameWithType: RateLimitInfo.WindowSeconds
+- uid: RateLimitHeaders.Parsing.RateLimitInfo.WithRetryAfterOverride(System.Int32)
+  name: WithRetryAfterOverride(int)
+  href: api/RateLimitHeaders.Parsing.RateLimitInfo.html#RateLimitHeaders_Parsing_RateLimitInfo_WithRetryAfterOverride_System_Int32_
+  commentId: M:RateLimitHeaders.Parsing.RateLimitInfo.WithRetryAfterOverride(System.Int32)
+  name.vb: WithRetryAfterOverride(Integer)
+  fullName: RateLimitHeaders.Parsing.RateLimitInfo.WithRetryAfterOverride(int)
+  fullName.vb: RateLimitHeaders.Parsing.RateLimitInfo.WithRetryAfterOverride(Integer)
+  nameWithType: RateLimitInfo.WithRetryAfterOverride(int)
+  nameWithType.vb: RateLimitInfo.WithRetryAfterOverride(Integer)
+- uid: RateLimitHeaders.Parsing.RateLimitInfo.WithRetryAfterOverride*
+  name: WithRetryAfterOverride
+  href: api/RateLimitHeaders.Parsing.RateLimitInfo.html#RateLimitHeaders_Parsing_RateLimitInfo_WithRetryAfterOverride_
+  commentId: Overload:RateLimitHeaders.Parsing.RateLimitInfo.WithRetryAfterOverride
+  isSpec: "True"
+  fullName: RateLimitHeaders.Parsing.RateLimitInfo.WithRetryAfterOverride
+  nameWithType: RateLimitInfo.WithRetryAfterOverride
+- uid: RateLimitHeaders.Polly
+  name: RateLimitHeaders.Polly
+  href: api/RateLimitHeaders.Polly.html
+  commentId: N:RateLimitHeaders.Polly
+  fullName: RateLimitHeaders.Polly
+  nameWithType: RateLimitHeaders.Polly
+- uid: RateLimitHeaders.Polly.OnQuotaLowArguments
+  name: OnQuotaLowArguments
+  href: api/RateLimitHeaders.Polly.OnQuotaLowArguments.html
+  commentId: T:RateLimitHeaders.Polly.OnQuotaLowArguments
+  fullName: RateLimitHeaders.Polly.OnQuotaLowArguments
+  nameWithType: OnQuotaLowArguments
+- uid: RateLimitHeaders.Polly.OnQuotaLowArguments.#ctor(Polly.ResilienceContext,RateLimitHeaders.Parsing.RateLimitInfo,System.Net.Http.HttpResponseMessage,System.Double,System.Double)
+  name: OnQuotaLowArguments(ResilienceContext, RateLimitInfo, HttpResponseMessage, double, double)
+  href: api/RateLimitHeaders.Polly.OnQuotaLowArguments.html#RateLimitHeaders_Polly_OnQuotaLowArguments__ctor_Polly_ResilienceContext_RateLimitHeaders_Parsing_RateLimitInfo_System_Net_Http_HttpResponseMessage_System_Double_System_Double_
+  commentId: M:RateLimitHeaders.Polly.OnQuotaLowArguments.#ctor(Polly.ResilienceContext,RateLimitHeaders.Parsing.RateLimitInfo,System.Net.Http.HttpResponseMessage,System.Double,System.Double)
+  name.vb: New(ResilienceContext, RateLimitInfo, HttpResponseMessage, Double, Double)
+  fullName: RateLimitHeaders.Polly.OnQuotaLowArguments.OnQuotaLowArguments(Polly.ResilienceContext, RateLimitHeaders.Parsing.RateLimitInfo, System.Net.Http.HttpResponseMessage, double, double)
+  fullName.vb: RateLimitHeaders.Polly.OnQuotaLowArguments.New(Polly.ResilienceContext, RateLimitHeaders.Parsing.RateLimitInfo, System.Net.Http.HttpResponseMessage, Double, Double)
+  nameWithType: OnQuotaLowArguments.OnQuotaLowArguments(ResilienceContext, RateLimitInfo, HttpResponseMessage, double, double)
+  nameWithType.vb: OnQuotaLowArguments.New(ResilienceContext, RateLimitInfo, HttpResponseMessage, Double, Double)
+- uid: RateLimitHeaders.Polly.OnQuotaLowArguments.#ctor*
+  name: OnQuotaLowArguments
+  href: api/RateLimitHeaders.Polly.OnQuotaLowArguments.html#RateLimitHeaders_Polly_OnQuotaLowArguments__ctor_
+  commentId: Overload:RateLimitHeaders.Polly.OnQuotaLowArguments.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: RateLimitHeaders.Polly.OnQuotaLowArguments.OnQuotaLowArguments
+  fullName.vb: RateLimitHeaders.Polly.OnQuotaLowArguments.New
+  nameWithType: OnQuotaLowArguments.OnQuotaLowArguments
+  nameWithType.vb: OnQuotaLowArguments.New
+- uid: RateLimitHeaders.Polly.OnQuotaLowArguments.Context
+  name: Context
+  href: api/RateLimitHeaders.Polly.OnQuotaLowArguments.html#RateLimitHeaders_Polly_OnQuotaLowArguments_Context
+  commentId: P:RateLimitHeaders.Polly.OnQuotaLowArguments.Context
+  fullName: RateLimitHeaders.Polly.OnQuotaLowArguments.Context
+  nameWithType: OnQuotaLowArguments.Context
+- uid: RateLimitHeaders.Polly.OnQuotaLowArguments.Context*
+  name: Context
+  href: api/RateLimitHeaders.Polly.OnQuotaLowArguments.html#RateLimitHeaders_Polly_OnQuotaLowArguments_Context_
+  commentId: Overload:RateLimitHeaders.Polly.OnQuotaLowArguments.Context
+  isSpec: "True"
+  fullName: RateLimitHeaders.Polly.OnQuotaLowArguments.Context
+  nameWithType: OnQuotaLowArguments.Context
+- uid: RateLimitHeaders.Polly.OnQuotaLowArguments.QuotaPercentage
+  name: QuotaPercentage
+  href: api/RateLimitHeaders.Polly.OnQuotaLowArguments.html#RateLimitHeaders_Polly_OnQuotaLowArguments_QuotaPercentage
+  commentId: P:RateLimitHeaders.Polly.OnQuotaLowArguments.QuotaPercentage
+  fullName: RateLimitHeaders.Polly.OnQuotaLowArguments.QuotaPercentage
+  nameWithType: OnQuotaLowArguments.QuotaPercentage
+- uid: RateLimitHeaders.Polly.OnQuotaLowArguments.QuotaPercentage*
+  name: QuotaPercentage
+  href: api/RateLimitHeaders.Polly.OnQuotaLowArguments.html#RateLimitHeaders_Polly_OnQuotaLowArguments_QuotaPercentage_
+  commentId: Overload:RateLimitHeaders.Polly.OnQuotaLowArguments.QuotaPercentage
+  isSpec: "True"
+  fullName: RateLimitHeaders.Polly.OnQuotaLowArguments.QuotaPercentage
+  nameWithType: OnQuotaLowArguments.QuotaPercentage
+- uid: RateLimitHeaders.Polly.OnQuotaLowArguments.RateLimitInfo
+  name: RateLimitInfo
+  href: api/RateLimitHeaders.Polly.OnQuotaLowArguments.html#RateLimitHeaders_Polly_OnQuotaLowArguments_RateLimitInfo
+  commentId: P:RateLimitHeaders.Polly.OnQuotaLowArguments.RateLimitInfo
+  fullName: RateLimitHeaders.Polly.OnQuotaLowArguments.RateLimitInfo
+  nameWithType: OnQuotaLowArguments.RateLimitInfo
+- uid: RateLimitHeaders.Polly.OnQuotaLowArguments.RateLimitInfo*
+  name: RateLimitInfo
+  href: api/RateLimitHeaders.Polly.OnQuotaLowArguments.html#RateLimitHeaders_Polly_OnQuotaLowArguments_RateLimitInfo_
+  commentId: Overload:RateLimitHeaders.Polly.OnQuotaLowArguments.RateLimitInfo
+  isSpec: "True"
+  fullName: RateLimitHeaders.Polly.OnQuotaLowArguments.RateLimitInfo
+  nameWithType: OnQuotaLowArguments.RateLimitInfo
+- uid: RateLimitHeaders.Polly.OnQuotaLowArguments.Response
+  name: Response
+  href: api/RateLimitHeaders.Polly.OnQuotaLowArguments.html#RateLimitHeaders_Polly_OnQuotaLowArguments_Response
+  commentId: P:RateLimitHeaders.Polly.OnQuotaLowArguments.Response
+  fullName: RateLimitHeaders.Polly.OnQuotaLowArguments.Response
+  nameWithType: OnQuotaLowArguments.Response
+- uid: RateLimitHeaders.Polly.OnQuotaLowArguments.Response*
+  name: Response
+  href: api/RateLimitHeaders.Polly.OnQuotaLowArguments.html#RateLimitHeaders_Polly_OnQuotaLowArguments_Response_
+  commentId: Overload:RateLimitHeaders.Polly.OnQuotaLowArguments.Response
+  isSpec: "True"
+  fullName: RateLimitHeaders.Polly.OnQuotaLowArguments.Response
+  nameWithType: OnQuotaLowArguments.Response
+- uid: RateLimitHeaders.Polly.OnQuotaLowArguments.Threshold
+  name: Threshold
+  href: api/RateLimitHeaders.Polly.OnQuotaLowArguments.html#RateLimitHeaders_Polly_OnQuotaLowArguments_Threshold
+  commentId: P:RateLimitHeaders.Polly.OnQuotaLowArguments.Threshold
+  fullName: RateLimitHeaders.Polly.OnQuotaLowArguments.Threshold
+  nameWithType: OnQuotaLowArguments.Threshold
+- uid: RateLimitHeaders.Polly.OnQuotaLowArguments.Threshold*
+  name: Threshold
+  href: api/RateLimitHeaders.Polly.OnQuotaLowArguments.html#RateLimitHeaders_Polly_OnQuotaLowArguments_Threshold_
+  commentId: Overload:RateLimitHeaders.Polly.OnQuotaLowArguments.Threshold
+  isSpec: "True"
+  fullName: RateLimitHeaders.Polly.OnQuotaLowArguments.Threshold
+  nameWithType: OnQuotaLowArguments.Threshold
+- uid: RateLimitHeaders.Polly.OnRateLimitInfoArguments
+  name: OnRateLimitInfoArguments
+  href: api/RateLimitHeaders.Polly.OnRateLimitInfoArguments.html
+  commentId: T:RateLimitHeaders.Polly.OnRateLimitInfoArguments
+  fullName: RateLimitHeaders.Polly.OnRateLimitInfoArguments
+  nameWithType: OnRateLimitInfoArguments
+- uid: RateLimitHeaders.Polly.OnRateLimitInfoArguments.#ctor(Polly.ResilienceContext,RateLimitHeaders.Parsing.RateLimitInfo,System.Net.Http.HttpResponseMessage)
+  name: OnRateLimitInfoArguments(ResilienceContext, RateLimitInfo, HttpResponseMessage)
+  href: api/RateLimitHeaders.Polly.OnRateLimitInfoArguments.html#RateLimitHeaders_Polly_OnRateLimitInfoArguments__ctor_Polly_ResilienceContext_RateLimitHeaders_Parsing_RateLimitInfo_System_Net_Http_HttpResponseMessage_
+  commentId: M:RateLimitHeaders.Polly.OnRateLimitInfoArguments.#ctor(Polly.ResilienceContext,RateLimitHeaders.Parsing.RateLimitInfo,System.Net.Http.HttpResponseMessage)
+  name.vb: New(ResilienceContext, RateLimitInfo, HttpResponseMessage)
+  fullName: RateLimitHeaders.Polly.OnRateLimitInfoArguments.OnRateLimitInfoArguments(Polly.ResilienceContext, RateLimitHeaders.Parsing.RateLimitInfo, System.Net.Http.HttpResponseMessage)
+  fullName.vb: RateLimitHeaders.Polly.OnRateLimitInfoArguments.New(Polly.ResilienceContext, RateLimitHeaders.Parsing.RateLimitInfo, System.Net.Http.HttpResponseMessage)
+  nameWithType: OnRateLimitInfoArguments.OnRateLimitInfoArguments(ResilienceContext, RateLimitInfo, HttpResponseMessage)
+  nameWithType.vb: OnRateLimitInfoArguments.New(ResilienceContext, RateLimitInfo, HttpResponseMessage)
+- uid: RateLimitHeaders.Polly.OnRateLimitInfoArguments.#ctor*
+  name: OnRateLimitInfoArguments
+  href: api/RateLimitHeaders.Polly.OnRateLimitInfoArguments.html#RateLimitHeaders_Polly_OnRateLimitInfoArguments__ctor_
+  commentId: Overload:RateLimitHeaders.Polly.OnRateLimitInfoArguments.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: RateLimitHeaders.Polly.OnRateLimitInfoArguments.OnRateLimitInfoArguments
+  fullName.vb: RateLimitHeaders.Polly.OnRateLimitInfoArguments.New
+  nameWithType: OnRateLimitInfoArguments.OnRateLimitInfoArguments
+  nameWithType.vb: OnRateLimitInfoArguments.New
+- uid: RateLimitHeaders.Polly.OnRateLimitInfoArguments.Context
+  name: Context
+  href: api/RateLimitHeaders.Polly.OnRateLimitInfoArguments.html#RateLimitHeaders_Polly_OnRateLimitInfoArguments_Context
+  commentId: P:RateLimitHeaders.Polly.OnRateLimitInfoArguments.Context
+  fullName: RateLimitHeaders.Polly.OnRateLimitInfoArguments.Context
+  nameWithType: OnRateLimitInfoArguments.Context
+- uid: RateLimitHeaders.Polly.OnRateLimitInfoArguments.Context*
+  name: Context
+  href: api/RateLimitHeaders.Polly.OnRateLimitInfoArguments.html#RateLimitHeaders_Polly_OnRateLimitInfoArguments_Context_
+  commentId: Overload:RateLimitHeaders.Polly.OnRateLimitInfoArguments.Context
+  isSpec: "True"
+  fullName: RateLimitHeaders.Polly.OnRateLimitInfoArguments.Context
+  nameWithType: OnRateLimitInfoArguments.Context
+- uid: RateLimitHeaders.Polly.OnRateLimitInfoArguments.RateLimitInfo
+  name: RateLimitInfo
+  href: api/RateLimitHeaders.Polly.OnRateLimitInfoArguments.html#RateLimitHeaders_Polly_OnRateLimitInfoArguments_RateLimitInfo
+  commentId: P:RateLimitHeaders.Polly.OnRateLimitInfoArguments.RateLimitInfo
+  fullName: RateLimitHeaders.Polly.OnRateLimitInfoArguments.RateLimitInfo
+  nameWithType: OnRateLimitInfoArguments.RateLimitInfo
+- uid: RateLimitHeaders.Polly.OnRateLimitInfoArguments.RateLimitInfo*
+  name: RateLimitInfo
+  href: api/RateLimitHeaders.Polly.OnRateLimitInfoArguments.html#RateLimitHeaders_Polly_OnRateLimitInfoArguments_RateLimitInfo_
+  commentId: Overload:RateLimitHeaders.Polly.OnRateLimitInfoArguments.RateLimitInfo
+  isSpec: "True"
+  fullName: RateLimitHeaders.Polly.OnRateLimitInfoArguments.RateLimitInfo
+  nameWithType: OnRateLimitInfoArguments.RateLimitInfo
+- uid: RateLimitHeaders.Polly.OnRateLimitInfoArguments.Response
+  name: Response
+  href: api/RateLimitHeaders.Polly.OnRateLimitInfoArguments.html#RateLimitHeaders_Polly_OnRateLimitInfoArguments_Response
+  commentId: P:RateLimitHeaders.Polly.OnRateLimitInfoArguments.Response
+  fullName: RateLimitHeaders.Polly.OnRateLimitInfoArguments.Response
+  nameWithType: OnRateLimitInfoArguments.Response
+- uid: RateLimitHeaders.Polly.OnRateLimitInfoArguments.Response*
+  name: Response
+  href: api/RateLimitHeaders.Polly.OnRateLimitInfoArguments.html#RateLimitHeaders_Polly_OnRateLimitInfoArguments_Response_
+  commentId: Overload:RateLimitHeaders.Polly.OnRateLimitInfoArguments.Response
+  isSpec: "True"
+  fullName: RateLimitHeaders.Polly.OnRateLimitInfoArguments.Response
+  nameWithType: OnRateLimitInfoArguments.Response
+- uid: RateLimitHeaders.Polly.OnThrottlingArguments
+  name: OnThrottlingArguments
+  href: api/RateLimitHeaders.Polly.OnThrottlingArguments.html
+  commentId: T:RateLimitHeaders.Polly.OnThrottlingArguments
+  fullName: RateLimitHeaders.Polly.OnThrottlingArguments
+  nameWithType: OnThrottlingArguments
+- uid: RateLimitHeaders.Polly.OnThrottlingArguments.#ctor(Polly.ResilienceContext,RateLimitHeaders.Parsing.RateLimitInfo,System.TimeSpan,System.String)
+  name: OnThrottlingArguments(ResilienceContext, RateLimitInfo, TimeSpan, string?)
+  href: api/RateLimitHeaders.Polly.OnThrottlingArguments.html#RateLimitHeaders_Polly_OnThrottlingArguments__ctor_Polly_ResilienceContext_RateLimitHeaders_Parsing_RateLimitInfo_System_TimeSpan_System_String_
+  commentId: M:RateLimitHeaders.Polly.OnThrottlingArguments.#ctor(Polly.ResilienceContext,RateLimitHeaders.Parsing.RateLimitInfo,System.TimeSpan,System.String)
+  name.vb: New(ResilienceContext, RateLimitInfo, TimeSpan, String)
+  fullName: RateLimitHeaders.Polly.OnThrottlingArguments.OnThrottlingArguments(Polly.ResilienceContext, RateLimitHeaders.Parsing.RateLimitInfo, System.TimeSpan, string?)
+  fullName.vb: RateLimitHeaders.Polly.OnThrottlingArguments.New(Polly.ResilienceContext, RateLimitHeaders.Parsing.RateLimitInfo, System.TimeSpan, String)
+  nameWithType: OnThrottlingArguments.OnThrottlingArguments(ResilienceContext, RateLimitInfo, TimeSpan, string?)
+  nameWithType.vb: OnThrottlingArguments.New(ResilienceContext, RateLimitInfo, TimeSpan, String)
+- uid: RateLimitHeaders.Polly.OnThrottlingArguments.#ctor*
+  name: OnThrottlingArguments
+  href: api/RateLimitHeaders.Polly.OnThrottlingArguments.html#RateLimitHeaders_Polly_OnThrottlingArguments__ctor_
+  commentId: Overload:RateLimitHeaders.Polly.OnThrottlingArguments.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: RateLimitHeaders.Polly.OnThrottlingArguments.OnThrottlingArguments
+  fullName.vb: RateLimitHeaders.Polly.OnThrottlingArguments.New
+  nameWithType: OnThrottlingArguments.OnThrottlingArguments
+  nameWithType.vb: OnThrottlingArguments.New
+- uid: RateLimitHeaders.Polly.OnThrottlingArguments.Context
+  name: Context
+  href: api/RateLimitHeaders.Polly.OnThrottlingArguments.html#RateLimitHeaders_Polly_OnThrottlingArguments_Context
+  commentId: P:RateLimitHeaders.Polly.OnThrottlingArguments.Context
+  fullName: RateLimitHeaders.Polly.OnThrottlingArguments.Context
+  nameWithType: OnThrottlingArguments.Context
+- uid: RateLimitHeaders.Polly.OnThrottlingArguments.Context*
+  name: Context
+  href: api/RateLimitHeaders.Polly.OnThrottlingArguments.html#RateLimitHeaders_Polly_OnThrottlingArguments_Context_
+  commentId: Overload:RateLimitHeaders.Polly.OnThrottlingArguments.Context
+  isSpec: "True"
+  fullName: RateLimitHeaders.Polly.OnThrottlingArguments.Context
+  nameWithType: OnThrottlingArguments.Context
+- uid: RateLimitHeaders.Polly.OnThrottlingArguments.Delay
+  name: Delay
+  href: api/RateLimitHeaders.Polly.OnThrottlingArguments.html#RateLimitHeaders_Polly_OnThrottlingArguments_Delay
+  commentId: P:RateLimitHeaders.Polly.OnThrottlingArguments.Delay
+  fullName: RateLimitHeaders.Polly.OnThrottlingArguments.Delay
+  nameWithType: OnThrottlingArguments.Delay
+- uid: RateLimitHeaders.Polly.OnThrottlingArguments.Delay*
+  name: Delay
+  href: api/RateLimitHeaders.Polly.OnThrottlingArguments.html#RateLimitHeaders_Polly_OnThrottlingArguments_Delay_
+  commentId: Overload:RateLimitHeaders.Polly.OnThrottlingArguments.Delay
+  isSpec: "True"
+  fullName: RateLimitHeaders.Polly.OnThrottlingArguments.Delay
+  nameWithType: OnThrottlingArguments.Delay
+- uid: RateLimitHeaders.Polly.OnThrottlingArguments.RateLimitInfo
+  name: RateLimitInfo
+  href: api/RateLimitHeaders.Polly.OnThrottlingArguments.html#RateLimitHeaders_Polly_OnThrottlingArguments_RateLimitInfo
+  commentId: P:RateLimitHeaders.Polly.OnThrottlingArguments.RateLimitInfo
+  fullName: RateLimitHeaders.Polly.OnThrottlingArguments.RateLimitInfo
+  nameWithType: OnThrottlingArguments.RateLimitInfo
+- uid: RateLimitHeaders.Polly.OnThrottlingArguments.RateLimitInfo*
+  name: RateLimitInfo
+  href: api/RateLimitHeaders.Polly.OnThrottlingArguments.html#RateLimitHeaders_Polly_OnThrottlingArguments_RateLimitInfo_
+  commentId: Overload:RateLimitHeaders.Polly.OnThrottlingArguments.RateLimitInfo
+  isSpec: "True"
+  fullName: RateLimitHeaders.Polly.OnThrottlingArguments.RateLimitInfo
+  nameWithType: OnThrottlingArguments.RateLimitInfo
+- uid: RateLimitHeaders.Polly.OnThrottlingArguments.Reason
+  name: Reason
+  href: api/RateLimitHeaders.Polly.OnThrottlingArguments.html#RateLimitHeaders_Polly_OnThrottlingArguments_Reason
+  commentId: P:RateLimitHeaders.Polly.OnThrottlingArguments.Reason
+  fullName: RateLimitHeaders.Polly.OnThrottlingArguments.Reason
+  nameWithType: OnThrottlingArguments.Reason
+- uid: RateLimitHeaders.Polly.OnThrottlingArguments.Reason*
+  name: Reason
+  href: api/RateLimitHeaders.Polly.OnThrottlingArguments.html#RateLimitHeaders_Polly_OnThrottlingArguments_Reason_
+  commentId: Overload:RateLimitHeaders.Polly.OnThrottlingArguments.Reason
+  isSpec: "True"
+  fullName: RateLimitHeaders.Polly.OnThrottlingArguments.Reason
+  nameWithType: OnThrottlingArguments.Reason
+- uid: RateLimitHeaders.Polly.RateLimitContextProperties
+  name: RateLimitContextProperties
+  href: api/RateLimitHeaders.Polly.RateLimitContextProperties.html
+  commentId: T:RateLimitHeaders.Polly.RateLimitContextProperties
+  fullName: RateLimitHeaders.Polly.RateLimitContextProperties
+  nameWithType: RateLimitContextProperties
+- uid: RateLimitHeaders.Polly.RateLimitContextProperties.RateLimitInfoKey
+  name: RateLimitInfoKey
+  href: api/RateLimitHeaders.Polly.RateLimitContextProperties.html#RateLimitHeaders_Polly_RateLimitContextProperties_RateLimitInfoKey
+  commentId: F:RateLimitHeaders.Polly.RateLimitContextProperties.RateLimitInfoKey
+  fullName: RateLimitHeaders.Polly.RateLimitContextProperties.RateLimitInfoKey
+  nameWithType: RateLimitContextProperties.RateLimitInfoKey
+- uid: RateLimitHeaders.Polly.RateLimitContextProperties.RequestMessageKey
+  name: RequestMessageKey
+  href: api/RateLimitHeaders.Polly.RateLimitContextProperties.html#RateLimitHeaders_Polly_RateLimitContextProperties_RequestMessageKey
+  commentId: F:RateLimitHeaders.Polly.RateLimitContextProperties.RequestMessageKey
+  fullName: RateLimitHeaders.Polly.RateLimitContextProperties.RequestMessageKey
+  nameWithType: RateLimitContextProperties.RequestMessageKey
+- uid: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions
+  name: RateLimitHeadersStrategyOptions
+  href: api/RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.html
+  commentId: T:RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions
+  fullName: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions
+  nameWithType: RateLimitHeadersStrategyOptions
+- uid: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.#ctor
+  name: RateLimitHeadersStrategyOptions()
+  href: api/RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.html#RateLimitHeaders_Polly_RateLimitHeadersStrategyOptions__ctor
+  commentId: M:RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.#ctor
+  name.vb: New()
+  fullName: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.RateLimitHeadersStrategyOptions()
+  fullName.vb: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.New()
+  nameWithType: RateLimitHeadersStrategyOptions.RateLimitHeadersStrategyOptions()
+  nameWithType.vb: RateLimitHeadersStrategyOptions.New()
+- uid: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.#ctor*
+  name: RateLimitHeadersStrategyOptions
+  href: api/RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.html#RateLimitHeaders_Polly_RateLimitHeadersStrategyOptions__ctor_
+  commentId: Overload:RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.RateLimitHeadersStrategyOptions
+  fullName.vb: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.New
+  nameWithType: RateLimitHeadersStrategyOptions.RateLimitHeadersStrategyOptions
+  nameWithType.vb: RateLimitHeadersStrategyOptions.New
+- uid: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.EnableProactiveThrottling
+  name: EnableProactiveThrottling
+  href: api/RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.html#RateLimitHeaders_Polly_RateLimitHeadersStrategyOptions_EnableProactiveThrottling
+  commentId: P:RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.EnableProactiveThrottling
+  fullName: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.EnableProactiveThrottling
+  nameWithType: RateLimitHeadersStrategyOptions.EnableProactiveThrottling
+- uid: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.EnableProactiveThrottling*
+  name: EnableProactiveThrottling
+  href: api/RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.html#RateLimitHeaders_Polly_RateLimitHeadersStrategyOptions_EnableProactiveThrottling_
+  commentId: Overload:RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.EnableProactiveThrottling
+  isSpec: "True"
+  fullName: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.EnableProactiveThrottling
+  nameWithType: RateLimitHeadersStrategyOptions.EnableProactiveThrottling
+- uid: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.OnQuotaLow
+  name: OnQuotaLow
+  href: api/RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.html#RateLimitHeaders_Polly_RateLimitHeadersStrategyOptions_OnQuotaLow
+  commentId: P:RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.OnQuotaLow
+  fullName: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.OnQuotaLow
+  nameWithType: RateLimitHeadersStrategyOptions.OnQuotaLow
+- uid: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.OnQuotaLow*
+  name: OnQuotaLow
+  href: api/RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.html#RateLimitHeaders_Polly_RateLimitHeadersStrategyOptions_OnQuotaLow_
+  commentId: Overload:RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.OnQuotaLow
+  isSpec: "True"
+  fullName: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.OnQuotaLow
+  nameWithType: RateLimitHeadersStrategyOptions.OnQuotaLow
+- uid: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.OnRateLimitInfo
+  name: OnRateLimitInfo
+  href: api/RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.html#RateLimitHeaders_Polly_RateLimitHeadersStrategyOptions_OnRateLimitInfo
+  commentId: P:RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.OnRateLimitInfo
+  fullName: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.OnRateLimitInfo
+  nameWithType: RateLimitHeadersStrategyOptions.OnRateLimitInfo
+- uid: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.OnRateLimitInfo*
+  name: OnRateLimitInfo
+  href: api/RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.html#RateLimitHeaders_Polly_RateLimitHeadersStrategyOptions_OnRateLimitInfo_
+  commentId: Overload:RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.OnRateLimitInfo
+  isSpec: "True"
+  fullName: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.OnRateLimitInfo
+  nameWithType: RateLimitHeadersStrategyOptions.OnRateLimitInfo
+- uid: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.OnThrottling
+  name: OnThrottling
+  href: api/RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.html#RateLimitHeaders_Polly_RateLimitHeadersStrategyOptions_OnThrottling
+  commentId: P:RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.OnThrottling
+  fullName: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.OnThrottling
+  nameWithType: RateLimitHeadersStrategyOptions.OnThrottling
+- uid: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.OnThrottling*
+  name: OnThrottling
+  href: api/RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.html#RateLimitHeaders_Polly_RateLimitHeadersStrategyOptions_OnThrottling_
+  commentId: Overload:RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.OnThrottling
+  isSpec: "True"
+  fullName: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.OnThrottling
+  nameWithType: RateLimitHeadersStrategyOptions.OnThrottling
+- uid: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.QuotaLowThreshold
+  name: QuotaLowThreshold
+  href: api/RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.html#RateLimitHeaders_Polly_RateLimitHeadersStrategyOptions_QuotaLowThreshold
+  commentId: P:RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.QuotaLowThreshold
+  fullName: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.QuotaLowThreshold
+  nameWithType: RateLimitHeadersStrategyOptions.QuotaLowThreshold
+- uid: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.QuotaLowThreshold*
+  name: QuotaLowThreshold
+  href: api/RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.html#RateLimitHeaders_Polly_RateLimitHeadersStrategyOptions_QuotaLowThreshold_
+  commentId: Overload:RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.QuotaLowThreshold
+  isSpec: "True"
+  fullName: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.QuotaLowThreshold
+  nameWithType: RateLimitHeadersStrategyOptions.QuotaLowThreshold
+- uid: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.StateKeyExtractor
+  name: StateKeyExtractor
+  href: api/RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.html#RateLimitHeaders_Polly_RateLimitHeadersStrategyOptions_StateKeyExtractor
+  commentId: P:RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.StateKeyExtractor
+  fullName: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.StateKeyExtractor
+  nameWithType: RateLimitHeadersStrategyOptions.StateKeyExtractor
+- uid: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.StateKeyExtractor*
+  name: StateKeyExtractor
+  href: api/RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.html#RateLimitHeaders_Polly_RateLimitHeadersStrategyOptions_StateKeyExtractor_
+  commentId: Overload:RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.StateKeyExtractor
+  isSpec: "True"
+  fullName: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.StateKeyExtractor
+  nameWithType: RateLimitHeadersStrategyOptions.StateKeyExtractor
+- uid: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.ThrottlingAlgorithm
+  name: ThrottlingAlgorithm
+  href: api/RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.html#RateLimitHeaders_Polly_RateLimitHeadersStrategyOptions_ThrottlingAlgorithm
+  commentId: P:RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.ThrottlingAlgorithm
+  fullName: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.ThrottlingAlgorithm
+  nameWithType: RateLimitHeadersStrategyOptions.ThrottlingAlgorithm
+- uid: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.ThrottlingAlgorithm*
+  name: ThrottlingAlgorithm
+  href: api/RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.html#RateLimitHeaders_Polly_RateLimitHeadersStrategyOptions_ThrottlingAlgorithm_
+  commentId: Overload:RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.ThrottlingAlgorithm
+  isSpec: "True"
+  fullName: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.ThrottlingAlgorithm
+  nameWithType: RateLimitHeadersStrategyOptions.ThrottlingAlgorithm
+- uid: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.TrackStatePerEndpoint
+  name: TrackStatePerEndpoint
+  href: api/RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.html#RateLimitHeaders_Polly_RateLimitHeadersStrategyOptions_TrackStatePerEndpoint
+  commentId: P:RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.TrackStatePerEndpoint
+  fullName: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.TrackStatePerEndpoint
+  nameWithType: RateLimitHeadersStrategyOptions.TrackStatePerEndpoint
+- uid: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.TrackStatePerEndpoint*
+  name: TrackStatePerEndpoint
+  href: api/RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.html#RateLimitHeaders_Polly_RateLimitHeadersStrategyOptions_TrackStatePerEndpoint_
+  commentId: Overload:RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.TrackStatePerEndpoint
+  isSpec: "True"
+  fullName: RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions.TrackStatePerEndpoint
+  nameWithType: RateLimitHeadersStrategyOptions.TrackStatePerEndpoint
+- uid: RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions
+  name: ResiliencePipelineBuilderExtensions
+  href: api/RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.html
+  commentId: T:RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions
+  fullName: RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions
+  nameWithType: ResiliencePipelineBuilderExtensions
+- uid: RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.AddRateLimitHeaders(Polly.ResiliencePipelineBuilder{System.Net.Http.HttpResponseMessage})
+  name: AddRateLimitHeaders(ResiliencePipelineBuilder<HttpResponseMessage>)
+  href: api/RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.html#RateLimitHeaders_Polly_ResiliencePipelineBuilderExtensions_AddRateLimitHeaders_Polly_ResiliencePipelineBuilder_System_Net_Http_HttpResponseMessage__
+  commentId: M:RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.AddRateLimitHeaders(Polly.ResiliencePipelineBuilder{System.Net.Http.HttpResponseMessage})
+  name.vb: AddRateLimitHeaders(ResiliencePipelineBuilder(Of HttpResponseMessage))
+  fullName: RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.AddRateLimitHeaders(Polly.ResiliencePipelineBuilder<System.Net.Http.HttpResponseMessage>)
+  fullName.vb: RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.AddRateLimitHeaders(Polly.ResiliencePipelineBuilder(Of System.Net.Http.HttpResponseMessage))
+  nameWithType: ResiliencePipelineBuilderExtensions.AddRateLimitHeaders(ResiliencePipelineBuilder<HttpResponseMessage>)
+  nameWithType.vb: ResiliencePipelineBuilderExtensions.AddRateLimitHeaders(ResiliencePipelineBuilder(Of HttpResponseMessage))
+- uid: RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.AddRateLimitHeaders(Polly.ResiliencePipelineBuilder{System.Net.Http.HttpResponseMessage},Microsoft.Extensions.Configuration.IConfiguration)
+  name: AddRateLimitHeaders(ResiliencePipelineBuilder<HttpResponseMessage>, IConfiguration)
+  href: api/RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.html#RateLimitHeaders_Polly_ResiliencePipelineBuilderExtensions_AddRateLimitHeaders_Polly_ResiliencePipelineBuilder_System_Net_Http_HttpResponseMessage__Microsoft_Extensions_Configuration_IConfiguration_
+  commentId: M:RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.AddRateLimitHeaders(Polly.ResiliencePipelineBuilder{System.Net.Http.HttpResponseMessage},Microsoft.Extensions.Configuration.IConfiguration)
+  name.vb: AddRateLimitHeaders(ResiliencePipelineBuilder(Of HttpResponseMessage), IConfiguration)
+  fullName: RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.AddRateLimitHeaders(Polly.ResiliencePipelineBuilder<System.Net.Http.HttpResponseMessage>, Microsoft.Extensions.Configuration.IConfiguration)
+  fullName.vb: RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.AddRateLimitHeaders(Polly.ResiliencePipelineBuilder(Of System.Net.Http.HttpResponseMessage), Microsoft.Extensions.Configuration.IConfiguration)
+  nameWithType: ResiliencePipelineBuilderExtensions.AddRateLimitHeaders(ResiliencePipelineBuilder<HttpResponseMessage>, IConfiguration)
+  nameWithType.vb: ResiliencePipelineBuilderExtensions.AddRateLimitHeaders(ResiliencePipelineBuilder(Of HttpResponseMessage), IConfiguration)
+- uid: RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.AddRateLimitHeaders(Polly.ResiliencePipelineBuilder{System.Net.Http.HttpResponseMessage},Microsoft.Extensions.Configuration.IConfiguration,System.Action{RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions})
+  name: AddRateLimitHeaders(ResiliencePipelineBuilder<HttpResponseMessage>, IConfiguration, Action<RateLimitHeadersStrategyOptions>)
+  href: api/RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.html#RateLimitHeaders_Polly_ResiliencePipelineBuilderExtensions_AddRateLimitHeaders_Polly_ResiliencePipelineBuilder_System_Net_Http_HttpResponseMessage__Microsoft_Extensions_Configuration_IConfiguration_System_Action_RateLimitHeaders_Polly_RateLimitHeadersStrategyOptions__
+  commentId: M:RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.AddRateLimitHeaders(Polly.ResiliencePipelineBuilder{System.Net.Http.HttpResponseMessage},Microsoft.Extensions.Configuration.IConfiguration,System.Action{RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions})
+  name.vb: AddRateLimitHeaders(ResiliencePipelineBuilder(Of HttpResponseMessage), IConfiguration, Action(Of RateLimitHeadersStrategyOptions))
+  fullName: RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.AddRateLimitHeaders(Polly.ResiliencePipelineBuilder<System.Net.Http.HttpResponseMessage>, Microsoft.Extensions.Configuration.IConfiguration, System.Action<RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions>)
+  fullName.vb: RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.AddRateLimitHeaders(Polly.ResiliencePipelineBuilder(Of System.Net.Http.HttpResponseMessage), Microsoft.Extensions.Configuration.IConfiguration, System.Action(Of RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions))
+  nameWithType: ResiliencePipelineBuilderExtensions.AddRateLimitHeaders(ResiliencePipelineBuilder<HttpResponseMessage>, IConfiguration, Action<RateLimitHeadersStrategyOptions>)
+  nameWithType.vb: ResiliencePipelineBuilderExtensions.AddRateLimitHeaders(ResiliencePipelineBuilder(Of HttpResponseMessage), IConfiguration, Action(Of RateLimitHeadersStrategyOptions))
+- uid: RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.AddRateLimitHeaders(Polly.ResiliencePipelineBuilder{System.Net.Http.HttpResponseMessage},RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions)
+  name: AddRateLimitHeaders(ResiliencePipelineBuilder<HttpResponseMessage>, RateLimitHeadersStrategyOptions)
+  href: api/RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.html#RateLimitHeaders_Polly_ResiliencePipelineBuilderExtensions_AddRateLimitHeaders_Polly_ResiliencePipelineBuilder_System_Net_Http_HttpResponseMessage__RateLimitHeaders_Polly_RateLimitHeadersStrategyOptions_
+  commentId: M:RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.AddRateLimitHeaders(Polly.ResiliencePipelineBuilder{System.Net.Http.HttpResponseMessage},RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions)
+  name.vb: AddRateLimitHeaders(ResiliencePipelineBuilder(Of HttpResponseMessage), RateLimitHeadersStrategyOptions)
+  fullName: RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.AddRateLimitHeaders(Polly.ResiliencePipelineBuilder<System.Net.Http.HttpResponseMessage>, RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions)
+  fullName.vb: RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.AddRateLimitHeaders(Polly.ResiliencePipelineBuilder(Of System.Net.Http.HttpResponseMessage), RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions)
+  nameWithType: ResiliencePipelineBuilderExtensions.AddRateLimitHeaders(ResiliencePipelineBuilder<HttpResponseMessage>, RateLimitHeadersStrategyOptions)
+  nameWithType.vb: ResiliencePipelineBuilderExtensions.AddRateLimitHeaders(ResiliencePipelineBuilder(Of HttpResponseMessage), RateLimitHeadersStrategyOptions)
+- uid: RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.AddRateLimitHeaders(Polly.ResiliencePipelineBuilder{System.Net.Http.HttpResponseMessage},System.Action{RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions})
+  name: AddRateLimitHeaders(ResiliencePipelineBuilder<HttpResponseMessage>, Action<RateLimitHeadersStrategyOptions>)
+  href: api/RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.html#RateLimitHeaders_Polly_ResiliencePipelineBuilderExtensions_AddRateLimitHeaders_Polly_ResiliencePipelineBuilder_System_Net_Http_HttpResponseMessage__System_Action_RateLimitHeaders_Polly_RateLimitHeadersStrategyOptions__
+  commentId: M:RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.AddRateLimitHeaders(Polly.ResiliencePipelineBuilder{System.Net.Http.HttpResponseMessage},System.Action{RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions})
+  name.vb: AddRateLimitHeaders(ResiliencePipelineBuilder(Of HttpResponseMessage), Action(Of RateLimitHeadersStrategyOptions))
+  fullName: RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.AddRateLimitHeaders(Polly.ResiliencePipelineBuilder<System.Net.Http.HttpResponseMessage>, System.Action<RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions>)
+  fullName.vb: RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.AddRateLimitHeaders(Polly.ResiliencePipelineBuilder(Of System.Net.Http.HttpResponseMessage), System.Action(Of RateLimitHeaders.Polly.RateLimitHeadersStrategyOptions))
+  nameWithType: ResiliencePipelineBuilderExtensions.AddRateLimitHeaders(ResiliencePipelineBuilder<HttpResponseMessage>, Action<RateLimitHeadersStrategyOptions>)
+  nameWithType.vb: ResiliencePipelineBuilderExtensions.AddRateLimitHeaders(ResiliencePipelineBuilder(Of HttpResponseMessage), Action(Of RateLimitHeadersStrategyOptions))
+- uid: RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.AddRateLimitHeaders*
+  name: AddRateLimitHeaders
+  href: api/RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.html#RateLimitHeaders_Polly_ResiliencePipelineBuilderExtensions_AddRateLimitHeaders_
+  commentId: Overload:RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.AddRateLimitHeaders
+  isSpec: "True"
+  fullName: RateLimitHeaders.Polly.ResiliencePipelineBuilderExtensions.AddRateLimitHeaders
+  nameWithType: ResiliencePipelineBuilderExtensions.AddRateLimitHeaders
+- uid: RateLimitHeaders.ServiceCollectionExtensions
+  name: ServiceCollectionExtensions
+  href: api/RateLimitHeaders.ServiceCollectionExtensions.html
+  commentId: T:RateLimitHeaders.ServiceCollectionExtensions
+  fullName: RateLimitHeaders.ServiceCollectionExtensions
+  nameWithType: ServiceCollectionExtensions
+- uid: RateLimitHeaders.ServiceCollectionExtensions.AddRateLimitAwareHandler(Microsoft.Extensions.DependencyInjection.IHttpClientBuilder)
+  name: AddRateLimitAwareHandler(IHttpClientBuilder)
+  href: api/RateLimitHeaders.ServiceCollectionExtensions.html#RateLimitHeaders_ServiceCollectionExtensions_AddRateLimitAwareHandler_Microsoft_Extensions_DependencyInjection_IHttpClientBuilder_
+  commentId: M:RateLimitHeaders.ServiceCollectionExtensions.AddRateLimitAwareHandler(Microsoft.Extensions.DependencyInjection.IHttpClientBuilder)
+  fullName: RateLimitHeaders.ServiceCollectionExtensions.AddRateLimitAwareHandler(Microsoft.Extensions.DependencyInjection.IHttpClientBuilder)
+  nameWithType: ServiceCollectionExtensions.AddRateLimitAwareHandler(IHttpClientBuilder)
+- uid: RateLimitHeaders.ServiceCollectionExtensions.AddRateLimitAwareHandler(Microsoft.Extensions.DependencyInjection.IHttpClientBuilder,Microsoft.Extensions.Configuration.IConfiguration)
+  name: AddRateLimitAwareHandler(IHttpClientBuilder, IConfiguration)
+  href: api/RateLimitHeaders.ServiceCollectionExtensions.html#RateLimitHeaders_ServiceCollectionExtensions_AddRateLimitAwareHandler_Microsoft_Extensions_DependencyInjection_IHttpClientBuilder_Microsoft_Extensions_Configuration_IConfiguration_
+  commentId: M:RateLimitHeaders.ServiceCollectionExtensions.AddRateLimitAwareHandler(Microsoft.Extensions.DependencyInjection.IHttpClientBuilder,Microsoft.Extensions.Configuration.IConfiguration)
+  fullName: RateLimitHeaders.ServiceCollectionExtensions.AddRateLimitAwareHandler(Microsoft.Extensions.DependencyInjection.IHttpClientBuilder, Microsoft.Extensions.Configuration.IConfiguration)
+  nameWithType: ServiceCollectionExtensions.AddRateLimitAwareHandler(IHttpClientBuilder, IConfiguration)
+- uid: RateLimitHeaders.ServiceCollectionExtensions.AddRateLimitAwareHandler(Microsoft.Extensions.DependencyInjection.IHttpClientBuilder,Microsoft.Extensions.Configuration.IConfiguration,System.Action{RateLimitHeaders.Http.RateLimitAwareOptions})
+  name: AddRateLimitAwareHandler(IHttpClientBuilder, IConfiguration, Action<RateLimitAwareOptions>)
+  href: api/RateLimitHeaders.ServiceCollectionExtensions.html#RateLimitHeaders_ServiceCollectionExtensions_AddRateLimitAwareHandler_Microsoft_Extensions_DependencyInjection_IHttpClientBuilder_Microsoft_Extensions_Configuration_IConfiguration_System_Action_RateLimitHeaders_Http_RateLimitAwareOptions__
+  commentId: M:RateLimitHeaders.ServiceCollectionExtensions.AddRateLimitAwareHandler(Microsoft.Extensions.DependencyInjection.IHttpClientBuilder,Microsoft.Extensions.Configuration.IConfiguration,System.Action{RateLimitHeaders.Http.RateLimitAwareOptions})
+  name.vb: AddRateLimitAwareHandler(IHttpClientBuilder, IConfiguration, Action(Of RateLimitAwareOptions))
+  fullName: RateLimitHeaders.ServiceCollectionExtensions.AddRateLimitAwareHandler(Microsoft.Extensions.DependencyInjection.IHttpClientBuilder, Microsoft.Extensions.Configuration.IConfiguration, System.Action<RateLimitHeaders.Http.RateLimitAwareOptions>)
+  fullName.vb: RateLimitHeaders.ServiceCollectionExtensions.AddRateLimitAwareHandler(Microsoft.Extensions.DependencyInjection.IHttpClientBuilder, Microsoft.Extensions.Configuration.IConfiguration, System.Action(Of RateLimitHeaders.Http.RateLimitAwareOptions))
+  nameWithType: ServiceCollectionExtensions.AddRateLimitAwareHandler(IHttpClientBuilder, IConfiguration, Action<RateLimitAwareOptions>)
+  nameWithType.vb: ServiceCollectionExtensions.AddRateLimitAwareHandler(IHttpClientBuilder, IConfiguration, Action(Of RateLimitAwareOptions))
+- uid: RateLimitHeaders.ServiceCollectionExtensions.AddRateLimitAwareHandler(Microsoft.Extensions.DependencyInjection.IHttpClientBuilder,System.Action{RateLimitHeaders.Http.RateLimitAwareOptions})
+  name: AddRateLimitAwareHandler(IHttpClientBuilder, Action<RateLimitAwareOptions>?)
+  href: api/RateLimitHeaders.ServiceCollectionExtensions.html#RateLimitHeaders_ServiceCollectionExtensions_AddRateLimitAwareHandler_Microsoft_Extensions_DependencyInjection_IHttpClientBuilder_System_Action_RateLimitHeaders_Http_RateLimitAwareOptions__
+  commentId: M:RateLimitHeaders.ServiceCollectionExtensions.AddRateLimitAwareHandler(Microsoft.Extensions.DependencyInjection.IHttpClientBuilder,System.Action{RateLimitHeaders.Http.RateLimitAwareOptions})
+  name.vb: AddRateLimitAwareHandler(IHttpClientBuilder, Action(Of RateLimitAwareOptions))
+  fullName: RateLimitHeaders.ServiceCollectionExtensions.AddRateLimitAwareHandler(Microsoft.Extensions.DependencyInjection.IHttpClientBuilder, System.Action<RateLimitHeaders.Http.RateLimitAwareOptions>?)
+  fullName.vb: RateLimitHeaders.ServiceCollectionExtensions.AddRateLimitAwareHandler(Microsoft.Extensions.DependencyInjection.IHttpClientBuilder, System.Action(Of RateLimitHeaders.Http.RateLimitAwareOptions))
+  nameWithType: ServiceCollectionExtensions.AddRateLimitAwareHandler(IHttpClientBuilder, Action<RateLimitAwareOptions>?)
+  nameWithType.vb: ServiceCollectionExtensions.AddRateLimitAwareHandler(IHttpClientBuilder, Action(Of RateLimitAwareOptions))
+- uid: RateLimitHeaders.ServiceCollectionExtensions.AddRateLimitAwareHandler(Microsoft.Extensions.DependencyInjection.IHttpClientBuilder,System.Action{System.IServiceProvider,RateLimitHeaders.Http.RateLimitAwareOptions})
+  name: AddRateLimitAwareHandler(IHttpClientBuilder, Action<IServiceProvider, RateLimitAwareOptions>)
+  href: api/RateLimitHeaders.ServiceCollectionExtensions.html#RateLimitHeaders_ServiceCollectionExtensions_AddRateLimitAwareHandler_Microsoft_Extensions_DependencyInjection_IHttpClientBuilder_System_Action_System_IServiceProvider_RateLimitHeaders_Http_RateLimitAwareOptions__
+  commentId: M:RateLimitHeaders.ServiceCollectionExtensions.AddRateLimitAwareHandler(Microsoft.Extensions.DependencyInjection.IHttpClientBuilder,System.Action{System.IServiceProvider,RateLimitHeaders.Http.RateLimitAwareOptions})
+  name.vb: AddRateLimitAwareHandler(IHttpClientBuilder, Action(Of IServiceProvider, RateLimitAwareOptions))
+  fullName: RateLimitHeaders.ServiceCollectionExtensions.AddRateLimitAwareHandler(Microsoft.Extensions.DependencyInjection.IHttpClientBuilder, System.Action<System.IServiceProvider, RateLimitHeaders.Http.RateLimitAwareOptions>)
+  fullName.vb: RateLimitHeaders.ServiceCollectionExtensions.AddRateLimitAwareHandler(Microsoft.Extensions.DependencyInjection.IHttpClientBuilder, System.Action(Of System.IServiceProvider, RateLimitHeaders.Http.RateLimitAwareOptions))
+  nameWithType: ServiceCollectionExtensions.AddRateLimitAwareHandler(IHttpClientBuilder, Action<IServiceProvider, RateLimitAwareOptions>)
+  nameWithType.vb: ServiceCollectionExtensions.AddRateLimitAwareHandler(IHttpClientBuilder, Action(Of IServiceProvider, RateLimitAwareOptions))
+- uid: RateLimitHeaders.ServiceCollectionExtensions.AddRateLimitAwareHandler(Microsoft.Extensions.DependencyInjection.IHttpClientBuilder,System.String)
+  name: AddRateLimitAwareHandler(IHttpClientBuilder, string)
+  href: api/RateLimitHeaders.ServiceCollectionExtensions.html#RateLimitHeaders_ServiceCollectionExtensions_AddRateLimitAwareHandler_Microsoft_Extensions_DependencyInjection_IHttpClientBuilder_System_String_
+  commentId: M:RateLimitHeaders.ServiceCollectionExtensions.AddRateLimitAwareHandler(Microsoft.Extensions.DependencyInjection.IHttpClientBuilder,System.String)
+  name.vb: AddRateLimitAwareHandler(IHttpClientBuilder, String)
+  fullName: RateLimitHeaders.ServiceCollectionExtensions.AddRateLimitAwareHandler(Microsoft.Extensions.DependencyInjection.IHttpClientBuilder, string)
+  fullName.vb: RateLimitHeaders.ServiceCollectionExtensions.AddRateLimitAwareHandler(Microsoft.Extensions.DependencyInjection.IHttpClientBuilder, String)
+  nameWithType: ServiceCollectionExtensions.AddRateLimitAwareHandler(IHttpClientBuilder, string)
+  nameWithType.vb: ServiceCollectionExtensions.AddRateLimitAwareHandler(IHttpClientBuilder, String)
+- uid: RateLimitHeaders.ServiceCollectionExtensions.AddRateLimitAwareHandler*
+  name: AddRateLimitAwareHandler
+  href: api/RateLimitHeaders.ServiceCollectionExtensions.html#RateLimitHeaders_ServiceCollectionExtensions_AddRateLimitAwareHandler_
+  commentId: Overload:RateLimitHeaders.ServiceCollectionExtensions.AddRateLimitAwareHandler
+  isSpec: "True"
+  fullName: RateLimitHeaders.ServiceCollectionExtensions.AddRateLimitAwareHandler
+  nameWithType: ServiceCollectionExtensions.AddRateLimitAwareHandler
+- uid: RateLimitHeaders.Throttling
+  name: RateLimitHeaders.Throttling
+  href: api/RateLimitHeaders.Throttling.html
+  commentId: N:RateLimitHeaders.Throttling
+  fullName: RateLimitHeaders.Throttling
+  nameWithType: RateLimitHeaders.Throttling
+- uid: RateLimitHeaders.Throttling.IRateLimitStateProvider
+  name: IRateLimitStateProvider
+  href: api/RateLimitHeaders.Throttling.IRateLimitStateProvider.html
+  commentId: T:RateLimitHeaders.Throttling.IRateLimitStateProvider
+  fullName: RateLimitHeaders.Throttling.IRateLimitStateProvider
+  nameWithType: IRateLimitStateProvider
+- uid: RateLimitHeaders.Throttling.IRateLimitStateProvider.GetAllStates
+  name: GetAllStates()
+  href: api/RateLimitHeaders.Throttling.IRateLimitStateProvider.html#RateLimitHeaders_Throttling_IRateLimitStateProvider_GetAllStates
+  commentId: M:RateLimitHeaders.Throttling.IRateLimitStateProvider.GetAllStates
+  fullName: RateLimitHeaders.Throttling.IRateLimitStateProvider.GetAllStates()
+  nameWithType: IRateLimitStateProvider.GetAllStates()
+- uid: RateLimitHeaders.Throttling.IRateLimitStateProvider.GetAllStates*
+  name: GetAllStates
+  href: api/RateLimitHeaders.Throttling.IRateLimitStateProvider.html#RateLimitHeaders_Throttling_IRateLimitStateProvider_GetAllStates_
+  commentId: Overload:RateLimitHeaders.Throttling.IRateLimitStateProvider.GetAllStates
+  isSpec: "True"
+  fullName: RateLimitHeaders.Throttling.IRateLimitStateProvider.GetAllStates
+  nameWithType: IRateLimitStateProvider.GetAllStates
+- uid: RateLimitHeaders.Throttling.IRateLimitStateProvider.GetRateLimitInfo(System.String)
+  name: GetRateLimitInfo(string)
+  href: api/RateLimitHeaders.Throttling.IRateLimitStateProvider.html#RateLimitHeaders_Throttling_IRateLimitStateProvider_GetRateLimitInfo_System_String_
+  commentId: M:RateLimitHeaders.Throttling.IRateLimitStateProvider.GetRateLimitInfo(System.String)
+  name.vb: GetRateLimitInfo(String)
+  fullName: RateLimitHeaders.Throttling.IRateLimitStateProvider.GetRateLimitInfo(string)
+  fullName.vb: RateLimitHeaders.Throttling.IRateLimitStateProvider.GetRateLimitInfo(String)
+  nameWithType: IRateLimitStateProvider.GetRateLimitInfo(string)
+  nameWithType.vb: IRateLimitStateProvider.GetRateLimitInfo(String)
+- uid: RateLimitHeaders.Throttling.IRateLimitStateProvider.GetRateLimitInfo*
+  name: GetRateLimitInfo
+  href: api/RateLimitHeaders.Throttling.IRateLimitStateProvider.html#RateLimitHeaders_Throttling_IRateLimitStateProvider_GetRateLimitInfo_
+  commentId: Overload:RateLimitHeaders.Throttling.IRateLimitStateProvider.GetRateLimitInfo
+  isSpec: "True"
+  fullName: RateLimitHeaders.Throttling.IRateLimitStateProvider.GetRateLimitInfo
+  nameWithType: IRateLimitStateProvider.GetRateLimitInfo
+- uid: RateLimitHeaders.Throttling.IRateLimitStateProvider.TrackedEndpoints
+  name: TrackedEndpoints
+  href: api/RateLimitHeaders.Throttling.IRateLimitStateProvider.html#RateLimitHeaders_Throttling_IRateLimitStateProvider_TrackedEndpoints
+  commentId: P:RateLimitHeaders.Throttling.IRateLimitStateProvider.TrackedEndpoints
+  fullName: RateLimitHeaders.Throttling.IRateLimitStateProvider.TrackedEndpoints
+  nameWithType: IRateLimitStateProvider.TrackedEndpoints
+- uid: RateLimitHeaders.Throttling.IRateLimitStateProvider.TrackedEndpoints*
+  name: TrackedEndpoints
+  href: api/RateLimitHeaders.Throttling.IRateLimitStateProvider.html#RateLimitHeaders_Throttling_IRateLimitStateProvider_TrackedEndpoints_
+  commentId: Overload:RateLimitHeaders.Throttling.IRateLimitStateProvider.TrackedEndpoints
+  isSpec: "True"
+  fullName: RateLimitHeaders.Throttling.IRateLimitStateProvider.TrackedEndpoints
+  nameWithType: IRateLimitStateProvider.TrackedEndpoints
+- uid: RateLimitHeaders.Throttling.IThrottlingAlgorithm
+  name: IThrottlingAlgorithm
+  href: api/RateLimitHeaders.Throttling.IThrottlingAlgorithm.html
+  commentId: T:RateLimitHeaders.Throttling.IThrottlingAlgorithm
+  fullName: RateLimitHeaders.Throttling.IThrottlingAlgorithm
+  nameWithType: IThrottlingAlgorithm
+- uid: RateLimitHeaders.Throttling.IThrottlingAlgorithm.Evaluate(RateLimitHeaders.Parsing.RateLimitInfo)
+  name: Evaluate(RateLimitInfo)
+  href: api/RateLimitHeaders.Throttling.IThrottlingAlgorithm.html#RateLimitHeaders_Throttling_IThrottlingAlgorithm_Evaluate_RateLimitHeaders_Parsing_RateLimitInfo_
+  commentId: M:RateLimitHeaders.Throttling.IThrottlingAlgorithm.Evaluate(RateLimitHeaders.Parsing.RateLimitInfo)
+  fullName: RateLimitHeaders.Throttling.IThrottlingAlgorithm.Evaluate(RateLimitHeaders.Parsing.RateLimitInfo)
+  nameWithType: IThrottlingAlgorithm.Evaluate(RateLimitInfo)
+- uid: RateLimitHeaders.Throttling.IThrottlingAlgorithm.Evaluate(RateLimitHeaders.Parsing.RateLimitInfo,RateLimitHeaders.Throttling.IRateLimitStateProvider)
+  name: Evaluate(RateLimitInfo, IRateLimitStateProvider?)
+  href: api/RateLimitHeaders.Throttling.IThrottlingAlgorithm.html#RateLimitHeaders_Throttling_IThrottlingAlgorithm_Evaluate_RateLimitHeaders_Parsing_RateLimitInfo_RateLimitHeaders_Throttling_IRateLimitStateProvider_
+  commentId: M:RateLimitHeaders.Throttling.IThrottlingAlgorithm.Evaluate(RateLimitHeaders.Parsing.RateLimitInfo,RateLimitHeaders.Throttling.IRateLimitStateProvider)
+  name.vb: Evaluate(RateLimitInfo, IRateLimitStateProvider)
+  fullName: RateLimitHeaders.Throttling.IThrottlingAlgorithm.Evaluate(RateLimitHeaders.Parsing.RateLimitInfo, RateLimitHeaders.Throttling.IRateLimitStateProvider?)
+  fullName.vb: RateLimitHeaders.Throttling.IThrottlingAlgorithm.Evaluate(RateLimitHeaders.Parsing.RateLimitInfo, RateLimitHeaders.Throttling.IRateLimitStateProvider)
+  nameWithType: IThrottlingAlgorithm.Evaluate(RateLimitInfo, IRateLimitStateProvider?)
+  nameWithType.vb: IThrottlingAlgorithm.Evaluate(RateLimitInfo, IRateLimitStateProvider)
+- uid: RateLimitHeaders.Throttling.IThrottlingAlgorithm.Evaluate*
+  name: Evaluate
+  href: api/RateLimitHeaders.Throttling.IThrottlingAlgorithm.html#RateLimitHeaders_Throttling_IThrottlingAlgorithm_Evaluate_
+  commentId: Overload:RateLimitHeaders.Throttling.IThrottlingAlgorithm.Evaluate
+  isSpec: "True"
+  fullName: RateLimitHeaders.Throttling.IThrottlingAlgorithm.Evaluate
+  nameWithType: IThrottlingAlgorithm.Evaluate
+- uid: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm
+  name: PercentageThrottlingAlgorithm
+  href: api/RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.html
+  commentId: T:RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm
+  fullName: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm
+  nameWithType: PercentageThrottlingAlgorithm
+- uid: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.#ctor
+  name: PercentageThrottlingAlgorithm()
+  href: api/RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.html#RateLimitHeaders_Throttling_PercentageThrottlingAlgorithm__ctor
+  commentId: M:RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.#ctor
+  name.vb: New()
+  fullName: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.PercentageThrottlingAlgorithm()
+  fullName.vb: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.New()
+  nameWithType: PercentageThrottlingAlgorithm.PercentageThrottlingAlgorithm()
+  nameWithType.vb: PercentageThrottlingAlgorithm.New()
+- uid: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.#ctor(System.Double,System.Double,System.TimeSpan)
+  name: PercentageThrottlingAlgorithm(double, double, TimeSpan)
+  href: api/RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.html#RateLimitHeaders_Throttling_PercentageThrottlingAlgorithm__ctor_System_Double_System_Double_System_TimeSpan_
+  commentId: M:RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.#ctor(System.Double,System.Double,System.TimeSpan)
+  name.vb: New(Double, Double, TimeSpan)
+  fullName: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.PercentageThrottlingAlgorithm(double, double, System.TimeSpan)
+  fullName.vb: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.New(Double, Double, System.TimeSpan)
+  nameWithType: PercentageThrottlingAlgorithm.PercentageThrottlingAlgorithm(double, double, TimeSpan)
+  nameWithType.vb: PercentageThrottlingAlgorithm.New(Double, Double, TimeSpan)
+- uid: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.#ctor*
+  name: PercentageThrottlingAlgorithm
+  href: api/RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.html#RateLimitHeaders_Throttling_PercentageThrottlingAlgorithm__ctor_
+  commentId: Overload:RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.PercentageThrottlingAlgorithm
+  fullName.vb: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.New
+  nameWithType: PercentageThrottlingAlgorithm.PercentageThrottlingAlgorithm
+  nameWithType.vb: PercentageThrottlingAlgorithm.New
+- uid: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.DefaultFactor
+  name: DefaultFactor
+  href: api/RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.html#RateLimitHeaders_Throttling_PercentageThrottlingAlgorithm_DefaultFactor
+  commentId: F:RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.DefaultFactor
+  fullName: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.DefaultFactor
+  nameWithType: PercentageThrottlingAlgorithm.DefaultFactor
+- uid: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.DefaultMaxDelay
+  name: DefaultMaxDelay
+  href: api/RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.html#RateLimitHeaders_Throttling_PercentageThrottlingAlgorithm_DefaultMaxDelay
+  commentId: F:RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.DefaultMaxDelay
+  fullName: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.DefaultMaxDelay
+  nameWithType: PercentageThrottlingAlgorithm.DefaultMaxDelay
+- uid: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.DefaultThreshold
+  name: DefaultThreshold
+  href: api/RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.html#RateLimitHeaders_Throttling_PercentageThrottlingAlgorithm_DefaultThreshold
+  commentId: F:RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.DefaultThreshold
+  fullName: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.DefaultThreshold
+  nameWithType: PercentageThrottlingAlgorithm.DefaultThreshold
+- uid: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.Evaluate(RateLimitHeaders.Parsing.RateLimitInfo)
+  name: Evaluate(RateLimitInfo)
+  href: api/RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.html#RateLimitHeaders_Throttling_PercentageThrottlingAlgorithm_Evaluate_RateLimitHeaders_Parsing_RateLimitInfo_
+  commentId: M:RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.Evaluate(RateLimitHeaders.Parsing.RateLimitInfo)
+  fullName: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.Evaluate(RateLimitHeaders.Parsing.RateLimitInfo)
+  nameWithType: PercentageThrottlingAlgorithm.Evaluate(RateLimitInfo)
+- uid: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.Evaluate*
+  name: Evaluate
+  href: api/RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.html#RateLimitHeaders_Throttling_PercentageThrottlingAlgorithm_Evaluate_
+  commentId: Overload:RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.Evaluate
+  isSpec: "True"
+  fullName: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.Evaluate
+  nameWithType: PercentageThrottlingAlgorithm.Evaluate
+- uid: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.Factor
+  name: Factor
+  href: api/RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.html#RateLimitHeaders_Throttling_PercentageThrottlingAlgorithm_Factor
+  commentId: P:RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.Factor
+  fullName: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.Factor
+  nameWithType: PercentageThrottlingAlgorithm.Factor
+- uid: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.Factor*
+  name: Factor
+  href: api/RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.html#RateLimitHeaders_Throttling_PercentageThrottlingAlgorithm_Factor_
+  commentId: Overload:RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.Factor
+  isSpec: "True"
+  fullName: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.Factor
+  nameWithType: PercentageThrottlingAlgorithm.Factor
+- uid: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.MaxDelay
+  name: MaxDelay
+  href: api/RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.html#RateLimitHeaders_Throttling_PercentageThrottlingAlgorithm_MaxDelay
+  commentId: P:RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.MaxDelay
+  fullName: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.MaxDelay
+  nameWithType: PercentageThrottlingAlgorithm.MaxDelay
+- uid: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.MaxDelay*
+  name: MaxDelay
+  href: api/RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.html#RateLimitHeaders_Throttling_PercentageThrottlingAlgorithm_MaxDelay_
+  commentId: Overload:RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.MaxDelay
+  isSpec: "True"
+  fullName: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.MaxDelay
+  nameWithType: PercentageThrottlingAlgorithm.MaxDelay
+- uid: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.Threshold
+  name: Threshold
+  href: api/RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.html#RateLimitHeaders_Throttling_PercentageThrottlingAlgorithm_Threshold
+  commentId: P:RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.Threshold
+  fullName: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.Threshold
+  nameWithType: PercentageThrottlingAlgorithm.Threshold
+- uid: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.Threshold*
+  name: Threshold
+  href: api/RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.html#RateLimitHeaders_Throttling_PercentageThrottlingAlgorithm_Threshold_
+  commentId: Overload:RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.Threshold
+  isSpec: "True"
+  fullName: RateLimitHeaders.Throttling.PercentageThrottlingAlgorithm.Threshold
+  nameWithType: PercentageThrottlingAlgorithm.Threshold
+- uid: RateLimitHeaders.Throttling.ThrottlingResult
+  name: ThrottlingResult
+  href: api/RateLimitHeaders.Throttling.ThrottlingResult.html
+  commentId: T:RateLimitHeaders.Throttling.ThrottlingResult
+  fullName: RateLimitHeaders.Throttling.ThrottlingResult
+  nameWithType: ThrottlingResult
+- uid: RateLimitHeaders.Throttling.ThrottlingResult.#ctor(System.Boolean,System.TimeSpan,System.String)
+  name: ThrottlingResult(bool, TimeSpan, string?)
+  href: api/RateLimitHeaders.Throttling.ThrottlingResult.html#RateLimitHeaders_Throttling_ThrottlingResult__ctor_System_Boolean_System_TimeSpan_System_String_
+  commentId: M:RateLimitHeaders.Throttling.ThrottlingResult.#ctor(System.Boolean,System.TimeSpan,System.String)
+  name.vb: New(Boolean, TimeSpan, String)
+  fullName: RateLimitHeaders.Throttling.ThrottlingResult.ThrottlingResult(bool, System.TimeSpan, string?)
+  fullName.vb: RateLimitHeaders.Throttling.ThrottlingResult.New(Boolean, System.TimeSpan, String)
+  nameWithType: ThrottlingResult.ThrottlingResult(bool, TimeSpan, string?)
+  nameWithType.vb: ThrottlingResult.New(Boolean, TimeSpan, String)
+- uid: RateLimitHeaders.Throttling.ThrottlingResult.#ctor*
+  name: ThrottlingResult
+  href: api/RateLimitHeaders.Throttling.ThrottlingResult.html#RateLimitHeaders_Throttling_ThrottlingResult__ctor_
+  commentId: Overload:RateLimitHeaders.Throttling.ThrottlingResult.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: RateLimitHeaders.Throttling.ThrottlingResult.ThrottlingResult
+  fullName.vb: RateLimitHeaders.Throttling.ThrottlingResult.New
+  nameWithType: ThrottlingResult.ThrottlingResult
+  nameWithType.vb: ThrottlingResult.New
+- uid: RateLimitHeaders.Throttling.ThrottlingResult.Delay
+  name: Delay
+  href: api/RateLimitHeaders.Throttling.ThrottlingResult.html#RateLimitHeaders_Throttling_ThrottlingResult_Delay
+  commentId: P:RateLimitHeaders.Throttling.ThrottlingResult.Delay
+  fullName: RateLimitHeaders.Throttling.ThrottlingResult.Delay
+  nameWithType: ThrottlingResult.Delay
+- uid: RateLimitHeaders.Throttling.ThrottlingResult.Delay*
+  name: Delay
+  href: api/RateLimitHeaders.Throttling.ThrottlingResult.html#RateLimitHeaders_Throttling_ThrottlingResult_Delay_
+  commentId: Overload:RateLimitHeaders.Throttling.ThrottlingResult.Delay
+  isSpec: "True"
+  fullName: RateLimitHeaders.Throttling.ThrottlingResult.Delay
+  nameWithType: ThrottlingResult.Delay
+- uid: RateLimitHeaders.Throttling.ThrottlingResult.NoThrottle
+  name: NoThrottle
+  href: api/RateLimitHeaders.Throttling.ThrottlingResult.html#RateLimitHeaders_Throttling_ThrottlingResult_NoThrottle
+  commentId: F:RateLimitHeaders.Throttling.ThrottlingResult.NoThrottle
+  fullName: RateLimitHeaders.Throttling.ThrottlingResult.NoThrottle
+  nameWithType: ThrottlingResult.NoThrottle
+- uid: RateLimitHeaders.Throttling.ThrottlingResult.Reason
+  name: Reason
+  href: api/RateLimitHeaders.Throttling.ThrottlingResult.html#RateLimitHeaders_Throttling_ThrottlingResult_Reason
+  commentId: P:RateLimitHeaders.Throttling.ThrottlingResult.Reason
+  fullName: RateLimitHeaders.Throttling.ThrottlingResult.Reason
+  nameWithType: ThrottlingResult.Reason
+- uid: RateLimitHeaders.Throttling.ThrottlingResult.Reason*
+  name: Reason
+  href: api/RateLimitHeaders.Throttling.ThrottlingResult.html#RateLimitHeaders_Throttling_ThrottlingResult_Reason_
+  commentId: Overload:RateLimitHeaders.Throttling.ThrottlingResult.Reason
+  isSpec: "True"
+  fullName: RateLimitHeaders.Throttling.ThrottlingResult.Reason
+  nameWithType: ThrottlingResult.Reason
+- uid: RateLimitHeaders.Throttling.ThrottlingResult.ShouldThrottle
+  name: ShouldThrottle
+  href: api/RateLimitHeaders.Throttling.ThrottlingResult.html#RateLimitHeaders_Throttling_ThrottlingResult_ShouldThrottle
+  commentId: P:RateLimitHeaders.Throttling.ThrottlingResult.ShouldThrottle
+  fullName: RateLimitHeaders.Throttling.ThrottlingResult.ShouldThrottle
+  nameWithType: ThrottlingResult.ShouldThrottle
+- uid: RateLimitHeaders.Throttling.ThrottlingResult.ShouldThrottle*
+  name: ShouldThrottle
+  href: api/RateLimitHeaders.Throttling.ThrottlingResult.html#RateLimitHeaders_Throttling_ThrottlingResult_ShouldThrottle_
+  commentId: Overload:RateLimitHeaders.Throttling.ThrottlingResult.ShouldThrottle
+  isSpec: "True"
+  fullName: RateLimitHeaders.Throttling.ThrottlingResult.ShouldThrottle
+  nameWithType: ThrottlingResult.ShouldThrottle
+- uid: RateLimitHeaders.Throttling.ThrottlingResult.Throttle(System.Int32,System.String)
+  name: Throttle(int, string?)
+  href: api/RateLimitHeaders.Throttling.ThrottlingResult.html#RateLimitHeaders_Throttling_ThrottlingResult_Throttle_System_Int32_System_String_
+  commentId: M:RateLimitHeaders.Throttling.ThrottlingResult.Throttle(System.Int32,System.String)
+  name.vb: Throttle(Integer, String)
+  fullName: RateLimitHeaders.Throttling.ThrottlingResult.Throttle(int, string?)
+  fullName.vb: RateLimitHeaders.Throttling.ThrottlingResult.Throttle(Integer, String)
+  nameWithType: ThrottlingResult.Throttle(int, string?)
+  nameWithType.vb: ThrottlingResult.Throttle(Integer, String)
+- uid: RateLimitHeaders.Throttling.ThrottlingResult.Throttle(System.TimeSpan,System.String)
+  name: Throttle(TimeSpan, string?)
+  href: api/RateLimitHeaders.Throttling.ThrottlingResult.html#RateLimitHeaders_Throttling_ThrottlingResult_Throttle_System_TimeSpan_System_String_
+  commentId: M:RateLimitHeaders.Throttling.ThrottlingResult.Throttle(System.TimeSpan,System.String)
+  name.vb: Throttle(TimeSpan, String)
+  fullName: RateLimitHeaders.Throttling.ThrottlingResult.Throttle(System.TimeSpan, string?)
+  fullName.vb: RateLimitHeaders.Throttling.ThrottlingResult.Throttle(System.TimeSpan, String)
+  nameWithType: ThrottlingResult.Throttle(TimeSpan, string?)
+  nameWithType.vb: ThrottlingResult.Throttle(TimeSpan, String)
+- uid: RateLimitHeaders.Throttling.ThrottlingResult.Throttle*
+  name: Throttle
+  href: api/RateLimitHeaders.Throttling.ThrottlingResult.html#RateLimitHeaders_Throttling_ThrottlingResult_Throttle_
+  commentId: Overload:RateLimitHeaders.Throttling.ThrottlingResult.Throttle
+  isSpec: "True"
+  fullName: RateLimitHeaders.Throttling.ThrottlingResult.Throttle
+  nameWithType: ThrottlingResult.Throttle

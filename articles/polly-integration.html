@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Polly Integration | RateLimitHeaders </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Polly Integration | RateLimitHeaders ">
+      <meta name="description" content="RateLimitHeaders - A .NET library for parsing IETF RateLimit headers and enabling proactive rate limit awareness in HTTP clients. Works with Polly v8 and IHttpClientFactory.">
+      
+      <link rel="icon" href="../images/favicon.svg">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/Alos-no/RateLimitHeaders/blob/main/docs/articles/polly-integration.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-J3X1J125E2"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-J3X1J125E2');
+      </script>
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.svg" alt="RateLimitHeaders">
+            RateLimitHeaders
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="polly-integration">Polly Integration</h1>
+
+<p>RateLimitHeaders.Polly provides seamless integration with Polly v8 resilience pipelines, allowing you to add rate limit awareness alongside retry, circuit breaker, and timeout strategies.</p>
+<h2 id="installation">Installation</h2>
+<pre><code class="lang-bash">dotnet add package RateLimitHeaders.Polly
+</code></pre>
+<h2 id="basic-usage">Basic Usage</h2>
+<p>Add rate limit awareness to your resilience pipeline:</p>
+<pre><code class="lang-csharp">using Polly;
+using RateLimitHeaders.Polly;
+
+var pipeline = new ResiliencePipelineBuilder&lt;HttpResponseMessage&gt;()
+    .AddRateLimitHeaders(options =&gt;
+    {
+        options.EnableProactiveThrottling = true;
+    })
+    .AddRetry(new RetryStrategyOptions&lt;HttpResponseMessage&gt;())
+    .Build();
+</code></pre>
+<h2 id="pipeline-order">Pipeline Order</h2>
+<p>The order of strategies in your pipeline matters. For rate limit awareness:</p>
+<pre><code class="lang-csharp">var pipeline = new ResiliencePipelineBuilder&lt;HttpResponseMessage&gt;()
+    // 1. Rate limit headers - processes responses and may delay requests
+    .AddRateLimitHeaders(options =&gt; options.EnableProactiveThrottling = true)
+
+    // 2. Retry - retries failed requests (including 429s)
+    .AddRetry(new RetryStrategyOptions&lt;HttpResponseMessage&gt;
+    {
+        ShouldHandle = new PredicateBuilder&lt;HttpResponseMessage&gt;()
+            .HandleResult(r =&gt; r.StatusCode == HttpStatusCode.TooManyRequests)
+            .HandleResult(r =&gt; !r.IsSuccessStatusCode),
+        MaxRetryAttempts = 3,
+        Delay = TimeSpan.FromSeconds(1)
+    })
+
+    // 3. Timeout - per-attempt timeout
+    .AddTimeout(TimeSpan.FromSeconds(30))
+    .Build();
+</code></pre>
+<h2 id="accessing-rate-limit-info">Accessing Rate Limit Info</h2>
+<p>Rate limit information is stored in the <code>ResilienceContext</code> after each request:</p>
+<pre><code class="lang-csharp">var context = ResilienceContextPool.Shared.Get(cancellationToken);
+
+try
+{
+    var response = await pipeline.ExecuteAsync(
+        async (ctx, ct) =&gt; await httpClient.GetAsync(&quot;/api/resource&quot;, ct),
+        context,
+        cancellationToken);
+
+    // Access parsed rate limit info
+    if (context.Properties.TryGetValue(
+        RateLimitContextProperties.RateLimitInfoKey,
+        out var info))
+    {
+        Console.WriteLine($&quot;Policy: {info.PolicyName}&quot;);
+        Console.WriteLine($&quot;Remaining: {info.Remaining}/{info.Quota}&quot;);
+        Console.WriteLine($&quot;Resets in: {info.ResetSeconds}s&quot;);
+    }
+}
+finally
+{
+    ResilienceContextPool.Shared.Return(context);
+}
+</code></pre>
+<h2 id="event-callbacks">Event Callbacks</h2>
+<p>Monitor rate limit events within your pipeline:</p>
+<pre><code class="lang-csharp">var pipeline = new ResiliencePipelineBuilder&lt;HttpResponseMessage&gt;()
+    .AddRateLimitHeaders(options =&gt;
+    {
+        options.EnableProactiveThrottling = true;
+
+        options.OnRateLimitInfo = args =&gt;
+        {
+            logger.LogDebug(&quot;Rate limit: {Remaining}/{Quota}&quot;,
+                args.RateLimitInfo.Remaining,
+                args.RateLimitInfo.Quota);
+            return ValueTask.CompletedTask;
+        };
+
+        options.OnQuotaLow = args =&gt;
+        {
+            logger.LogWarning(&quot;Quota low: {Percentage:P0}&quot;,
+                args.RemainingPercentage);
+            return ValueTask.CompletedTask;
+        };
+
+        options.OnThrottling = args =&gt;
+        {
+            logger.LogInformation(&quot;Throttling for {Delay}ms&quot;,
+                args.Delay.TotalMilliseconds);
+            return ValueTask.CompletedTask;
+        };
+    })
+    .Build();
+</code></pre>
+<h2 id="combining-with-httpclient-resilience">Combining with HttpClient Resilience</h2>
+<p>If you're using <code>Microsoft.Extensions.Http.Resilience</code>, you can add rate limit awareness to the standard resilience handler:</p>
+<pre><code class="lang-csharp">services.AddHttpClient(&quot;MyApi&quot;)
+    .AddResilienceHandler(&quot;rate-limit-aware&quot;, builder =&gt;
+    {
+        builder.AddRateLimitHeaders(options =&gt;
+        {
+            options.EnableProactiveThrottling = true;
+        });
+    })
+    .AddStandardResilienceHandler();
+</code></pre>
+<h2 id="using-with-typed-clients">Using with Typed Clients</h2>
+<pre><code class="lang-csharp">public interface IMyApiClient
+{
+    Task&lt;string&gt; GetResourceAsync(CancellationToken ct = default);
+}
+
+public class MyApiClient : IMyApiClient
+{
+    private readonly HttpClient _httpClient;
+    private readonly ResiliencePipeline&lt;HttpResponseMessage&gt; _pipeline;
+
+    public MyApiClient(HttpClient httpClient, ResiliencePipeline&lt;HttpResponseMessage&gt; pipeline)
+    {
+        _httpClient = httpClient;
+        _pipeline = pipeline;
+    }
+
+    public async Task&lt;string&gt; GetResourceAsync(CancellationToken ct = default)
+    {
+        var response = await _pipeline.ExecuteAsync(
+            async (_, token) =&gt; await _httpClient.GetAsync(&quot;/api/resource&quot;, token),
+            ResilienceContextPool.Shared.Get(ct),
+            ct);
+
+        return await response.Content.ReadAsStringAsync(ct);
+    }
+}
+</code></pre>
+<h2 id="best-practices">Best Practices</h2>
+<ol>
+<li><strong>Place rate limiting first</strong>: Add <code>AddRateLimitHeaders()</code> before retry strategies so throttling happens before each attempt</li>
+<li><strong>Use context pooling</strong>: Always use <code>ResilienceContextPool</code> for efficient context management</li>
+<li><strong>Return contexts</strong>: Always return borrowed contexts in a <code>finally</code> block</li>
+<li><strong>Combine strategies</strong>: Use with retry and circuit breaker for comprehensive resilience</li>
+<li><strong>Monitor events</strong>: Use callbacks for observability into rate limit behavior</li>
+</ol>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/Alos-no/RateLimitHeaders/blob/main/docs/articles/polly-integration.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Built and maintained by <a href="https://alos.no" target="_blank" rel="noopener">Alos Engineering</a> · Licensed under <a href="https://github.com/Alos-no/RateLimitHeaders/blob/main/LICENSE" target="_blank" rel="noopener">MIT</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

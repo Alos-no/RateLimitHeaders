@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <defs>
+    <linearGradient id="rlGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1aae71"/>
+      <stop offset="100%" style="stop-color:#15895a"/>
+    </linearGradient>
+  </defs>
+  <!-- Gauge arc (270 degrees, open at bottom) -->
+  <circle fill="none" stroke="url(#rlGradient)" stroke-width="3.5" cx="16" cy="16" r="12"
+          stroke-dasharray="56.5 75.4" stroke-linecap="round" transform="rotate(135 16 16)"/>
+  <!-- Gauge needle pointing to ~70% -->
+  <path fill="url(#rlGradient)" d="M16 6 L17.2 14.5 L16 16 L14.8 14.5 Z" transform="rotate(50 16 16)"/>
+  <!-- Center dot -->
+  <circle fill="url(#rlGradient)" cx="16" cy="16" r="2"/>
+</svg>

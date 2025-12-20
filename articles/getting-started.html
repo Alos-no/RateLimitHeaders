@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Getting Started | RateLimitHeaders </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Getting Started | RateLimitHeaders ">
+      <meta name="description" content="Get started with RateLimitHeaders. Learn how to install, configure, and use proactive rate limiting in your .NET HTTP clients.">
+      
+      <link rel="icon" href="../images/favicon.svg">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/Alos-no/RateLimitHeaders/blob/main/docs/articles/getting-started.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-J3X1J125E2"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-J3X1J125E2');
+      </script>
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.svg" alt="RateLimitHeaders">
+            RateLimitHeaders
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="getting-started">Getting Started</h1>
+
+<p>This guide will help you get up and running with RateLimitHeaders.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>.NET 8.0, .NET 9.0, or .NET 10.0 SDK</li>
+</ul>
+<h2 id="installation">Installation</h2>
+<p>Install the packages you need from NuGet:</p>
+<div class="tabGroup" id="tabgroup_1">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_1_dotnet-cli" role="tab" aria-controls="tabpanel_1_dotnet-cli" data-tab="dotnet-cli" tabindex="0" aria-selected="true">.NET CLI</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_1_package-manager" role="tab" aria-controls="tabpanel_1_package-manager" data-tab="package-manager" tabindex="-1">Package Manager</a>
+</li>
+</ul>
+<section id="tabpanel_1_dotnet-cli" role="tabpanel" data-tab="dotnet-cli">
+
+<pre><code class="lang-bash"># Core library with DelegatingHandler
+dotnet add package RateLimitHeaders
+
+# Polly v8 integration (optional)
+dotnet add package RateLimitHeaders.Polly
+</code></pre>
+</section>
+<section id="tabpanel_1_package-manager" role="tabpanel" data-tab="package-manager" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-powershell"># Core library with DelegatingHandler
+Install-Package RateLimitHeaders
+
+# Polly v8 integration (optional)
+Install-Package RateLimitHeaders.Polly
+</code></pre>
+</section>
+</div>
+<h2 id="quick-start-with-ihttpclientfactory">Quick Start with IHttpClientFactory</h2>
+<p>The easiest way to use RateLimitHeaders is with IHttpClientFactory:</p>
+<pre><code class="lang-csharp">var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddHttpClient(&quot;MyApi&quot;, client =&gt;
+{
+    client.BaseAddress = new Uri(&quot;https://api.example.com&quot;);
+})
+.AddRateLimitAwareHandler(options =&gt;
+{
+    options.EnableProactiveThrottling = true;
+    options.QuotaLowThreshold = 0.1; // 10%
+});
+
+var app = builder.Build();
+</code></pre>
+<p>Then inject and use the HttpClient:</p>
+<pre><code class="lang-csharp">public class MyService(IHttpClientFactory httpClientFactory)
+{
+    public async Task&lt;string&gt; GetDataAsync()
+    {
+        var client = httpClientFactory.CreateClient(&quot;MyApi&quot;);
+        var response = await client.GetAsync(&quot;/api/resource&quot;);
+        return await response.Content.ReadAsStringAsync();
+    }
+}
+</code></pre>
+<h2 id="quick-start-with-polly">Quick Start with Polly</h2>
+<p>If you're using Polly for resilience, add rate limit awareness to your pipeline:</p>
+<pre><code class="lang-csharp">var pipeline = new ResiliencePipelineBuilder&lt;HttpResponseMessage&gt;()
+    .AddRateLimitHeaders(options =&gt;
+    {
+        options.EnableProactiveThrottling = true;
+    })
+    .AddRetry(new RetryStrategyOptions&lt;HttpResponseMessage&gt;())
+    .Build();
+</code></pre>
+<p>Use the pipeline with an HttpClient:</p>
+<pre><code class="lang-csharp">var context = ResilienceContextPool.Shared.Get(cancellationToken);
+
+try
+{
+    var response = await pipeline.ExecuteAsync(
+        async (ctx, ct) =&gt; await httpClient.GetAsync(&quot;/api/resource&quot;, ct),
+        context,
+        cancellationToken);
+
+    // Access parsed rate limit info from context
+    if (context.Properties.TryGetValue(RateLimitContextProperties.RateLimitInfoKey, out var info))
+    {
+        Console.WriteLine($&quot;Remaining: {info.Remaining}/{info.Quota}&quot;);
+    }
+}
+finally
+{
+    ResilienceContextPool.Shared.Return(context);
+}
+</code></pre>
+<h2 id="accessing-rate-limit-info-from-responses">Accessing Rate Limit Info from Responses</h2>
+<h3 id="extension-methods-recommended">Extension Methods (Recommended)</h3>
+<p>Use the convenient extension methods on <code>HttpResponseMessage</code>:</p>
+<pre><code class="lang-csharp">var response = await httpClient.GetAsync(&quot;/api/resource&quot;);
+
+// Option 1: Direct parsing (parses headers each call)
+if (response.TryGetRateLimitInfo(out var info))
+{
+    Console.WriteLine($&quot;Remaining: {info.Remaining}/{info.Quota}&quot;);
+}
+
+// Option 2: Get without null check (returns invalid RateLimitInfo if no headers)
+var rateLimitInfo = response.GetRateLimitInfo();
+if (rateLimitInfo.IsValid)
+{
+    Console.WriteLine($&quot;Policy: {rateLimitInfo.PolicyName}&quot;);
+}
+
+// Option 3: Get cached info (when using RateLimitAwareHandler)
+// The handler stores parsed info in request options for efficiency
+if (response.TryGetStoredRateLimitInfo(out var cachedInfo))
+{
+    Console.WriteLine($&quot;Cached: {cachedInfo.Remaining}/{cachedInfo.Quota}&quot;);
+}
+</code></pre>
+<h3 id="static-parser">Static Parser</h3>
+<p>For more control, use the static parser directly:</p>
+<pre><code class="lang-csharp">var response = await httpClient.GetAsync(&quot;/api/resource&quot;);
+
+if (RateLimitHeaderParser.TryParse(response, out var rateLimitInfo))
+{
+    Console.WriteLine($&quot;Policy: {rateLimitInfo.PolicyName}&quot;);
+    Console.WriteLine($&quot;Remaining: {rateLimitInfo.Remaining}/{rateLimitInfo.Quota}&quot;);
+    Console.WriteLine($&quot;Resets in: {rateLimitInfo.ResetSeconds}s&quot;);
+    Console.WriteLine($&quot;Window: {rateLimitInfo.WindowSeconds}s&quot;);
+
+    if (rateLimitInfo.IsQuotaLow(0.1)) // 10% threshold
+    {
+        Console.WriteLine(&quot;Warning: Quota is low!&quot;);
+    }
+}
+</code></pre>
+<h2 id="handler-placement-order">Handler Placement Order</h2>
+<p>When using multiple delegating handlers, place the rate limit aware handler:</p>
+<ul>
+<li><strong>AFTER</strong> authentication handlers (so auth headers are present for state tracking)</li>
+<li><strong>BEFORE</strong> retry/resilience handlers (so rate limit info is available for retry decisions)</li>
+</ul>
+<pre><code class="lang-csharp">services.AddHttpClient(&quot;MyApi&quot;)
+    .AddHttpMessageHandler&lt;AuthenticationHandler&gt;()  // 1. Auth first
+    .AddRateLimitAwareHandler()                      // 2. Rate limiting
+    .AddStandardResilienceHandler();                 // 3. Retry/resilience last
+</code></pre>
+<h2 id="event-callbacks">Event Callbacks</h2>
+<p>Monitor rate limit status with event callbacks:</p>
+<pre><code class="lang-csharp">services.AddHttpClient(&quot;MyApi&quot;)
+    .AddRateLimitAwareHandler(options =&gt;
+    {
+        options.EnableProactiveThrottling = true;
+
+        options.OnRateLimitInfo = args =&gt;
+        {
+            logger.LogDebug(&quot;Rate limit: {Remaining}/{Quota}&quot;,
+                args.RateLimitInfo.Remaining,
+                args.RateLimitInfo.Quota);
+            return ValueTask.CompletedTask;
+        };
+
+        options.OnQuotaLow = args =&gt;
+        {
+            logger.LogWarning(&quot;Quota low: {Percentage:P0}&quot;,
+                args.RemainingPercentage);
+            return ValueTask.CompletedTask;
+        };
+
+        options.OnThrottling = args =&gt;
+        {
+            logger.LogInformation(&quot;Throttling for {Delay}ms: {Reason}&quot;,
+                args.Delay.TotalMilliseconds,
+                args.Reason);
+            return ValueTask.CompletedTask;
+        };
+    });
+</code></pre>
+<h2 id="next-steps">Next Steps</h2>
+<ul>
+<li><a href="configuration.html">Configuration</a> - All configuration options</li>
+<li><a href="proactive-throttling.html">Proactive Throttling</a> - How proactive throttling works</li>
+<li><a href="polly-integration.html">Polly Integration</a> - Using with Polly resilience pipelines</li>
+<li><a href="custom-algorithms.html">Custom Throttling Algorithms</a> - Implement custom throttling strategies</li>
+<li><a class="xref" href="../api/RateLimitHeaders.html">API Reference</a> - Complete API documentation</li>
+</ul>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/Alos-no/RateLimitHeaders/blob/main/docs/articles/getting-started.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Built and maintained by <a href="https://alos.no" target="_blank" rel="noopener">Alos Engineering</a> · Licensed under <a href="https://github.com/Alos-no/RateLimitHeaders/blob/main/LICENSE" target="_blank" rel="noopener">MIT</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
