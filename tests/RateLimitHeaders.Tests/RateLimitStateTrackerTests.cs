@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Time.Testing;
 using RateLimitHeaders.Internal;
 using RateLimitHeaders.Parsing;
 
@@ -258,10 +259,14 @@ public class RateLimitStateTrackerTests
     }
 
     [Fact]
-    public async Task GetRateLimitInfo_AfterExpiry_ShouldStillReturnCachedValue()
+    public void GetRateLimitInfo_AfterExpiry_ReadsInvalidButRawSnapshotStaysStored()
     {
-        // Arrange
-        var tracker = new RateLimitStateTracker();
+        // Arrange: a 1-second window observed at a fixed instant.
+        // The audit (AUD-03 in TRACKER-adversarial-audit.md) condemned the old behavior of
+        // returning the raw snapshot after the window elapsed; the adjusted read must now be
+        // invalid, while the raw snapshot stays reachable via GetState until cleanup removes it.
+        var clock = new FakeTimeProvider(new DateTimeOffset(2026, 8, 14, 12, 0, 0, TimeSpan.Zero));
+        var tracker = new RateLimitStateTracker(clock);
         tracker.UpdateState("key", new RateLimitInfo
         {
             PolicyName = "test",
@@ -271,15 +276,17 @@ public class RateLimitStateTrackerTests
             IsValid = true
         });
 
-        // Wait past the reset time
-        await Task.Delay(1500);
+        // Advance past the reset moment
+        clock.Advance(TimeSpan.FromSeconds(1.5));
 
         // Act - entry is stale but not yet cleaned up
-        var result = tracker.GetRateLimitInfo("key");
+        var adjusted = tracker.GetRateLimitInfo("key");
+        var raw = tracker.GetState("key");
 
-        // Assert - still returns cached value until explicit cleanup
-        result.IsValid.Should().BeTrue();
-        result.Remaining.Should().Be(0);
+        // Assert
+        adjusted.IsValid.Should().BeFalse("an elapsed window must no longer drive decisions");
+        raw.Should().NotBeNull("cleanup has not run, so the raw snapshot is still stored");
+        raw!.Value.Info.Remaining.Should().Be(0);
     }
 
     [Fact]

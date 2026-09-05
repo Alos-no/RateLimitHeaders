@@ -97,6 +97,27 @@ public interface IThrottlingAlgorithm
         // Default implementation ignores state provider
         return Evaluate(rateLimitInfo);
     }
+
+    /// <summary>
+    /// Evaluates a time-adjusted throttling context and determines whether throttling is needed.
+    /// </summary>
+    /// <param name="context">
+    /// The time-adjusted state: <see cref="ThrottlingContext.RateLimitInfo"/> already has the
+    /// elapsed time since the response arrived subtracted from its reset value, and the context
+    /// carries the observation instant and the exact time until the window resets.
+    /// </param>
+    /// <returns>A <see cref="ThrottlingResult"/> indicating whether to throttle and for how long.</returns>
+    /// <remarks>
+    /// The default implementation delegates to
+    /// <see cref="Evaluate(RateLimitInfo, IRateLimitStateProvider?)"/> with the adjusted info,
+    /// so existing algorithms keep working unchanged. Override this method to use the timing detail.
+    /// The handler enforces a server-ordered stop (a Retry-After, or zero remaining requests)
+    /// before consulting any algorithm; an algorithm cannot bypass that wait.
+    /// </remarks>
+    ThrottlingResult Evaluate(ThrottlingContext context)
+    {
+        return Evaluate(context.RateLimitInfo, context.StateProvider);
+    }
 }
 
 /// <summary>

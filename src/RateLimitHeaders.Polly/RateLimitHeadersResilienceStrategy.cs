@@ -12,9 +12,24 @@ namespace RateLimitHeaders.Polly;
 /// </summary>
 internal sealed class RateLimitHeadersResilienceStrategy : ResilienceStrategy<HttpResponseMessage>
 {
+    /// <summary>
+    /// The context property name under which <c>Microsoft.Extensions.Http.Resilience</c>'s
+    /// resilience handler publishes the outgoing request. Read by name so the shipped assembly
+    /// needs no reference to that package; the test project references the package and pins
+    /// this literal against a real resilience handler.
+    /// </summary>
+    private static readonly ResiliencePropertyKey<HttpRequestMessage> ResilienceRequestMessageKey =
+        new("Resilience.Http.RequestMessage");
+
     private readonly RateLimitHeadersStrategyOptions _options;
     private readonly RateLimitStateTracker _stateTracker;
     private readonly ResilienceStrategyTelemetry _telemetry;
+
+    /// <summary>
+    /// The state key of the most recently observed response, used as the throttling basis
+    /// when no key can be resolved before a request (Decision 3 in PLAN-audit-fixes.md).
+    /// </summary>
+    private volatile string? _lastObservedStateKey;
 
     public RateLimitHeadersResilienceStrategy(
         RateLimitHeadersStrategyOptions options,
@@ -22,7 +37,7 @@ internal sealed class RateLimitHeadersResilienceStrategy : ResilienceStrategy<Ht
     {
         _options = options;
         _telemetry = telemetry;
-        _stateTracker = new RateLimitStateTracker();
+        _stateTracker = options.StateStore ?? new RateLimitStateTracker(options.TimeProvider);
     }
 
     protected override async ValueTask<Outcome<HttpResponseMessage>> ExecuteCore<TState>(
@@ -52,36 +67,120 @@ internal sealed class RateLimitHeadersResilienceStrategy : ResilienceStrategy<Ht
             return;
         }
 
-        // Try to get the request from context for per-endpoint tracking
-        HttpRequestMessage? request = null;
-        context.Properties.TryGetValue(RateLimitContextProperties.RequestMessageKey, out request);
-
-        // Get rate limit info for the endpoint (or global if no request available)
-        var stateKey = _options.GetStateKey(request);
-        var existingInfo = _stateTracker.GetRateLimitInfo(stateKey);
-        if (!existingInfo.IsValid)
+        var (stateKey, source) = ResolveStateKey(context);
+        if (stateKey is null)
         {
+            // No key resolved and the last-observed fallback is off or has nothing observed yet
             return;
         }
 
-        var result = _options.ThrottlingAlgorithm.Evaluate(existingInfo, _stateTracker);
-        if (!result.ShouldThrottle || result.Delay <= TimeSpan.Zero)
+        if (!_stateTracker.TryGetThrottlingContext(stateKey, out var throttlingContext))
         {
+            // Nothing tracked under the resolved key, or the stored window has already
+            // elapsed. A resolved key with no state never falls back to another key.
             return;
+        }
+
+        var info = throttlingContext.RateLimitInfo;
+        TimeSpan delay;
+        string? reason;
+
+        if (ExhaustedStateHelper.IsServerOrderedStop(info))
+        {
+            // A server-ordered stop (a Retry-After header, or zero remaining requests) is
+            // enforced here, above the algorithm, so no algorithm can bypass the wait.
+            delay = ExhaustedStateHelper.GetStopDelay(info, throttlingContext.TimeUntilReset, _options.Throttling.MaxExhaustedDelay);
+            reason = ExhaustedStateHelper.GetStopReason(info, delay);
+        }
+        else
+        {
+            var result = _options.ThrottlingAlgorithm.Evaluate(throttlingContext);
+            if (!result.ShouldThrottle || result.Delay <= TimeSpan.Zero)
+            {
+                return;
+            }
+
+            delay = result.Delay;
+            reason = result.Reason;
         }
 
         // Raise throttling event
-        var throttlingArgs = new OnThrottlingArguments(context, existingInfo, result.Delay, result.Reason);
+        var throttlingArgs = new OnThrottlingArguments(context, info, delay, reason, stateKey, source);
         await PollyCallbackHelper.SafeInvokeAsync(_options.OnThrottling, throttlingArgs, _telemetry, context, "OnThrottling").ConfigureAwait(context.ContinueOnCapturedContext);
 
         // Report telemetry
         _telemetry.Report(
             new ResilienceEvent(ResilienceEventSeverity.Information, "OnThrottling"),
             context,
-            new OnThrottlingArguments(context, existingInfo, result.Delay, result.Reason));
+            throttlingArgs);
 
         // Apply the delay
-        await Task.Delay(result.Delay, context.CancellationToken).ConfigureAwait(context.ContinueOnCapturedContext);
+        await Task.Delay(delay, _options.TimeProvider, context.CancellationToken).ConfigureAwait(context.ContinueOnCapturedContext);
+    }
+
+    /// <summary>
+    /// Resolves the state key for the pre-request lookup through the chain (design item 10 in
+    /// PLAN-audit-fixes.md): (a) the global key when per-endpoint tracking is off; (b) a
+    /// caller-set key string, used verbatim; (c) the request stored under
+    /// <see cref="RateLimitContextProperties.RequestMessageKey"/>; (d) the request that
+    /// <c>Microsoft.Extensions.Http.Resilience</c> publishes; (e) unresolved, in which case
+    /// the most recently observed endpoint is used when
+    /// <see cref="RateLimitHeadersStrategyOptions.ThrottleWhenStateKeyUnknown"/> allows it.
+    /// </summary>
+    private (string? StateKey, ThrottleDecisionSource Source) ResolveStateKey(ResilienceContext context)
+    {
+        if (!_options.TrackStatePerEndpoint)
+        {
+            return (RateLimitOptionsHelper.GlobalStateKey, ThrottleDecisionSource.GlobalTracking);
+        }
+
+        if (context.Properties.TryGetValue(RateLimitContextProperties.StateKeyKey, out var callerKey)
+            && !string.IsNullOrWhiteSpace(callerKey))
+        {
+            return (callerKey, ThrottleDecisionSource.RequestStateKey);
+        }
+
+        if (context.Properties.TryGetValue(RateLimitContextProperties.RequestMessageKey, out var request)
+            && request is not null)
+        {
+            return (_options.GetStateKey(request), ThrottleDecisionSource.RequestMessage);
+        }
+
+        if (context.Properties.TryGetValue(ResilienceRequestMessageKey, out var resilienceRequest)
+            && resilienceRequest is not null)
+        {
+            return (_options.GetStateKey(resilienceRequest), ThrottleDecisionSource.ResilienceRequestMessage);
+        }
+
+        if (_options.ThrottleWhenStateKeyUnknown && _lastObservedStateKey is string lastObserved)
+        {
+            return (lastObserved, ThrottleDecisionSource.LastObservedEndpoint);
+        }
+
+        return (null, ThrottleDecisionSource.None);
+    }
+
+    /// <summary>
+    /// Determines the key a response's state is stored under. A caller-set key string is used
+    /// verbatim, matching the pre-request lookup, so the two can never diverge; otherwise the
+    /// key derives from the response's request URI.
+    /// </summary>
+    private string GetWriteStateKey(ResilienceContext context, HttpResponseMessage response)
+    {
+        if (_options.TrackStatePerEndpoint
+            && context.Properties.TryGetValue(RateLimitContextProperties.StateKeyKey, out var callerKey)
+            && !string.IsNullOrWhiteSpace(callerKey))
+        {
+            return callerKey;
+        }
+
+        return _options.GetStateKey(response.RequestMessage);
+    }
+
+    private void UpdateState(string stateKey, RateLimitInfo rateLimitInfo)
+    {
+        _stateTracker.UpdateState(stateKey, rateLimitInfo);
+        _lastObservedStateKey = stateKey;
     }
 
     private async ValueTask ProcessResponseAsync(ResilienceContext context, HttpResponseMessage response)
@@ -93,8 +192,7 @@ internal sealed class RateLimitHeadersResilienceStrategy : ResilienceStrategy<Ht
             if (RetryAfterParser.TryGetRetryAfterSeconds(response, out var retryAfterSeconds))
             {
                 rateLimitInfo = RateLimitInfo.CreateFromRetryAfter(retryAfterSeconds);
-                var retryAfterStateKey = _options.GetStateKey(response.RequestMessage);
-                _stateTracker.UpdateState(retryAfterStateKey, rateLimitInfo);
+                UpdateState(GetWriteStateKey(context, response), rateLimitInfo);
             }
 
             return;
@@ -110,9 +208,8 @@ internal sealed class RateLimitHeadersResilienceStrategy : ResilienceStrategy<Ht
         // Store in context properties for downstream access
         context.Properties.Set(RateLimitContextProperties.RateLimitInfoKey, rateLimitInfo);
 
-        // Update state tracker with per-endpoint key (from response.RequestMessage)
-        var stateKey = _options.GetStateKey(response.RequestMessage);
-        _stateTracker.UpdateState(stateKey, rateLimitInfo);
+        // Update state tracker under the same key the pre-request lookup would use
+        UpdateState(GetWriteStateKey(context, response), rateLimitInfo);
 
         // Raise rate limit info event
         var infoArgs = new OnRateLimitInfoArguments(context, rateLimitInfo, response);

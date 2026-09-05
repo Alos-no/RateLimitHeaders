@@ -34,30 +34,34 @@ internal static class RateLimitOptionsHelper
 
         if (customExtractor is not null)
         {
-            // Handle null return from custom extractor defensively
-            return customExtractor(request) ?? GlobalStateKey;
+            // A null or blank extractor result falls back to the global key instead of
+            // becoming a whitespace key of its own
+            var customKey = customExtractor(request);
+            return string.IsNullOrWhiteSpace(customKey) ? GlobalStateKey : customKey;
         }
 
         return GetDefaultStateKey(request);
     }
 
     /// <summary>
-    /// Gets the default state key from a request (hostname only).
+    /// Gets the default state key from a request: scheme, host, and port, so different
+    /// ports and schemes of one host never share a rate limit entry (finding AUD-29 in
+    /// TRACKER-adversarial-audit.md, the adversarial-audit findings ledger).
     /// </summary>
     /// <param name="request">The HTTP request.</param>
-    /// <returns>The hostname from the request URI.</returns>
+    /// <returns>The key <c>scheme://host:port</c> from the request URI.</returns>
     /// <example>
-    /// <c>https://api.example.com/v1/users</c> becomes <c>api.example.com</c>.
+    /// <c>https://api.example.com/v1/users</c> becomes <c>https://api.example.com:443</c>.
     /// </example>
     public static string GetDefaultStateKey(HttpRequestMessage request)
     {
         var uri = request.RequestUri;
-        if (uri is null)
+        if (uri is null || !uri.IsAbsoluteUri)
         {
             return DefaultStateKey;
         }
 
-        return uri.Host;
+        return $"{uri.Scheme}://{uri.IdnHost}:{uri.Port}";
     }
 
     /// <summary>
@@ -70,9 +74,33 @@ internal static class RateLimitOptionsHelper
     /// </exception>
     public static void ValidateQuotaThreshold(double value, string parameterName)
     {
-        if (value < 0.0 || value > 1.0)
+        if (!double.IsFinite(value) || value < 0.0 || value > 1.0)
         {
-            throw new ArgumentOutOfRangeException(parameterName, value, "QuotaLowThreshold must be between 0.0 and 1.0");
+            throw new ArgumentOutOfRangeException(parameterName, value, "QuotaLowThreshold must be a finite number between 0.0 and 1.0");
+        }
+    }
+
+    /// <summary>
+    /// The largest delay <see cref="Task.Delay(TimeSpan)"/> accepts (uint.MaxValue - 1 milliseconds, about 49.7 days).
+    /// </summary>
+    public static readonly TimeSpan MaxSupportedDelay = TimeSpan.FromMilliseconds(uint.MaxValue - 1);
+
+    /// <summary>
+    /// Validates that a configured delay is non-negative and within what <see cref="Task.Delay(TimeSpan)"/> accepts.
+    /// </summary>
+    /// <param name="value">The delay value to validate.</param>
+    /// <param name="parameterName">The parameter name for the exception.</param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown when the value is negative or exceeds <see cref="MaxSupportedDelay"/>.
+    /// </exception>
+    public static void ValidateDelay(TimeSpan value, string parameterName)
+    {
+        if (value < TimeSpan.Zero || value > MaxSupportedDelay)
+        {
+            throw new ArgumentOutOfRangeException(
+                parameterName,
+                value,
+                $"Delay must be between 0 and {MaxSupportedDelay} (the largest value Task.Delay accepts).");
         }
     }
 }

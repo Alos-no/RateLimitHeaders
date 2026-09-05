@@ -638,7 +638,7 @@ public class ResilienceStrategyTests
     }
 
     [Fact]
-    public void Strategy_GetStateKey_DefaultExtractor_ShouldUseHostAndFirstSegment()
+    public void Strategy_GetStateKey_DefaultExtractor_ShouldUseSchemeHostAndPort()
     {
         // Arrange
         var options = new RateLimitHeadersStrategyOptions
@@ -652,8 +652,8 @@ public class ResilienceStrategyTests
         // Act
         var key = options.GetStateKey(request);
 
-        // Assert - should be hostname only
-        key.Should().Be("api.example.com");
+        // Assert - scheme://host:port, so ports and schemes of one host never share an entry (AUD-29)
+        key.Should().Be("http://api.example.com:80");
     }
 
     [Fact]
@@ -835,52 +835,12 @@ public class ResilienceStrategyTests
         throttlingCount.Should().Be(1);
     }
 
-    [Fact]
-    public async Task Strategy_WithoutRequestMessageKey_AndPerEndpointTracking_CannotDoProactiveThrottling()
-    {
-        // Arrange - When RequestMessageKey is not set but TrackStatePerEndpoint is true,
-        // the proactive throttling cannot look up per-endpoint state because it doesn't
-        // know which endpoint is being requested (request happens AFTER proactive check).
-        // State is stored per-endpoint but looked up under "global" - mismatch!
-        var throttlingCalls = 0;
-        var pipeline = new ResiliencePipelineBuilder<HttpResponseMessage>()
-            .AddRateLimitHeaders(options =>
-            {
-                options.EnableProactiveThrottling = true;
-                options.TrackStatePerEndpoint = true;
-                options.ThrottlingAlgorithm = new AlwaysThrottleAlgorithm();
-                options.OnThrottling = _ =>
-                {
-                    throttlingCalls++;
-                    return ValueTask.CompletedTask;
-                };
-            })
-            .Build();
-
-        var mockHandler = new MockHttpHandler();
-        mockHandler.QueueRateLimitResponse(50, 30, 100, 60);
-        mockHandler.QueueRateLimitResponse(50, 30, 100, 60);
-        var client = new HttpClient(mockHandler);
-
-        // Act - First request without RequestMessageKey (state stored under hostname key)
-        var context1 = ResilienceContextPool.Shared.Get();
-        await pipeline.ExecuteAsync(
-            static async (ctx, client) => await client.GetAsync("http://api.example.com/test", ctx.CancellationToken),
-            context1,
-            client);
-        ResilienceContextPool.Shared.Return(context1);
-
-        // Second request - proactive throttling looks under "global", finds nothing
-        var context2 = ResilienceContextPool.Shared.Get();
-        await pipeline.ExecuteAsync(
-            static async (ctx, client) => await client.GetAsync("http://api.example.com/test2", ctx.CancellationToken),
-            context2,
-            client);
-        ResilienceContextPool.Shared.Return(context2);
-
-        // Assert - No throttling because state was stored per-endpoint but lookup used "global"
-        throttlingCalls.Should().Be(0);
-    }
+    // The test that stood here (Strategy_WithoutRequestMessageKey_AndPerEndpointTracking_
+    // CannotDoProactiveThrottling) pinned the Critical defect AUD-02 from
+    // TRACKER-adversarial-audit.md: with no request on the context, the pre-request lookup
+    // could never find the per-endpoint state and the strategy never throttled. The strategy
+    // now falls back to the most recently observed endpoint; the replacement scenario is
+    // ReadmePipelineShape_DelaysTheSecondRequest in AuditFixes\StateKeyResolutionTests.cs (POLLY05).
 
     [Fact]
     public async Task Strategy_WithoutRequestMessageKey_AndGlobalTracking_ShouldThrottle()

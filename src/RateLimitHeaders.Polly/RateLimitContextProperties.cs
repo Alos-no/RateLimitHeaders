@@ -61,4 +61,22 @@ public static class RateLimitContextProperties
     /// </example>
     public static readonly ResiliencePropertyKey<HttpRequestMessage> RequestMessageKey =
         new("RateLimitHeaders.RequestMessage");
+
+    /// <summary>
+    /// The key used to store a caller-chosen state tracking key string in the
+    /// <see cref="ResilienceContext.Properties"/>.
+    /// </summary>
+    /// <remarks>
+    /// When set, the strategy uses this string verbatim for both the pre-request state lookup
+    /// and the post-response state write of that execution, so the two can never diverge.
+    /// It takes precedence over <see cref="RequestMessageKey"/> and over the request that
+    /// <c>Microsoft.Extensions.Http.Resilience</c> publishes.
+    /// </remarks>
+    /// <example>
+    /// <code><![CDATA[
+    /// context.Properties.Set(RateLimitContextProperties.StateKeyKey, "api.example.com");
+    /// ]]></code>
+    /// </example>
+    public static readonly ResiliencePropertyKey<string> StateKeyKey =
+        new("RateLimitHeaders.StateKey");
 }
