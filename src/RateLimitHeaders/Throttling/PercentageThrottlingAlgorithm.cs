@@ -151,6 +151,14 @@ public sealed class PercentageThrottlingAlgorithm : IThrottlingAlgorithm
             return ThrottlingResult.NoThrottle;
         }
 
+        // A quota-only entry (no server-sent remaining count) advertises a limit without
+        // reporting consumption; treating its Remaining of 0 as exhaustion would throttle
+        // on a phantom signal
+        if (!rateLimitInfo.HasRemaining)
+        {
+            return ThrottlingResult.NoThrottle;
+        }
+
         double remainingPercentage = rateLimitInfo.GetRemainingPercentage();
 
         // No throttling needed if above threshold

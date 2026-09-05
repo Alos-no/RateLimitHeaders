@@ -716,7 +716,7 @@ public class ResilienceStrategyTests
     #region Multiple Policies Tests
 
     [Fact]
-    public void Parser_WithMultiplePolicies_ShouldSelectLowestRemainingPercentage()
+    public void Parser_WithMultiplePolicies_ShouldSelectLowestRemainingCount()
     {
         // Arrange - Test that parser matches policies by name and selects the most restrictive
         var response = new HttpResponseMessage(HttpStatusCode.OK);
@@ -726,14 +726,14 @@ public class ResilienceStrategyTests
         // Act
         var info = RateLimitHeaderParser.Parse(response);
 
-        // Assert - Parser matches policies by name and selects lowest remaining percentage:
-        // burst: 50/100 = 50% remaining
-        // daily: 900/10000 = 9% remaining
-        // daily is more restrictive (lower percentage), so it is selected
+        // Assert - the six-rung comparator (task T5 in PLAN-audit-fixes.md) compares raw
+        // remaining counts before remaining fractions, so burst (50 left) beats daily (900
+        // left) even though daily's fraction is lower; 50 requests left is what actually
+        // bounds the caller
         info.IsValid.Should().BeTrue();
-        info.PolicyName.Should().Be("daily");
-        info.Remaining.Should().Be(900);
-        info.Quota.Should().Be(10000);
+        info.PolicyName.Should().Be("burst");
+        info.Remaining.Should().Be(50);
+        info.Quota.Should().Be(100);
     }
 
     [Fact]

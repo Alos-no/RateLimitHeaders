@@ -51,6 +51,7 @@ public sealed class RateLimitAwareOptions
     private double _quotaLowThreshold = 0.1;
     private IThrottlingAlgorithm _throttlingAlgorithm = new PercentageThrottlingAlgorithm();
     private TimeProvider _timeProvider = TimeProvider.System;
+    private IReadOnlyCollection<int> _retryAfterStatusCodes = RateLimitDefaults.RetryAfterStatusCodes;
 
     /// <summary>
     /// Gets or sets whether proactive throttling is enabled.
@@ -114,6 +115,22 @@ public sealed class RateLimitAwareOptions
     /// and the cap on the wait imposed by a server-ordered stop (<see cref="RateLimitThrottlingOptions.MaxExhaustedDelay"/>).
     /// </summary>
     public RateLimitThrottlingOptions Throttling { get; } = new();
+
+    /// <summary>
+    /// Gets or sets the response status codes on which a Retry-After header is honored
+    /// as rate limit state. Default is {403, 408, 429, 503}
+    /// (<see cref="RateLimitDefaults.RetryAfterStatusCodes"/>).
+    /// </summary>
+    /// <exception cref="ArgumentNullException">Thrown when assigned null.</exception>
+    public IReadOnlyCollection<int> RetryAfterStatusCodes
+    {
+        get => _retryAfterStatusCodes;
+        set
+        {
+            ArgumentNullException.ThrowIfNull(value);
+            _retryAfterStatusCodes = value;
+        }
+    }
 
     /// <summary>
     /// Gets or sets the threshold below which the quota is considered low.

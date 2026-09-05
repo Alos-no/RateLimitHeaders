@@ -48,6 +48,7 @@ public sealed class RateLimitHeadersStrategyOptions : ResilienceStrategyOptions
     private double _quotaLowThreshold = 0.1;
     private IThrottlingAlgorithm _throttlingAlgorithm = new PercentageThrottlingAlgorithm();
     private TimeProvider _timeProvider = TimeProvider.System;
+    private IReadOnlyCollection<int> _retryAfterStatusCodes = RateLimitDefaults.RetryAfterStatusCodes;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RateLimitHeadersStrategyOptions"/> class.
@@ -125,6 +126,22 @@ public sealed class RateLimitHeadersStrategyOptions : ResilienceStrategyOptions
     /// creates its own private tracker using <see cref="TimeProvider"/>.
     /// </summary>
     internal RateLimitStateTracker? StateStore { get; set; }
+
+    /// <summary>
+    /// Gets or sets the response status codes on which a Retry-After header is honored
+    /// as rate limit state. Default is {403, 408, 429, 503}
+    /// (<see cref="RateLimitDefaults.RetryAfterStatusCodes"/>).
+    /// </summary>
+    /// <exception cref="ArgumentNullException">Thrown when assigned null.</exception>
+    public IReadOnlyCollection<int> RetryAfterStatusCodes
+    {
+        get => _retryAfterStatusCodes;
+        set
+        {
+            ArgumentNullException.ThrowIfNull(value);
+            _retryAfterStatusCodes = value;
+        }
+    }
 
     /// <summary>
     /// Gets or sets whether to track rate limit state per endpoint.

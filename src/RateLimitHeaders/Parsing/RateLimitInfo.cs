@@ -118,11 +118,13 @@ public readonly record struct RateLimitInfo
         HasRemaining && _quota is > 0 ? (double)Remaining / Quota : null;
 
     /// <summary>
-    /// The time until the window resets, as a <see cref="TimeSpan"/> clamped at
-    /// <see cref="MaxResetSeconds"/> (365 days). <see cref="TimeSpan.Zero"/> when no reset value was sent.
+    /// The time until the window resets, as a <see cref="TimeSpan"/> clamped between zero and
+    /// <see cref="MaxResetSeconds"/> (365 days). <see cref="TimeSpan.Zero"/> when no reset value
+    /// was sent, and also when a caller stored a negative value, so this can never produce a
+    /// negative delay for <see cref="Task.Delay(TimeSpan)"/>.
     /// </summary>
     public TimeSpan ResetAfter =>
-        HasResetSeconds ? TimeSpan.FromSeconds(Math.Min(ResetSeconds, MaxResetSeconds)) : TimeSpan.Zero;
+        HasResetSeconds ? TimeSpan.FromSeconds(Math.Clamp(ResetSeconds, 0, MaxResetSeconds)) : TimeSpan.Zero;
 
     /// <summary>
     /// The partition key identifying which partition this rate limit applies to.
@@ -166,7 +168,7 @@ public readonly record struct RateLimitInfo
     {
         PolicyName = "retry-after",
         Remaining = 0,
-        ResetSeconds = retryAfterSeconds,
+        ResetSeconds = Math.Max(0, retryAfterSeconds),
         HasRetryAfter = true,
         IsValid = true
     };
@@ -192,14 +194,30 @@ public readonly record struct RateLimitInfo
     public RateLimitInfo WithRetryAfterOverride(long retryAfterSeconds) => this with
     {
         Remaining = 0,
-        ResetSeconds = retryAfterSeconds,
+        ResetSeconds = Math.Max(0, retryAfterSeconds),
         HasRetryAfter = true
     };
+
+    /// <summary>
+    /// Creates a new <see cref="RateLimitInfo"/> with the Retry-After override applied
+    /// from a delay. A zero delay (a past-dated Retry-After) still applies the override,
+    /// so the precedence over RateLimit headers stays observable.
+    /// </summary>
+    /// <param name="retryAfter">The delay from the Retry-After header.</param>
+    /// <returns>A new instance with Remaining set to 0, ResetSeconds updated, and <see cref="HasRetryAfter"/> set.</returns>
+    public RateLimitInfo WithRetryAfterOverride(TimeSpan retryAfter) =>
+        WithRetryAfterOverride((long)Math.Ceiling(retryAfter.TotalSeconds));
 
     /// <summary>Checks if remaining quota is at or below the specified threshold.</summary>
     /// <param name="threshold">The threshold percentage (0.0 to 1.0). Default is 0.1 (10%).</param>
     /// <returns>True if quota is low; false otherwise.</returns>
-    public bool IsQuotaLow(double threshold = 0.1) => IsValid && Quota > 0 && GetRemainingPercentage() <= threshold;
+    /// <remarks>
+    /// Requires a server-sent remaining count: a quota-only entry (a RateLimit-Policy
+    /// member with no matching RateLimit member) advertises a limit without reporting
+    /// consumption, so it is never "low".
+    /// </remarks>
+    public bool IsQuotaLow(double threshold = 0.1) =>
+        IsValid && HasRemaining && Quota > 0 && GetRemainingPercentage() <= threshold;
 
     /// <inheritdoc />
     public override string ToString()

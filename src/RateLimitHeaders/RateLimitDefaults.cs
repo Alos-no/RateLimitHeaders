@@ -24,4 +24,12 @@ public static class RateLimitDefaults
     /// the client would send immediately into a reported stop.
     /// </summary>
     public static readonly TimeSpan MinimumExhaustedDelay = TimeSpan.FromSeconds(1);
+
+    /// <summary>
+    /// The response status codes on which a Retry-After header is honored by default:
+    /// 403 (secondary limits, as GitHub sends), 408 (request timeout), 429 (too many
+    /// requests), and 503 (service unavailable). Retry-After on other statuses (a 3xx
+    /// redirect, for example) times something other than a rate limit and is ignored.
+    /// </summary>
+    public static IReadOnlyList<int> RetryAfterStatusCodes { get; } = [403, 408, 429, 503];
 }

@@ -185,22 +185,24 @@ internal sealed class RateLimitHeadersResilienceStrategy : ResilienceStrategy<Ht
 
     private async ValueTask ProcessResponseAsync(ResilienceContext context, HttpResponseMessage response)
     {
+        var now = _options.TimeProvider.GetUtcNow();
+
         // Try to parse rate limit headers
         if (!RateLimitHeaderParser.TryParse(response, out var rateLimitInfo))
         {
-            // Even without RateLimit headers, check for Retry-After on 429/503
-            if (RetryAfterParser.TryGetRetryAfterSeconds(response, out var retryAfterSeconds))
+            // Even without RateLimit headers, check for Retry-After on the honored statuses
+            if (RetryAfterParser.TryGetRetryAfterDelay(response, now, _options.RetryAfterStatusCodes, out var retryAfterDelay))
             {
-                rateLimitInfo = RateLimitInfo.CreateFromRetryAfter(retryAfterSeconds);
+                rateLimitInfo = RateLimitInfo.CreateFromRetryAfter(retryAfterDelay);
                 UpdateState(GetWriteStateKey(context, response), rateLimitInfo);
             }
 
             return;
         }
 
-        // Per IETF spec: Retry-After takes precedence over RateLimit headers when present
-        // This typically occurs on 429/503 responses
-        if (RetryAfterParser.TryGetRetryAfterSeconds(response, out var overrideRetryAfter))
+        // Per IETF spec: Retry-After takes precedence over RateLimit headers when present.
+        // A past-dated Retry-After still applies the override with a zero delay.
+        if (RetryAfterParser.TryGetRetryAfterDelay(response, now, _options.RetryAfterStatusCodes, out var overrideRetryAfter))
         {
             rateLimitInfo = rateLimitInfo.WithRetryAfterOverride(overrideRetryAfter);
         }
@@ -227,7 +229,9 @@ internal sealed class RateLimitHeadersResilienceStrategy : ResilienceStrategy<Ht
 
     private async ValueTask CheckQuotaLowAsync(ResilienceContext context, RateLimitInfo rateLimitInfo, HttpResponseMessage response)
     {
-        if (_options.OnQuotaLow is null || rateLimitInfo.Quota <= 0)
+        // A quota-only entry (no server-sent remaining count) advertises a limit without
+        // reporting consumption, so it must not read as "0 of quota left"
+        if (_options.OnQuotaLow is null || rateLimitInfo.Quota <= 0 || !rateLimitInfo.HasRemaining)
         {
             return;
         }

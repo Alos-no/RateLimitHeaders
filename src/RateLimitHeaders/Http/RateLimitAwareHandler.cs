@@ -179,25 +179,27 @@ public sealed partial class RateLimitAwareHandler : DelegatingHandler
 
     private async Task ProcessResponseAsync(HttpRequestMessage request, HttpResponseMessage response, string stateKey)
     {
+        var now = _options.TimeProvider.GetUtcNow();
+
         // Try to parse rate limit headers
         if (!RateLimitHeaderParser.TryParse(response, out var rateLimitInfo))
         {
-            // Even without RateLimit headers, check for Retry-After on 429/503
-            if (RetryAfterParser.TryGetRetryAfterSeconds(response, out var retryAfterSeconds))
+            // Even without RateLimit headers, check for Retry-After on the honored statuses
+            if (RetryAfterParser.TryGetRetryAfterDelay(response, now, _options.RetryAfterStatusCodes, out var retryAfterDelay))
             {
-                rateLimitInfo = RateLimitInfo.CreateFromRetryAfter(retryAfterSeconds);
+                rateLimitInfo = RateLimitInfo.CreateFromRetryAfter(retryAfterDelay);
                 _stateTracker.UpdateState(stateKey, rateLimitInfo);
-                LogRetryAfter(_logger, request.RequestUri, retryAfterSeconds);
+                LogRetryAfter(_logger, request.RequestUri, retryAfterDelay.TotalSeconds);
             }
 
             return;
         }
 
-        // Per IETF spec: Retry-After takes precedence over RateLimit headers when present
-        // This typically occurs on 429/503 responses
-        if (RetryAfterParser.TryGetRetryAfterSeconds(response, out var overrideRetryAfter))
+        // Per IETF spec: Retry-After takes precedence over RateLimit headers when present.
+        // A past-dated Retry-After still applies the override with a zero delay.
+        if (RetryAfterParser.TryGetRetryAfterDelay(response, now, _options.RetryAfterStatusCodes, out var overrideRetryAfter))
         {
-            LogRetryAfterOverride(_logger, request.RequestUri, overrideRetryAfter, rateLimitInfo.ResetSeconds);
+            LogRetryAfterOverride(_logger, request.RequestUri, overrideRetryAfter.TotalSeconds, rateLimitInfo.ResetSeconds);
             rateLimitInfo = rateLimitInfo.WithRetryAfterOverride(overrideRetryAfter);
         }
 
@@ -217,9 +219,11 @@ public sealed partial class RateLimitAwareHandler : DelegatingHandler
             _logger,
             "OnRateLimitInfo").ConfigureAwait(false);
 
-        // Check for low quota and invoke callback
+        // Check for low quota and invoke callback. A quota-only entry (no server-sent
+        // remaining count) advertises a limit without reporting consumption, so it must
+        // not read as "0 of quota left".
         var remainingPercentage = rateLimitInfo.GetRemainingPercentage();
-        if (remainingPercentage <= _options.QuotaLowThreshold && rateLimitInfo.Quota > 0)
+        if (rateLimitInfo.HasRemaining && remainingPercentage <= _options.QuotaLowThreshold && rateLimitInfo.Quota > 0)
         {
             LogQuotaLow(_logger, request.RequestUri, remainingPercentage, rateLimitInfo.Remaining, rateLimitInfo.Quota);
             await CallbackHelper.SafeInvokeAsync(
@@ -231,10 +235,10 @@ public sealed partial class RateLimitAwareHandler : DelegatingHandler
     }
 
     [LoggerMessage(Level = LogLevel.Warning, Message = "Retry-After header received from {Uri}: wait {RetryAfterSeconds}s")]
-    private static partial void LogRetryAfter(ILogger logger, Uri? uri, int retryAfterSeconds);
+    private static partial void LogRetryAfter(ILogger logger, Uri? uri, double retryAfterSeconds);
 
     [LoggerMessage(Level = LogLevel.Debug, Message = "Retry-After {RetryAfterSeconds}s overrides RateLimit reset time {OriginalResetSeconds}s for {Uri}")]
-    private static partial void LogRetryAfterOverride(ILogger logger, Uri? uri, int retryAfterSeconds, long originalResetSeconds);
+    private static partial void LogRetryAfterOverride(ILogger logger, Uri? uri, double retryAfterSeconds, long originalResetSeconds);
 
     [LoggerMessage(Level = LogLevel.Information, Message = "Throttling request to {Uri} for {DelayMs}ms: {Reason}")]
     private static partial void LogThrottling(ILogger logger, Uri? uri, double delayMs, string? reason);

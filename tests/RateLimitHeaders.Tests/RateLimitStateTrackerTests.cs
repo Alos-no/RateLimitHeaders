@@ -292,8 +292,9 @@ public class RateLimitStateTrackerTests
     [Fact]
     public async Task AutomaticCleanup_ShouldRemoveStaleEntriesAfterThreshold()
     {
-        // Arrange
-        var tracker = new RateLimitStateTracker
+        // Arrange: staleness is measured on a fake clock so no real sleep decides it
+        var clock = new FakeTimeProvider(new DateTimeOffset(2026, 8, 14, 12, 0, 0, TimeSpan.Zero));
+        var tracker = new RateLimitStateTracker(clock)
         {
             CleanupFrequency = 5,  // Cleanup every 5 updates
             StaleEntryMaxAge = TimeSpan.FromMilliseconds(500)  // Entries older than 500ms are stale
@@ -307,8 +308,8 @@ public class RateLimitStateTrackerTests
             IsValid = true
         });
 
-        // Wait for entry to become stale
-        await Task.Delay(600);
+        // Make the entry stale
+        clock.Advance(TimeSpan.FromMilliseconds(600));
 
         // Act - trigger automatic cleanup by making 5 updates
         for (int i = 0; i < 5; i++)
@@ -321,11 +322,16 @@ public class RateLimitStateTrackerTests
             });
         }
 
-        // Allow background cleanup to complete
-        await Task.Delay(100);
+        // The cleanup runs on a background thread; poll until it removes the entry
+        // instead of racing it with a fixed sleep (this test failed on a slow CI runner)
+        var deadline = DateTime.UtcNow + TimeSpan.FromSeconds(10);
+        while (tracker.GetState("stale-key") is not null && DateTime.UtcNow < deadline)
+        {
+            await Task.Delay(20);
+        }
 
         // Assert - stale entry should be removed
-        tracker.GetRateLimitInfo("stale-key").IsValid.Should().BeFalse();
+        tracker.GetState("stale-key").Should().BeNull();
 
         // Fresh entries should still exist
         for (int i = 0; i < 5; i++)
