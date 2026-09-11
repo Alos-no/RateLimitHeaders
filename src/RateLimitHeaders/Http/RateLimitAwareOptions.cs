@@ -49,6 +49,9 @@ namespace RateLimitHeaders.Http;
 public sealed class RateLimitAwareOptions
 {
     private double _quotaLowThreshold = 0.1;
+    private IThrottlingAlgorithm _throttlingAlgorithm = new PercentageThrottlingAlgorithm();
+    private TimeProvider _timeProvider = TimeProvider.System;
+    private IReadOnlyCollection<int> _retryAfterStatusCodes = RateLimitDefaults.RetryAfterStatusCodes;
 
     /// <summary>
     /// Gets or sets whether proactive throttling is enabled.
@@ -75,7 +78,59 @@ public sealed class RateLimitAwareOptions
     /// Gets or sets the throttling algorithm to use.
     /// Default is <see cref="PercentageThrottlingAlgorithm"/> with default settings.
     /// </summary>
-    public IThrottlingAlgorithm ThrottlingAlgorithm { get; set; } = new PercentageThrottlingAlgorithm();
+    /// <remarks>
+    /// The handler enforces a server-ordered stop (a Retry-After header, or a stored state with
+    /// zero remaining requests) before consulting the algorithm; the algorithm only shapes the
+    /// proactive slow-down while quota remains.
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">Thrown when assigned null.</exception>
+    public IThrottlingAlgorithm ThrottlingAlgorithm
+    {
+        get => _throttlingAlgorithm;
+        set
+        {
+            ArgumentNullException.ThrowIfNull(value);
+            _throttlingAlgorithm = value;
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the clock used for state timestamps and throttling delays.
+    /// Default is <see cref="TimeProvider.System"/>. Inject a fake clock in tests to
+    /// control throttling waits deterministically.
+    /// </summary>
+    /// <exception cref="ArgumentNullException">Thrown when assigned null.</exception>
+    public TimeProvider TimeProvider
+    {
+        get => _timeProvider;
+        set
+        {
+            ArgumentNullException.ThrowIfNull(value);
+            _timeProvider = value;
+        }
+    }
+
+    /// <summary>
+    /// Gets the throttling settings: the built-in algorithm's threshold, factor, and delay cap,
+    /// and the cap on the wait imposed by a server-ordered stop (<see cref="RateLimitThrottlingOptions.MaxExhaustedDelay"/>).
+    /// </summary>
+    public RateLimitThrottlingOptions Throttling { get; } = new();
+
+    /// <summary>
+    /// Gets or sets the response status codes on which a Retry-After header is honored
+    /// as rate limit state. Default is {403, 408, 429, 503}
+    /// (<see cref="RateLimitDefaults.RetryAfterStatusCodes"/>).
+    /// </summary>
+    /// <exception cref="ArgumentNullException">Thrown when assigned null.</exception>
+    public IReadOnlyCollection<int> RetryAfterStatusCodes
+    {
+        get => _retryAfterStatusCodes;
+        set
+        {
+            ArgumentNullException.ThrowIfNull(value);
+            _retryAfterStatusCodes = value;
+        }
+    }
 
     /// <summary>
     /// Gets or sets the threshold below which the quota is considered low.

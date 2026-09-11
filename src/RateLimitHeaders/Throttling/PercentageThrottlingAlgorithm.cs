@@ -98,19 +98,22 @@ public sealed class PercentageThrottlingAlgorithm : IThrottlingAlgorithm
     /// </exception>
     public PercentageThrottlingAlgorithm(double threshold, double factor, TimeSpan maxDelay)
     {
-        if (threshold < 0.0 || threshold > 1.0)
+        if (!double.IsFinite(threshold) || threshold < 0.0 || threshold > 1.0)
         {
-            throw new ArgumentOutOfRangeException(nameof(threshold), threshold, "Threshold must be between 0.0 and 1.0.");
+            throw new ArgumentOutOfRangeException(nameof(threshold), threshold, "Threshold must be a finite number between 0.0 and 1.0.");
         }
 
-        if (factor < 0.0)
+        if (!double.IsFinite(factor) || factor < 0.0)
         {
-            throw new ArgumentOutOfRangeException(nameof(factor), factor, "Factor must be non-negative.");
+            throw new ArgumentOutOfRangeException(nameof(factor), factor, "Factor must be a finite, non-negative number.");
         }
 
-        if (maxDelay < TimeSpan.Zero)
+        if (maxDelay < TimeSpan.Zero || maxDelay > Internal.RateLimitOptionsHelper.MaxSupportedDelay)
         {
-            throw new ArgumentOutOfRangeException(nameof(maxDelay), maxDelay, "Maximum delay must be non-negative.");
+            throw new ArgumentOutOfRangeException(
+                nameof(maxDelay),
+                maxDelay,
+                $"Maximum delay must be between 0 and {Internal.RateLimitOptionsHelper.MaxSupportedDelay} (the largest value Task.Delay accepts).");
         }
 
         _threshold = threshold;
@@ -148,6 +151,14 @@ public sealed class PercentageThrottlingAlgorithm : IThrottlingAlgorithm
             return ThrottlingResult.NoThrottle;
         }
 
+        // A quota-only entry (no server-sent remaining count) advertises a limit without
+        // reporting consumption; treating its Remaining of 0 as exhaustion would throttle
+        // on a phantom signal
+        if (!rateLimitInfo.HasRemaining)
+        {
+            return ThrottlingResult.NoThrottle;
+        }
+
         double remainingPercentage = rateLimitInfo.GetRemainingPercentage();
 
         // No throttling needed if above threshold
@@ -156,15 +167,17 @@ public sealed class PercentageThrottlingAlgorithm : IThrottlingAlgorithm
             return ThrottlingResult.NoThrottle;
         }
 
-        // Calculate delay: (threshold - remainingPct) * resetSeconds * factor
+        // Calculate delay: (threshold - remainingPct) * resetSeconds * factor.
+        // Clamp in double BEFORE converting: TimeSpan.FromSeconds overflows on huge inputs
+        // (long reset values times a large factor), so the cap must be applied first.
         double delaySeconds = (_threshold - remainingPercentage) * rateLimitInfo.ResetSeconds * _factor;
-
-        // Apply maximum delay cap
-        TimeSpan delay = TimeSpan.FromSeconds(delaySeconds);
-        if (delay > _maxDelay)
+        double maxDelaySeconds = _maxDelay.TotalSeconds;
+        if (double.IsNaN(delaySeconds) || delaySeconds > maxDelaySeconds)
         {
-            delay = _maxDelay;
+            delaySeconds = maxDelaySeconds;
         }
+
+        TimeSpan delay = TimeSpan.FromSeconds(delaySeconds);
 
         // Don't throttle for negligible delays (less than 10ms)
         if (delay.TotalMilliseconds < 10)

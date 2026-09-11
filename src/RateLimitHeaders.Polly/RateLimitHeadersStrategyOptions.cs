@@ -46,6 +46,9 @@ namespace RateLimitHeaders.Polly;
 public sealed class RateLimitHeadersStrategyOptions : ResilienceStrategyOptions
 {
     private double _quotaLowThreshold = 0.1;
+    private IThrottlingAlgorithm _throttlingAlgorithm = new PercentageThrottlingAlgorithm();
+    private TimeProvider _timeProvider = TimeProvider.System;
+    private IReadOnlyCollection<int> _retryAfterStatusCodes = RateLimitDefaults.RetryAfterStatusCodes;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RateLimitHeadersStrategyOptions"/> class.
@@ -66,7 +69,79 @@ public sealed class RateLimitHeadersStrategyOptions : ResilienceStrategyOptions
     /// Gets or sets the throttling algorithm to use.
     /// Default is <see cref="PercentageThrottlingAlgorithm"/> with default settings.
     /// </summary>
-    public IThrottlingAlgorithm ThrottlingAlgorithm { get; set; } = new PercentageThrottlingAlgorithm();
+    /// <remarks>
+    /// The strategy enforces a server-ordered stop (a Retry-After header, or a stored state
+    /// with zero remaining requests) before consulting the algorithm; the algorithm only
+    /// shapes the proactive slow-down while quota remains.
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">Thrown when assigned null.</exception>
+    public IThrottlingAlgorithm ThrottlingAlgorithm
+    {
+        get => _throttlingAlgorithm;
+        set
+        {
+            ArgumentNullException.ThrowIfNull(value);
+            _throttlingAlgorithm = value;
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the clock used for state timestamps and throttling delays.
+    /// Default is the system clock (<c>TimeProvider.System</c>). Inject a fake clock in tests to
+    /// control throttling waits deterministically.
+    /// </summary>
+    /// <exception cref="ArgumentNullException">Thrown when assigned null.</exception>
+    public TimeProvider TimeProvider
+    {
+        get => _timeProvider;
+        set
+        {
+            ArgumentNullException.ThrowIfNull(value);
+            _timeProvider = value;
+        }
+    }
+
+    /// <summary>
+    /// Gets the throttling settings: the built-in algorithm's threshold, factor, and delay cap,
+    /// and the cap on the wait imposed by a server-ordered stop
+    /// (<see cref="RateLimitThrottlingOptions.MaxExhaustedDelay"/>).
+    /// </summary>
+    public RateLimitThrottlingOptions Throttling { get; } = new();
+
+    /// <summary>
+    /// Gets or sets whether the strategy, when it cannot resolve a state key before the
+    /// request (no caller-set key, no request on the context), throttles from the state of
+    /// the endpoint it most recently observed a response from. Default is <c>true</c>.
+    /// </summary>
+    /// <remarks>
+    /// The fallback has a documented miss: when executions alternate between hosts, the most
+    /// recently observed endpoint can be a different host than the one this execution targets,
+    /// so a stop recorded for the target host is not applied. Set a key or the request on the
+    /// context (<see cref="ResilienceContextExtensions"/>) for exact per-endpoint throttling.
+    /// </remarks>
+    public bool ThrottleWhenStateKeyUnknown { get; set; } = true;
+
+    /// <summary>
+    /// A shared state tracker injected for testing. When null (the default), the strategy
+    /// creates its own private tracker using <see cref="TimeProvider"/>.
+    /// </summary>
+    internal RateLimitStateTracker? StateStore { get; set; }
+
+    /// <summary>
+    /// Gets or sets the response status codes on which a Retry-After header is honored
+    /// as rate limit state. Default is {403, 408, 429, 503}
+    /// (<see cref="RateLimitDefaults.RetryAfterStatusCodes"/>).
+    /// </summary>
+    /// <exception cref="ArgumentNullException">Thrown when assigned null.</exception>
+    public IReadOnlyCollection<int> RetryAfterStatusCodes
+    {
+        get => _retryAfterStatusCodes;
+        set
+        {
+            ArgumentNullException.ThrowIfNull(value);
+            _retryAfterStatusCodes = value;
+        }
+    }
 
     /// <summary>
     /// Gets or sets whether to track rate limit state per endpoint.
@@ -165,8 +240,12 @@ public readonly record struct OnQuotaLowArguments(
 /// <param name="RateLimitInfo">The rate limit information that triggered throttling.</param>
 /// <param name="Delay">The delay that will be applied.</param>
 /// <param name="Reason">The reason for throttling.</param>
+/// <param name="StateKey">The state tracking key the decision was based on.</param>
+/// <param name="Source">Which rung of the key resolution chain produced <paramref name="StateKey"/>.</param>
 public readonly record struct OnThrottlingArguments(
     ResilienceContext Context,
     RateLimitInfo RateLimitInfo,
     TimeSpan Delay,
-    string? Reason);
+    string? Reason,
+    string? StateKey = null,
+    ThrottleDecisionSource Source = ThrottleDecisionSource.None);

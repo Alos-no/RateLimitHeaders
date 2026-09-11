@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http.Headers;
-using System.Text.RegularExpressions;
+using RateLimitHeaders.Internal;
 
 namespace RateLimitHeaders.Parsing;
 
@@ -19,48 +19,32 @@ namespace RateLimitHeaders.Parsing;
 /// Multiple comma-separated policies are supported per the spec:
 /// <code>RateLimit: "burst";r=50;t=30,"daily";r=900;t=43200</code>
 /// When multiple policies are present, policy names are matched between headers
-/// and the most restrictive one (lowest remaining percentage) is returned.
+/// and the most restrictive one is returned; <see cref="ParseAll(string?, string?)"/>
+/// returns every described policy ordered most restrictive first.
 /// </para>
 /// <para>
-/// Per the specification, malformed headers are silently ignored (never throws).
+/// Parsing is strict per RFC 9651 (Decision 1 in PLAN-audit-fixes.md): a field value with
+/// any malformed member is discarded whole, with no partial result, so malformed hostile
+/// input can never become trusted throttling state. The two header fields are discarded
+/// independently: a malformed RateLimit-Policy value does not void a well-formed RateLimit
+/// value, and vice versa. The parser never throws on malformed input.
+/// </para>
+/// <para>
+/// Field-specific validity rules on top of the generic syntax: <c>r</c>, <c>t</c>, <c>q</c>,
+/// and <c>w</c> must be non-negative structured-field integers (<c>w</c> strictly positive);
+/// <c>r</c> is required on RateLimit entries and <c>q</c> on RateLimit-Policy entries, while
+/// <c>t</c> and <c>w</c> are optional per the draft; <c>pk</c> must be a byte sequence;
+/// unknown parameters are ignored. Duplicate parameters and duplicate policy names resolve
+/// last-wins.
 /// </para>
 /// </remarks>
-public static partial class RateLimitHeaderParser
+public static class RateLimitHeaderParser
 {
     /// <summary>The standard RateLimit header name.</summary>
     public const string RateLimitHeaderName = "RateLimit";
 
     /// <summary>The standard RateLimit-Policy header name.</summary>
     public const string RateLimitPolicyHeaderName = "RateLimit-Policy";
-
-    // Pattern to match a policy entry starting with quoted policy name
-    // Group 1 captures the policy name (without quotes)
-    [GeneratedRegex(@"""([^""]+)""", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
-    private static partial Regex PolicyNamePattern();
-
-    // Pattern to extract 'r' (remaining) parameter - order independent, requires preceding semicolon
-    [GeneratedRegex(@";\s*r\s*=\s*(\d+)", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
-    private static partial Regex RemainingPattern();
-
-    // Pattern to extract 't' (reset seconds) parameter - order independent, requires preceding semicolon
-    [GeneratedRegex(@";\s*t\s*=\s*(\d+)", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
-    private static partial Regex ResetSecondsPattern();
-
-    // Pattern to extract 'q' (quota) parameter - order independent, requires preceding semicolon
-    [GeneratedRegex(@";\s*q\s*=\s*(\d+)", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
-    private static partial Regex QuotaPattern();
-
-    // Pattern to extract 'w' (window seconds) parameter - order independent, requires preceding semicolon
-    [GeneratedRegex(@";\s*w\s*=\s*(\d+)", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
-    private static partial Regex WindowSecondsPattern();
-
-    // Pattern to extract optional pk (partition key) parameter
-    [GeneratedRegex(@";?\s*pk\s*=\s*(?:""([^""]+)""|([^\s;,]+))", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
-    private static partial Regex PartitionKeyPattern();
-
-    // Pattern to extract optional qu (quota unit) parameter
-    [GeneratedRegex(@";?\s*qu\s*=\s*(?:""([^""]+)""|([^\s;,]+))", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
-    private static partial Regex QuotaUnitPattern();
 
     /// <summary>
     /// Parses RateLimit headers from an HTTP response.
@@ -85,7 +69,7 @@ public static partial class RateLimitHeaderParser
         TryGetHeaderValue(headers, RateLimitHeaderName, out var rateLimitValue);
         TryGetHeaderValue(headers, RateLimitPolicyHeaderName, out var rateLimitPolicyValue);
 
-        return ParseCore(rateLimitValue, rateLimitPolicyValue);
+        return Parse(rateLimitValue, rateLimitPolicyValue);
     }
 
     /// <summary>
@@ -115,14 +99,210 @@ public static partial class RateLimitHeaderParser
     }
 
     /// <summary>
-    /// Parses RateLimit headers from raw header values (for testing or custom scenarios).
+    /// Parses RateLimit headers from raw header values (for testing or custom scenarios)
+    /// and returns the most restrictive policy.
     /// </summary>
     /// <param name="rateLimitHeaderValue">The value of the RateLimit header, or null if not present.</param>
     /// <param name="rateLimitPolicyHeaderValue">The value of the RateLimit-Policy header, or null if not present.</param>
     /// <returns>A <see cref="RateLimitInfo"/> with parsed values, or an invalid instance if parsing fails.</returns>
     public static RateLimitInfo Parse(string? rateLimitHeaderValue, string? rateLimitPolicyHeaderValue)
     {
-        return ParseCore(rateLimitHeaderValue, rateLimitPolicyHeaderValue);
+        var all = ParseAll(rateLimitHeaderValue, rateLimitPolicyHeaderValue);
+        return all.Count > 0 ? all[0] : default;
+    }
+
+    /// <summary>
+    /// Parses every policy the response describes, from an HTTP response, ordered most
+    /// restrictive first (the comparator in <see cref="CompareRestrictiveness"/>).
+    /// </summary>
+    /// <param name="response">The HTTP response to parse headers from.</param>
+    /// <returns>All parsed policies, most restrictive first; empty when nothing parsed.</returns>
+    public static IReadOnlyList<RateLimitInfo> ParseAll(HttpResponseMessage response)
+    {
+        ArgumentNullException.ThrowIfNull(response);
+
+        TryGetHeaderValue(response.Headers, RateLimitHeaderName, out var rateLimitValue);
+        TryGetHeaderValue(response.Headers, RateLimitPolicyHeaderName, out var rateLimitPolicyValue);
+
+        return ParseAll(rateLimitValue, rateLimitPolicyValue);
+    }
+
+    /// <summary>
+    /// Parses every policy the two header values describe, ordered most restrictive first.
+    /// Policies present only in the RateLimit-Policy field (no matching RateLimit entry)
+    /// are included as quota-only entries.
+    /// </summary>
+    /// <param name="rateLimitHeaderValue">The value of the RateLimit header, or null if not present.</param>
+    /// <param name="rateLimitPolicyHeaderValue">The value of the RateLimit-Policy header, or null if not present.</param>
+    /// <returns>All parsed policies, most restrictive first; empty when nothing parsed.</returns>
+    public static IReadOnlyList<RateLimitInfo> ParseAll(string? rateLimitHeaderValue, string? rateLimitPolicyHeaderValue)
+    {
+        // The two fields are parsed and discarded independently: a malformed value in one
+        // never voids the other
+        var rateLimitEntries = ParseRateLimitField(rateLimitHeaderValue) ?? [];
+        var policyEntries = ParsePolicyField(rateLimitPolicyHeaderValue) ?? [];
+
+        if (rateLimitEntries.Count == 0 && policyEntries.Count == 0)
+        {
+            return [];
+        }
+
+        // Duplicate policy names resolve last-wins in both fields, matching the duplicate
+        // parameter rule; every later loop iterates the deduplicated collections so a
+        // repeated name can never emit two results or let a superseded value win
+        var policiesByName = new Dictionary<string, PolicyEntry>(StringComparer.OrdinalIgnoreCase);
+        foreach (var policy in policyEntries)
+        {
+            policiesByName[policy.PolicyName] = policy;
+        }
+
+        var rateLimitByName = new Dictionary<string, RateLimitEntry>(StringComparer.OrdinalIgnoreCase);
+        foreach (var entry in rateLimitEntries)
+        {
+            rateLimitByName[entry.PolicyName] = entry;
+        }
+
+        var results = new List<RateLimitInfo>(rateLimitByName.Count + policiesByName.Count);
+        var consumedPolicyNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+        foreach (var entry in rateLimitByName.Values)
+        {
+            var info = new RateLimitInfo
+            {
+                PolicyName = entry.PolicyName,
+                Remaining = entry.Remaining,
+                IsValid = true,
+            };
+
+            if (entry.ResetSeconds is long reset)
+            {
+                info = info with { ResetSeconds = reset };
+            }
+
+            if (policiesByName.TryGetValue(entry.PolicyName, out var policy))
+            {
+                consumedPolicyNames.Add(entry.PolicyName);
+                info = info with { Quota = policy.Quota };
+                if (policy.WindowSeconds is long window)
+                {
+                    info = info with { WindowSeconds = window };
+                }
+
+                // The RateLimit field's own pk/qu win over the policy field's (PARSE26);
+                // an empty value on the RateLimit entry does not suppress a real one on
+                // the policy entry
+                info = info with
+                {
+                    PartitionKey = string.IsNullOrEmpty(entry.PartitionKey) ? policy.PartitionKey : entry.PartitionKey,
+                    QuotaUnit = string.IsNullOrEmpty(entry.QuotaUnit) ? policy.QuotaUnit : entry.QuotaUnit,
+                };
+            }
+            else
+            {
+                info = info with { PartitionKey = entry.PartitionKey, QuotaUnit = entry.QuotaUnit };
+            }
+
+            results.Add(info);
+        }
+
+        foreach (var policy in policiesByName.Values)
+        {
+            if (consumedPolicyNames.Contains(policy.PolicyName))
+            {
+                continue;
+            }
+
+            var info = new RateLimitInfo
+            {
+                PolicyName = policy.PolicyName,
+                Quota = policy.Quota,
+                PartitionKey = policy.PartitionKey,
+                QuotaUnit = policy.QuotaUnit,
+                IsValid = true,
+            };
+
+            if (policy.WindowSeconds is long window)
+            {
+                info = info with { WindowSeconds = window };
+            }
+
+            results.Add(info);
+        }
+
+        results.Sort(CompareRestrictiveness);
+        return results;
+    }
+
+    /// <summary>
+    /// Orders two policies by restrictiveness, most restrictive first; the first differing
+    /// rung wins (the T5 band of PLAN-audit-fixes.md):
+    /// (1) an exhausted entry beats a non-exhausted one;
+    /// (2) both exhausted: the later reset moment wins;
+    /// (3) a known remaining count beats an unknown one, and the lower count wins;
+    /// (4) equal counts: the lower remaining fraction wins, and a known fraction beats none;
+    /// (5) still equal: the longer reset horizon wins;
+    /// (6) still equal: a known, smaller quota wins (this is what orders quota-only
+    /// entries, which none of the earlier rungs distinguish);
+    /// (7) still equal: ordinal comparison of the policy names, purely for determinism.
+    /// </summary>
+    private static int CompareRestrictiveness(RateLimitInfo left, RateLimitInfo right)
+    {
+        // Rung 1: exhaustion dominates
+        if (left.IsExhausted != right.IsExhausted)
+        {
+            return left.IsExhausted ? -1 : 1;
+        }
+
+        // Rung 2: both exhausted, the later reset moment is the harder stop
+        if (left.IsExhausted && right.IsExhausted && left.ResetSeconds != right.ResetSeconds)
+        {
+            return right.ResetSeconds.CompareTo(left.ResetSeconds);
+        }
+
+        // Rung 3: a known remaining count is actionable restriction; lower is tighter
+        if (left.HasRemaining != right.HasRemaining)
+        {
+            return left.HasRemaining ? -1 : 1;
+        }
+
+        if (left.HasRemaining && left.Remaining != right.Remaining)
+        {
+            return left.Remaining.CompareTo(right.Remaining);
+        }
+
+        // Rung 4: same count, the lower share of quota is tighter; a known share beats none
+        var leftFraction = left.RemainingFraction;
+        var rightFraction = right.RemainingFraction;
+        if (leftFraction.HasValue != rightFraction.HasValue)
+        {
+            return leftFraction.HasValue ? -1 : 1;
+        }
+
+        if (leftFraction.HasValue && rightFraction.HasValue && leftFraction.Value != rightFraction.Value)
+        {
+            return leftFraction.Value.CompareTo(rightFraction.Value);
+        }
+
+        // Rung 5: the longer horizon binds the caller longer
+        if (left.ResetSeconds != right.ResetSeconds)
+        {
+            return right.ResetSeconds.CompareTo(left.ResetSeconds);
+        }
+
+        // Rung 6: for quota-only entries nothing above differs; the smaller advertised
+        // quota is the tighter limit, and a known quota beats an unknown one
+        if (left.HasQuota != right.HasQuota)
+        {
+            return left.HasQuota ? -1 : 1;
+        }
+
+        if (left.HasQuota && left.Quota != right.Quota)
+        {
+            return left.Quota.CompareTo(right.Quota);
+        }
+
+        // Rung 7: determinism only
+        return string.CompareOrdinal(left.PolicyName, right.PolicyName);
     }
 
     private static bool TryGetHeaderValue(HttpResponseHeaders headers, string headerName, [NotNullWhen(true)] out string? value)
@@ -134,275 +314,198 @@ public static partial class RateLimitHeaderParser
             return false;
         }
 
-        // Combine all header values (handles both comma-separated in single value
-        // and multiple header instances)
-        value = string.Join(",", values.Select(v => v?.Trim()).Where(v => !string.IsNullOrEmpty(v)));
-        return !string.IsNullOrEmpty(value);
-    }
-
-    private static List<RateLimitEntry> ParseAllRateLimitEntries(string value)
-    {
-        var entries = new List<RateLimitEntry>();
-
-        // Split by comma to handle multiple policies, but be careful of commas in quoted strings
-        var policyEntries = SplitPolicyEntries(value);
-
-        foreach (var entryText in policyEntries)
+        // Combine repeated header lines with a comma, verbatim, per RFC 9110 field
+        // combination. An empty line among real values produces an empty list member,
+        // which strict parsing then rejects; filtering empty values here would salvage
+        // a malformed field.
+        var combined = string.Join(",", values);
+        if (string.IsNullOrWhiteSpace(combined))
         {
-            // Extract policy name
-            var policyMatch = PolicyNamePattern().Match(entryText);
-            if (!policyMatch.Success || string.IsNullOrEmpty(policyMatch.Groups[1].Value))
-            {
-                continue;
-            }
-
-            var policyName = policyMatch.Groups[1].Value;
-
-            // Extract remaining (r) parameter - order independent
-            var remainingMatch = RemainingPattern().Match(entryText);
-            if (!remainingMatch.Success || !int.TryParse(remainingMatch.Groups[1].ValueSpan, out var remaining))
-            {
-                continue;
-            }
-
-            // Extract reset seconds (t) parameter - order independent
-            var resetMatch = ResetSecondsPattern().Match(entryText);
-            if (!resetMatch.Success || !int.TryParse(resetMatch.Groups[1].ValueSpan, out var resetSeconds))
-            {
-                continue;
-            }
-
-            // Skip entries with negative values
-            if (remaining < 0 || resetSeconds < 0)
-            {
-                continue;
-            }
-
-            entries.Add(new RateLimitEntry(policyName, remaining, resetSeconds));
+            return false;
         }
 
-        return entries;
-    }
-
-    private static List<RateLimitPolicyEntry> ParseAllRateLimitPolicyEntries(string value)
-    {
-        var entries = new List<RateLimitPolicyEntry>();
-
-        // Split by comma to handle multiple policies
-        var policyEntries = SplitPolicyEntries(value);
-
-        foreach (var entryText in policyEntries)
-        {
-            // Extract policy name
-            var policyMatch = PolicyNamePattern().Match(entryText);
-            if (!policyMatch.Success || string.IsNullOrEmpty(policyMatch.Groups[1].Value))
-            {
-                continue;
-            }
-
-            var policyName = policyMatch.Groups[1].Value;
-
-            // Extract quota (q) parameter - order independent
-            var quotaMatch = QuotaPattern().Match(entryText);
-            if (!quotaMatch.Success || !int.TryParse(quotaMatch.Groups[1].ValueSpan, out var quota))
-            {
-                continue;
-            }
-
-            // Extract window seconds (w) parameter - order independent
-            var windowMatch = WindowSecondsPattern().Match(entryText);
-            if (!windowMatch.Success || !int.TryParse(windowMatch.Groups[1].ValueSpan, out var windowSeconds))
-            {
-                continue;
-            }
-
-            // Skip entries with negative values
-            if (quota < 0 || windowSeconds < 0)
-            {
-                continue;
-            }
-
-            // Parse optional pk (partition key) parameter
-            var partitionKey = ExtractOptionalParam(entryText, PartitionKeyPattern());
-
-            // Parse optional qu (quota unit) parameter
-            var quotaUnit = ExtractOptionalParam(entryText, QuotaUnitPattern());
-
-            entries.Add(new RateLimitPolicyEntry(
-                policyName,
-                quota,
-                windowSeconds,
-                partitionKey,
-                quotaUnit));
-        }
-
-        return entries;
+        value = combined;
+        return true;
     }
 
     /// <summary>
-    /// Splits header value by comma, respecting quoted strings.
-    /// Uses Span-based processing to minimize allocations.
+    /// Parses the RateLimit field value. Returns null when the value is absent or malformed
+    /// (the whole field is discarded; entries are never salvaged).
     /// </summary>
-    private static List<string> SplitPolicyEntries(string value)
+    private static List<RateLimitEntry>? ParseRateLimitField(string? value)
     {
-        var entries = new List<string>();
-        var span = value.AsSpan();
-        var inQuotes = false;
-        var entryStart = 0;
-
-        for (var i = 0; i < span.Length; i++)
-        {
-            var c = span[i];
-
-            if (c == '"')
-            {
-                inQuotes = !inQuotes;
-            }
-            else if (c == ',' && !inQuotes)
-            {
-                var entrySpan = span[entryStart..i].Trim();
-                if (!entrySpan.IsEmpty)
-                {
-                    entries.Add(entrySpan.ToString());
-                }
-                entryStart = i + 1;
-            }
-        }
-
-        // Add the last entry
-        var lastEntrySpan = span[entryStart..].Trim();
-        if (!lastEntrySpan.IsEmpty)
-        {
-            entries.Add(lastEntrySpan.ToString());
-        }
-
-        return entries;
-    }
-
-    /// <summary>
-    /// Extracts an optional parameter value from a policy entry substring.
-    /// </summary>
-    private static string? ExtractOptionalParam(string entrySubstring, Regex pattern)
-    {
-        var match = pattern.Match(entrySubstring);
-        if (!match.Success)
+        if (string.IsNullOrWhiteSpace(value))
         {
             return null;
         }
 
-        // First capture group is for quoted value, second is for unquoted
-        return !string.IsNullOrEmpty(match.Groups[1].Value)
-            ? match.Groups[1].Value
-            : !string.IsNullOrEmpty(match.Groups[2].Value)
-                ? match.Groups[2].Value
-                : null;
+        if (!StructuredFieldParser.TryParseList(value, out var items))
+        {
+            return null;
+        }
+
+        var entries = new List<RateLimitEntry>(items.Count);
+        foreach (var item in items)
+        {
+            // The policy name must be a non-empty quoted string
+            if (item.Value.Kind != StructuredFieldValueKind.String || string.IsNullOrEmpty(item.Value.Text))
+            {
+                return null;
+            }
+
+            // r is required on a RateLimit entry
+            if (!TryReadCount(item, "r", out var remaining) || remaining is null)
+            {
+                return null;
+            }
+
+            if (!TryReadCount(item, "t", out var resetSeconds))
+            {
+                return null;
+            }
+
+            if (!TryReadPartitionKey(item, out var partitionKey) || !TryReadQuotaUnit(item, out var quotaUnit))
+            {
+                return null;
+            }
+
+            entries.Add(new RateLimitEntry(item.Value.Text, remaining.Value, resetSeconds, partitionKey, quotaUnit));
+        }
+
+        return entries;
     }
 
     /// <summary>
-    /// Core parsing logic that matches policy names between RateLimit and RateLimit-Policy headers
-    /// and returns the most restrictive policy.
+    /// Parses the RateLimit-Policy field value. Returns null when the value is absent or
+    /// malformed (the whole field is discarded; entries are never salvaged).
     /// </summary>
-    private static RateLimitInfo ParseCore(string? rateLimitValue, string? rateLimitPolicyValue)
+    private static List<PolicyEntry>? ParsePolicyField(string? value)
     {
-        var rateLimitEntries = string.IsNullOrWhiteSpace(rateLimitValue)
-            ? []
-            : ParseAllRateLimitEntries(rateLimitValue);
-
-        var policyEntries = string.IsNullOrWhiteSpace(rateLimitPolicyValue)
-            ? []
-            : ParseAllRateLimitPolicyEntries(rateLimitPolicyValue);
-
-        if (rateLimitEntries.Count == 0 && policyEntries.Count == 0)
+        if (string.IsNullOrWhiteSpace(value))
         {
-            return default;
+            return null;
         }
 
-        // Build a dictionary of policy entries for quick lookup by name.
-        // Use first occurrence in case of duplicates (per IETF spec: silently handle malformed input).
-        var policyDict = new Dictionary<string, RateLimitPolicyEntry>(StringComparer.OrdinalIgnoreCase);
-        foreach (var entry in policyEntries)
+        if (!StructuredFieldParser.TryParseList(value, out var items))
         {
-            // TryAdd ignores duplicates, keeping the first occurrence
-            policyDict.TryAdd(entry.PolicyName, entry);
+            return null;
         }
 
-        // Find the most restrictive combination by matching policy names
-        RateLimitInfo? mostRestrictive = null;
-        double lowestPercentage = double.MaxValue;
-
-        foreach (var entry in rateLimitEntries)
+        var entries = new List<PolicyEntry>(items.Count);
+        foreach (var item in items)
         {
-            var quota = 0;
-            var windowSeconds = 0;
-            string? partitionKey = null;
-            string? quotaUnit = null;
-
-            // Try to match with policy header by name
-            if (policyDict.TryGetValue(entry.PolicyName, out var policyEntry))
+            if (item.Value.Kind != StructuredFieldValueKind.String || string.IsNullOrEmpty(item.Value.Text))
             {
-                quota = policyEntry.Quota;
-                windowSeconds = policyEntry.WindowSeconds;
-                partitionKey = policyEntry.PartitionKey;
-                quotaUnit = policyEntry.QuotaUnit;
+                return null;
             }
 
-            var info = new RateLimitInfo
+            // q is required on a policy entry
+            if (!TryReadCount(item, "q", out var quota) || quota is null)
             {
-                PolicyName = entry.PolicyName,
-                Remaining = entry.Remaining,
-                ResetSeconds = entry.ResetSeconds,
-                Quota = quota,
-                WindowSeconds = windowSeconds,
-                PartitionKey = partitionKey,
-                QuotaUnit = quotaUnit,
-                IsValid = true
-            };
-
-            // Calculate restrictiveness (lower remaining percentage = more restrictive)
-            var percentage = info.GetRemainingPercentage();
-            if (percentage < lowestPercentage)
-            {
-                lowestPercentage = percentage;
-                mostRestrictive = info;
+                return null;
             }
-        }
 
-        // If we have rate limit entries, return the most restrictive
-        if (mostRestrictive.HasValue)
-        {
-            return mostRestrictive.Value;
-        }
-
-        // No rate limit entries but we have policy entries - return the most restrictive policy
-        if (policyEntries.Count > 0)
-        {
-            var policy = policyEntries.OrderBy(p => p.Quota).First();
-            return new RateLimitInfo
+            // w is optional, but when present the draft requires a positive window
+            if (!TryReadCount(item, "w", out var windowSeconds) || windowSeconds is 0)
             {
-                PolicyName = policy.PolicyName,
-                Quota = policy.Quota,
-                WindowSeconds = policy.WindowSeconds,
-                PartitionKey = policy.PartitionKey,
-                QuotaUnit = policy.QuotaUnit,
-                IsValid = true
-            };
+                return null;
+            }
+
+            if (!TryReadPartitionKey(item, out var partitionKey) || !TryReadQuotaUnit(item, out var quotaUnit))
+            {
+                return null;
+            }
+
+            entries.Add(new PolicyEntry(item.Value.Text, quota.Value, windowSeconds, partitionKey, quotaUnit));
         }
 
-        return default;
+        return entries;
     }
 
     /// <summary>
-    /// Parsed rate limit entry from a single policy.
+    /// Reads one of the counting parameters (r, t, q, w). Returns false when the parameter
+    /// is present but is not a non-negative structured-field integer, which voids the field;
+    /// an absent parameter reads as null with true.
     /// </summary>
-    private readonly record struct RateLimitEntry(string PolicyName, int Remaining, int ResetSeconds);
+    private static bool TryReadCount(StructuredFieldItem item, string key, out long? count)
+    {
+        count = null;
+
+        if (!item.TryGetParameter(key, out var value))
+        {
+            return true;
+        }
+
+        if (value.Kind != StructuredFieldValueKind.Integer || value.IntegerValue < 0)
+        {
+            return false;
+        }
+
+        count = value.IntegerValue;
+        return true;
+    }
 
     /// <summary>
-    /// Parsed rate limit policy entry with optional IETF parameters.
+    /// Reads the partition key (pk), which must be a byte sequence when present. The decoded
+    /// text follows the byte-sequence rule: clean UTF-8 without control characters, otherwise
+    /// the base64 text.
     /// </summary>
-    private readonly record struct RateLimitPolicyEntry(
+    private static bool TryReadPartitionKey(StructuredFieldItem item, out string? partitionKey)
+    {
+        partitionKey = null;
+
+        if (!item.TryGetParameter("pk", out var value))
+        {
+            return true;
+        }
+
+        if (value.Kind != StructuredFieldValueKind.ByteSequence)
+        {
+            return false;
+        }
+
+        partitionKey = value.Text;
+        return true;
+    }
+
+    /// <summary>
+    /// Reads the quota unit (qu), which must be a string or token when present.
+    /// </summary>
+    private static bool TryReadQuotaUnit(StructuredFieldItem item, out string? quotaUnit)
+    {
+        quotaUnit = null;
+
+        if (!item.TryGetParameter("qu", out var value))
+        {
+            return true;
+        }
+
+        if (value.Kind is not (StructuredFieldValueKind.String or StructuredFieldValueKind.Token))
+        {
+            return false;
+        }
+
+        quotaUnit = value.Text;
+        return true;
+    }
+
+    /// <summary>
+    /// Parsed rate limit entry from a single policy. Null means the parameter was absent.
+    /// </summary>
+    private readonly record struct RateLimitEntry(
         string PolicyName,
-        int Quota,
-        int WindowSeconds,
+        long Remaining,
+        long? ResetSeconds,
+        string? PartitionKey,
+        string? QuotaUnit);
+
+    /// <summary>
+    /// Parsed rate limit policy entry with optional IETF parameters. Null means the parameter was absent.
+    /// </summary>
+    private readonly record struct PolicyEntry(
+        string PolicyName,
+        long Quota,
+        long? WindowSeconds,
         string? PartitionKey,
         string? QuotaUnit);
 }

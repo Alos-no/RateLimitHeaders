@@ -113,9 +113,11 @@ public class RateLimitHeaderParserTests
     [Theory]
     [InlineData("\"default\";r=0;t=0", true, 0, 0)]
     [InlineData("\"default\";r=999999;t=3600", true, 999999, 3600)]
-    [InlineData("\"default\"; r = 50 ; t = 30", true, 50, 30)]  // Whitespace tolerance
-    [InlineData("\"default\";t=30;r=50", true, 50, 30)]  // Parameter order: t before r (RFC 8941 compliant)
-    [InlineData("\"default\"; t = 30 ; r = 50", true, 50, 30)]  // Parameter order with whitespace
+    [InlineData("\"default\";t=30;r=50", true, 50, 30)]  // Parameter order: t before r (RFC 9651 compliant)
+    // Whitespace inside parameters (";  r = 50") is not legal RFC 9651 syntax; under strict
+    // parsing (Decision 1 in PLAN-audit-fixes.md) it voids the field instead of being tolerated
+    [InlineData("\"default\"; r = 50 ; t = 30", false, 0, 0)]
+    [InlineData("\"default\"; t = 30 ; r = 50", false, 0, 0)]
     public void Parse_RateLimitHeader_ShouldHandleVariousFormats(
         string headerValue,
         bool expectedValid,
@@ -318,19 +320,20 @@ public class RateLimitHeaderParserTests
     }
 
     [Fact]
-    public void Parse_WithOneMalformedPolicy_ShouldParseValidOne()
+    public void Parse_WithOneMalformedPolicy_ShouldDiscardTheWholeField()
     {
-        // Arrange - first policy is valid, second is malformed
+        // Arrange - first policy is well-formed, second member is malformed. Under strict
+        // parsing (Decision 1 in PLAN-audit-fixes.md) the whole field value is discarded:
+        // salvaging entries from malformed input let hostile text become throttling state
+        // (finding AUD-09 in TRACKER-adversarial-audit.md, the adversarial-audit findings ledger)
         var response = new HttpResponseMessage(HttpStatusCode.OK);
         response.Headers.Add("RateLimit", "\"valid\";r=50;t=30,malformed-entry");
 
         // Act
         var result = RateLimitHeaderParser.Parse(response);
 
-        // Assert - Should parse the valid one
-        result.IsValid.Should().BeTrue();
-        result.PolicyName.Should().Be("valid");
-        result.Remaining.Should().Be(50);
+        // Assert
+        result.IsValid.Should().BeFalse();
     }
 
     [Fact]
@@ -400,17 +403,20 @@ public class RateLimitHeaderParserTests
     }
 
     [Fact]
-    public void Parse_WithOverflowValues_ShouldReturnInvalid()
+    public void Parse_WithValuesAboveInt32_ShouldParseIntoLong()
     {
-        // Arrange - values exceeding int.MaxValue
+        // Arrange - RFC 9651 integers carry up to 15 digits; values above int.MaxValue are
+        // legal and now flow into long (finding AUD-18 in TRACKER-adversarial-audit.md,
+        // the adversarial-audit findings ledger; previously the entry was silently dropped)
         var response = new HttpResponseMessage(HttpStatusCode.OK);
-        response.Headers.Add("RateLimit", "\"overflow\";r=9999999999999;t=30");
+        response.Headers.Add("RateLimit", "\"large\";r=9999999999999;t=30");
 
         // Act
         var result = RateLimitHeaderParser.Parse(response);
 
-        // Assert - int.TryParse fails for overflow, so entry is skipped
-        result.IsValid.Should().BeFalse();
+        // Assert
+        result.IsValid.Should().BeTrue();
+        result.Remaining.Should().Be(9_999_999_999_999);
     }
 
     #endregion
@@ -450,9 +456,13 @@ public class RateLimitHeaderParserTests
     }
 
     [Fact]
-    public void Parse_WithUnicodePolicyName_ShouldParseCorrectly()
+    public void Parse_WithUnicodePolicyName_ShouldExtractCorrectly()
     {
-        // Arrange - Unicode characters in policy name
+        // Arrange - Unicode characters in the policy name. RFC 9651 strings allow printable
+        // ASCII only, but the parser deliberately accepts characters above 0x7E (Decision 1
+        // and the Open items section in PLAN-audit-fixes.md): servers emitting non-ASCII
+        // policy names would otherwise lose their whole RateLimit field. Control characters
+        // still void the field.
         var response = new HttpResponseMessage(HttpStatusCode.OK);
         response.Headers.Add("RateLimit", "\"ポリシー-政策\";r=50;t=30");
 
@@ -462,6 +472,7 @@ public class RateLimitHeaderParserTests
         // Assert
         result.IsValid.Should().BeTrue();
         result.PolicyName.Should().Be("ポリシー-政策");
+        result.Remaining.Should().Be(50);
     }
 
     [Fact]
@@ -601,10 +612,12 @@ public class RateLimitHeaderParserTests
     [Fact]
     public void Parse_WithReversedParameterOrder_BothHeaders_ShouldParseCorrectly()
     {
-        // Arrange - Both headers with reversed parameter order
+        // Arrange - Both headers with reversed parameter order. The partition key must be a
+        // byte sequence per draft-10 (:cGFydGl0aW9uMQ==: is base64 of "partition1"); a bare
+        // token pk now voids the policy field
         var response = new HttpResponseMessage(HttpStatusCode.OK);
         response.Headers.Add("RateLimit", "\"api\";t=45;r=75");
-        response.Headers.Add("RateLimit-Policy", "\"api\";w=90;q=150;pk=partition1;qu=requests");
+        response.Headers.Add("RateLimit-Policy", "\"api\";w=90;q=150;pk=:cGFydGl0aW9uMQ==:;qu=requests");
 
         // Act
         var result = RateLimitHeaderParser.Parse(response);
@@ -739,11 +752,11 @@ public class RateLimitHeaderParserTests
     #region Partition Key (pk) and Quota Unit (qu) Parameter Tests
 
     [Fact]
-    public void Parse_WithPartitionKeyQuoted_ShouldExtractCorrectly()
+    public void Parse_WithPartitionKeyByteSequence_ShouldExtractCorrectly()
     {
-        // Arrange
+        // Arrange - draft-10 defines pk as a byte sequence (:dGVuYW50LTEyMw==: is base64 of "tenant-123")
         var rateLimitHeader = "\"api\";r=50;t=30";
-        var rateLimitPolicyHeader = "\"api\";q=100;w=60;pk=\"tenant-123\"";
+        var rateLimitPolicyHeader = "\"api\";q=100;w=60;pk=:dGVuYW50LTEyMw==:";
 
         // Act
         var result = RateLimitHeaderParser.Parse(rateLimitHeader, rateLimitPolicyHeader);
@@ -754,9 +767,11 @@ public class RateLimitHeaderParserTests
     }
 
     [Fact]
-    public void Parse_WithPartitionKeyUnquoted_ShouldExtractCorrectly()
+    public void Parse_WithNonByteSequencePartitionKey_ShouldVoidThePolicyField()
     {
-        // Arrange
+        // Arrange - a bare token pk is not the byte sequence draft-10 requires; under strict
+        // parsing (Decision 1 in PLAN-audit-fixes.md) it voids the policy field while the
+        // RateLimit field stays usable
         var rateLimitHeader = "\"api\";r=50;t=30";
         var rateLimitPolicyHeader = "\"api\";q=100;w=60;pk=user-456";
 
@@ -765,7 +780,9 @@ public class RateLimitHeaderParserTests
 
         // Assert
         result.IsValid.Should().BeTrue();
-        result.PartitionKey.Should().Be("user-456");
+        result.Remaining.Should().Be(50);
+        result.HasQuota.Should().BeFalse();
+        result.PartitionKey.Should().BeNull();
     }
 
     [Fact]
@@ -803,7 +820,7 @@ public class RateLimitHeaderParserTests
     {
         // Arrange
         var rateLimitHeader = "\"api\";r=50;t=30";
-        var rateLimitPolicyHeader = "\"api\";q=100;w=60;pk=\"org-789\";qu=\"tokens\"";
+        var rateLimitPolicyHeader = "\"api\";q=100;w=60;pk=:b3JnLTc4OQ==:;qu=\"tokens\"";
 
         // Act
         var result = RateLimitHeaderParser.Parse(rateLimitHeader, rateLimitPolicyHeader);
@@ -817,9 +834,9 @@ public class RateLimitHeaderParserTests
     [Fact]
     public void Parse_WithPkAndQuInReverseOrder_ShouldExtractBoth()
     {
-        // Arrange - qu before pk
+        // Arrange - qu before pk (:a2V5MTIz: is base64 of "key123")
         var rateLimitHeader = "\"api\";r=50;t=30";
-        var rateLimitPolicyHeader = "\"api\";q=100;w=60;qu=bytes;pk=key123";
+        var rateLimitPolicyHeader = "\"api\";q=100;w=60;qu=bytes;pk=:a2V5MTIz:";
 
         // Act
         var result = RateLimitHeaderParser.Parse(rateLimitHeader, rateLimitPolicyHeader);
@@ -851,7 +868,7 @@ public class RateLimitHeaderParserTests
     {
         // Arrange - two policies with different pk/qu values
         var rateLimitHeader = "\"burst\";r=10;t=30,\"daily\";r=900;t=43200";
-        var rateLimitPolicyHeader = "\"burst\";q=100;w=60;pk=\"burst-partition\";qu=requests,\"daily\";q=1000;w=86400;pk=\"daily-partition\";qu=bytes";
+        var rateLimitPolicyHeader = "\"burst\";q=100;w=60;pk=:YnVyc3QtcGFydGl0aW9u:;qu=requests,\"daily\";q=1000;w=86400;pk=:ZGFpbHktcGFydGl0aW9u:;qu=bytes";
 
         // Act
         var result = RateLimitHeaderParser.Parse(rateLimitHeader, rateLimitPolicyHeader);
@@ -867,7 +884,7 @@ public class RateLimitHeaderParserTests
     public void Parse_WithPkQuOnlyInPolicyHeader_ShouldBeAvailableWithPolicyOnlyParse()
     {
         // Arrange - Only RateLimit-Policy header with pk/qu
-        var result = RateLimitHeaderParser.Parse(null, "\"api\";q=100;w=60;pk=\"tenant\";qu=\"requests\"");
+        var result = RateLimitHeaderParser.Parse(null, "\"api\";q=100;w=60;pk=:dGVuYW50:;qu=\"requests\"");
 
         // Assert
         result.IsValid.Should().BeTrue();
@@ -878,9 +895,10 @@ public class RateLimitHeaderParserTests
     [Fact]
     public void Parse_WithPkContainingSpecialChars_ShouldExtractCorrectly()
     {
-        // Arrange - pk with hyphens, underscores, and other chars
+        // Arrange - pk bytes containing hyphens, underscores, and dots
+        // (:dGVuYW50LW9yZ18xMjMucHJvZA==: is base64 of "tenant-org_123.prod")
         var rateLimitHeader = "\"api\";r=50;t=30";
-        var rateLimitPolicyHeader = "\"api\";q=100;w=60;pk=\"tenant-org_123.prod\"";
+        var rateLimitPolicyHeader = "\"api\";q=100;w=60;pk=:dGVuYW50LW9yZ18xMjMucHJvZA==:";
 
         // Act
         var result = RateLimitHeaderParser.Parse(rateLimitHeader, rateLimitPolicyHeader);
@@ -953,9 +971,11 @@ public class RateLimitHeaderParserTests
     }
 
     [Fact]
-    public void Parse_WithSpacesAroundPkAndQu_ShouldParseTolerant()
+    public void Parse_WithSpacesAroundParameters_ShouldVoidThePolicyField()
     {
-        // Arrange - whitespace around parameters
+        // Arrange - whitespace around parameters is not legal RFC 9651 syntax; under strict
+        // parsing (Decision 1 in PLAN-audit-fixes.md) the policy field is voided while the
+        // RateLimit field stays usable
         var rateLimitHeader = "\"api\";r=50;t=30";
         var rateLimitPolicyHeader = "\"api\";q=100;w=60; pk = \"tenant\" ; qu = \"bytes\"";
 
@@ -964,15 +984,17 @@ public class RateLimitHeaderParserTests
 
         // Assert
         result.IsValid.Should().BeTrue();
-        result.PartitionKey.Should().Be("tenant");
-        result.QuotaUnit.Should().Be("bytes");
+        result.Remaining.Should().Be(50);
+        result.HasQuota.Should().BeFalse();
+        result.PartitionKey.Should().BeNull();
+        result.QuotaUnit.Should().BeNull();
     }
 
     [Theory]
-    [InlineData("pk=simple", "simple")]
-    [InlineData("pk=\"quoted\"", "quoted")]
-    [InlineData("pk=\"with spaces\"", "with spaces")]
-    [InlineData("pk=key-with-dashes", "key-with-dashes")]
+    [InlineData("pk=:c2ltcGxl:", "simple")]
+    [InlineData("pk=:cXVvdGVk:", "quoted")]
+    [InlineData("pk=:d2l0aCBzcGFjZXM=:", "with spaces")]
+    [InlineData("pk=:a2V5LXdpdGgtZGFzaGVz:", "key-with-dashes")]
     public void Parse_VariousPkFormats_ShouldExtractCorrectly(string pkParam, string expectedValue)
     {
         // Arrange

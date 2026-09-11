@@ -37,7 +37,18 @@ namespace RateLimitHeaders.Parsing;
 /// </example>
 public readonly record struct RateLimitInfo
 {
+    /// <summary>
+    /// The largest reset value (in seconds) that <see cref="ResetAfter"/> will convert:
+    /// 365 days. Larger parsed values are legal 15-digit structured-field integers and are
+    /// clamped here so the <see cref="TimeSpan"/> conversion can never overflow.
+    /// </summary>
+    public const long MaxResetSeconds = 31_536_000;
+
     private readonly string? _policyName;
+    private readonly long? _remaining;
+    private readonly long? _resetSeconds;
+    private readonly long? _quota;
+    private readonly long? _windowSeconds;
 
     /// <summary>The rate limit policy name (e.g., "default", "api-v2").</summary>
     /// <remarks>Returns an empty string if no policy name was parsed.</remarks>
@@ -47,17 +58,73 @@ public readonly record struct RateLimitInfo
         init => _policyName = value;
     }
 
-    /// <summary>Remaining requests allowed in the current window.</summary>
-    public int Remaining { get; init; }
+    /// <summary>Remaining requests allowed in the current window. Returns 0 when the server never sent the value; check <see cref="HasRemaining"/> to distinguish a sent zero from an absent value.</summary>
+    public long Remaining
+    {
+        get => _remaining ?? 0;
+        init => _remaining = value;
+    }
 
-    /// <summary>Seconds until the current window resets.</summary>
-    public int ResetSeconds { get; init; }
+    /// <summary>Seconds until the current window resets. Returns 0 when the server never sent the value; check <see cref="HasResetSeconds"/>.</summary>
+    public long ResetSeconds
+    {
+        get => _resetSeconds ?? 0;
+        init => _resetSeconds = value;
+    }
 
-    /// <summary>Maximum requests allowed per window (quota).</summary>
-    public int Quota { get; init; }
+    /// <summary>Maximum requests allowed per window (quota). Returns 0 when the server never sent the value; check <see cref="HasQuota"/>.</summary>
+    public long Quota
+    {
+        get => _quota ?? 0;
+        init => _quota = value;
+    }
 
-    /// <summary>Duration of the rate limit window in seconds.</summary>
-    public int WindowSeconds { get; init; }
+    /// <summary>Duration of the rate limit window in seconds. Returns 0 when the server never sent the value; check <see cref="HasWindowSeconds"/>.</summary>
+    public long WindowSeconds
+    {
+        get => _windowSeconds ?? 0;
+        init => _windowSeconds = value;
+    }
+
+    /// <summary>Whether the server sent a remaining-requests value (the <c>r</c> parameter).</summary>
+    public bool HasRemaining => _remaining.HasValue;
+
+    /// <summary>Whether the server sent a reset value (the <c>t</c> parameter or a Retry-After).</summary>
+    public bool HasResetSeconds => _resetSeconds.HasValue;
+
+    /// <summary>Whether the server sent a quota value (the <c>q</c> parameter).</summary>
+    public bool HasQuota => _quota.HasValue;
+
+    /// <summary>Whether the server sent a window length (the <c>w</c> parameter).</summary>
+    public bool HasWindowSeconds => _windowSeconds.HasValue;
+
+    /// <summary>
+    /// Whether this state came from (or was overridden by) a Retry-After header,
+    /// i.e. the server explicitly ordered the client to stop sending until the reset moment.
+    /// </summary>
+    public bool HasRetryAfter { get; init; }
+
+    /// <summary>
+    /// Whether the server reported zero remaining requests. A sent zero only:
+    /// an absent remaining value reads as not exhausted even though <see cref="Remaining"/> returns 0.
+    /// </summary>
+    public bool IsExhausted => _remaining is 0;
+
+    /// <summary>
+    /// The remaining share of the quota (0.0 to 1.0), or <c>null</c> when the server sent
+    /// no remaining count or no positive quota, so the share is unknown rather than healthy.
+    /// </summary>
+    public double? RemainingFraction =>
+        HasRemaining && _quota is > 0 ? (double)Remaining / Quota : null;
+
+    /// <summary>
+    /// The time until the window resets, as a <see cref="TimeSpan"/> clamped between zero and
+    /// <see cref="MaxResetSeconds"/> (365 days). <see cref="TimeSpan.Zero"/> when no reset value
+    /// was sent, and also when a caller stored a negative value, so this can never produce a
+    /// negative delay for <see cref="Task.Delay(TimeSpan)"/>.
+    /// </summary>
+    public TimeSpan ResetAfter =>
+        HasResetSeconds ? TimeSpan.FromSeconds(Math.Clamp(ResetSeconds, 0, MaxResetSeconds)) : TimeSpan.Zero;
 
     /// <summary>
     /// The partition key identifying which partition this rate limit applies to.
@@ -97,34 +164,60 @@ public readonly record struct RateLimitInfo
     /// This is used when a 429/503 response includes a Retry-After header but no RateLimit headers.
     /// The resulting info indicates the client should wait before retrying.
     /// </remarks>
-    public static RateLimitInfo CreateFromRetryAfter(int retryAfterSeconds) => new()
+    public static RateLimitInfo CreateFromRetryAfter(long retryAfterSeconds) => new()
     {
         PolicyName = "retry-after",
         Remaining = 0,
-        ResetSeconds = retryAfterSeconds,
+        ResetSeconds = Math.Max(0, retryAfterSeconds),
+        HasRetryAfter = true,
         IsValid = true
     };
+
+    /// <summary>
+    /// Creates a minimal <see cref="RateLimitInfo"/> from a Retry-After delay.
+    /// </summary>
+    /// <param name="retryAfter">The delay from the Retry-After header.</param>
+    /// <returns>A valid <see cref="RateLimitInfo"/> with zero remaining quota and <see cref="HasRetryAfter"/> set.</returns>
+    public static RateLimitInfo CreateFromRetryAfter(TimeSpan retryAfter) =>
+        CreateFromRetryAfter((long)Math.Ceiling(retryAfter.TotalSeconds));
 
     /// <summary>
     /// Creates a new <see cref="RateLimitInfo"/> with the Retry-After override applied.
     /// </summary>
     /// <param name="retryAfterSeconds">The Retry-After seconds that override the reset time.</param>
-    /// <returns>A new instance with Remaining set to 0 and ResetSeconds updated.</returns>
+    /// <returns>A new instance with Remaining set to 0, ResetSeconds updated, and <see cref="HasRetryAfter"/> set.</returns>
     /// <remarks>
     /// Per IETF spec, Retry-After takes precedence over RateLimit headers when present.
     /// This typically occurs on 429/503 responses where the server explicitly tells
     /// the client how long to wait.
     /// </remarks>
-    public RateLimitInfo WithRetryAfterOverride(int retryAfterSeconds) => this with
+    public RateLimitInfo WithRetryAfterOverride(long retryAfterSeconds) => this with
     {
         Remaining = 0,
-        ResetSeconds = retryAfterSeconds
+        ResetSeconds = Math.Max(0, retryAfterSeconds),
+        HasRetryAfter = true
     };
+
+    /// <summary>
+    /// Creates a new <see cref="RateLimitInfo"/> with the Retry-After override applied
+    /// from a delay. A zero delay (a past-dated Retry-After) still applies the override,
+    /// so the precedence over RateLimit headers stays observable.
+    /// </summary>
+    /// <param name="retryAfter">The delay from the Retry-After header.</param>
+    /// <returns>A new instance with Remaining set to 0, ResetSeconds updated, and <see cref="HasRetryAfter"/> set.</returns>
+    public RateLimitInfo WithRetryAfterOverride(TimeSpan retryAfter) =>
+        WithRetryAfterOverride((long)Math.Ceiling(retryAfter.TotalSeconds));
 
     /// <summary>Checks if remaining quota is at or below the specified threshold.</summary>
     /// <param name="threshold">The threshold percentage (0.0 to 1.0). Default is 0.1 (10%).</param>
     /// <returns>True if quota is low; false otherwise.</returns>
-    public bool IsQuotaLow(double threshold = 0.1) => IsValid && Quota > 0 && GetRemainingPercentage() <= threshold;
+    /// <remarks>
+    /// Requires a server-sent remaining count: a quota-only entry (a RateLimit-Policy
+    /// member with no matching RateLimit member) advertises a limit without reporting
+    /// consumption, so it is never "low".
+    /// </remarks>
+    public bool IsQuotaLow(double threshold = 0.1) =>
+        IsValid && HasRemaining && Quota > 0 && GetRemainingPercentage() <= threshold;
 
     /// <inheritdoc />
     public override string ToString()

@@ -130,7 +130,7 @@ public class CloudflareApiTests : IDisposable
         const int maxRequests = 100; // Safety limit
         const int timeoutSeconds = 60;
         var stopwatch = Stopwatch.StartNew();
-        int? initialRemaining = null;
+        long? initialRemaining = null;
         bool decrementObserved = false;
         int requestCount = 0;
 

@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Time.Testing;
 using RateLimitHeaders.Internal;
 using RateLimitHeaders.Parsing;
 
@@ -258,10 +259,14 @@ public class RateLimitStateTrackerTests
     }
 
     [Fact]
-    public async Task GetRateLimitInfo_AfterExpiry_ShouldStillReturnCachedValue()
+    public void GetRateLimitInfo_AfterExpiry_ReadsInvalidButRawSnapshotStaysStored()
     {
-        // Arrange
-        var tracker = new RateLimitStateTracker();
+        // Arrange: a 1-second window observed at a fixed instant.
+        // The audit (AUD-03 in TRACKER-adversarial-audit.md) condemned the old behavior of
+        // returning the raw snapshot after the window elapsed; the adjusted read must now be
+        // invalid, while the raw snapshot stays reachable via GetState until cleanup removes it.
+        var clock = new FakeTimeProvider(new DateTimeOffset(2026, 8, 14, 12, 0, 0, TimeSpan.Zero));
+        var tracker = new RateLimitStateTracker(clock);
         tracker.UpdateState("key", new RateLimitInfo
         {
             PolicyName = "test",
@@ -271,22 +276,25 @@ public class RateLimitStateTrackerTests
             IsValid = true
         });
 
-        // Wait past the reset time
-        await Task.Delay(1500);
+        // Advance past the reset moment
+        clock.Advance(TimeSpan.FromSeconds(1.5));
 
         // Act - entry is stale but not yet cleaned up
-        var result = tracker.GetRateLimitInfo("key");
+        var adjusted = tracker.GetRateLimitInfo("key");
+        var raw = tracker.GetState("key");
 
-        // Assert - still returns cached value until explicit cleanup
-        result.IsValid.Should().BeTrue();
-        result.Remaining.Should().Be(0);
+        // Assert
+        adjusted.IsValid.Should().BeFalse("an elapsed window must no longer drive decisions");
+        raw.Should().NotBeNull("cleanup has not run, so the raw snapshot is still stored");
+        raw!.Value.Info.Remaining.Should().Be(0);
     }
 
     [Fact]
     public async Task AutomaticCleanup_ShouldRemoveStaleEntriesAfterThreshold()
     {
-        // Arrange
-        var tracker = new RateLimitStateTracker
+        // Arrange: staleness is measured on a fake clock so no real sleep decides it
+        var clock = new FakeTimeProvider(new DateTimeOffset(2026, 8, 14, 12, 0, 0, TimeSpan.Zero));
+        var tracker = new RateLimitStateTracker(clock)
         {
             CleanupFrequency = 5,  // Cleanup every 5 updates
             StaleEntryMaxAge = TimeSpan.FromMilliseconds(500)  // Entries older than 500ms are stale
@@ -300,8 +308,8 @@ public class RateLimitStateTrackerTests
             IsValid = true
         });
 
-        // Wait for entry to become stale
-        await Task.Delay(600);
+        // Make the entry stale
+        clock.Advance(TimeSpan.FromMilliseconds(600));
 
         // Act - trigger automatic cleanup by making 5 updates
         for (int i = 0; i < 5; i++)
@@ -314,11 +322,16 @@ public class RateLimitStateTrackerTests
             });
         }
 
-        // Allow background cleanup to complete
-        await Task.Delay(100);
+        // The cleanup runs on a background thread; poll until it removes the entry
+        // instead of racing it with a fixed sleep (this test failed on a slow CI runner)
+        var deadline = DateTime.UtcNow + TimeSpan.FromSeconds(10);
+        while (tracker.GetState("stale-key") is not null && DateTime.UtcNow < deadline)
+        {
+            await Task.Delay(20);
+        }
 
         // Assert - stale entry should be removed
-        tracker.GetRateLimitInfo("stale-key").IsValid.Should().BeFalse();
+        tracker.GetState("stale-key").Should().BeNull();
 
         // Fresh entries should still exist
         for (int i = 0; i < 5; i++)
